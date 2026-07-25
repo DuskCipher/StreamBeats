@@ -1080,7 +1080,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'No results found!\nTry another keyword or source.'**
-  String searchNoResults(Object query);
+  String get searchNoResults;
 
   /// No description provided for @searchFailed.
   ///

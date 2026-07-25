@@ -563,9 +563,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get searchNoSuggestions => 'Saran tidak ditemukan!';
 
   @override
-  String searchNoResults(Object query) {
-    return 'Tidak ada hasil untuk \"$query\"';
-  }
+  String get searchNoResults =>
+      'Pencarian tidak ditemukan!\nSilakan coba kata kunci atau sumber lain.';
 
   @override
   String get searchFailed => 'Pencarian gagal!';

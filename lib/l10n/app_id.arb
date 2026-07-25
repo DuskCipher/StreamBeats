@@ -307,7 +307,7 @@
   "searchHintPlaylists": "Cari playlist...",
   "searchStartTyping": "Mulai mengetik untuk mencari...",
   "searchNoSuggestions": "Saran tidak ditemukan!",
-  "searchNoResults": "Tidak ada hasil untuk \"{query}\"",
+  "searchNoResults": "Pencarian tidak ditemukan!\nSilakan coba kata kunci atau sumber lain.",
   "searchFailed": "Pencarian gagal!",
   "searchDiscover": "Temukan musik keren...",
   "searchSources": "SUMBER",
