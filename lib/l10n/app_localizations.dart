@@ -9,6 +9,7 @@ import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_hi.dart';
+import 'app_localizations_id.dart';
 import 'app_localizations_ja.dart';
 import 'app_localizations_ko.dart';
 import 'app_localizations_zh.dart';
@@ -103,6 +104,7 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('es'),
     Locale('hi'),
+    Locale('id'),
     Locale('ja'),
     Locale('ko'),
     Locale('zh')
@@ -1078,7 +1080,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'No results found!\nTry another keyword or source.'**
-  String get searchNoResults;
+  String searchNoResults(Object query);
 
   /// No description provided for @searchFailed.
   ///
@@ -3622,6 +3624,7 @@ class _AppLocalizationsDelegate
         'en',
         'es',
         'hi',
+        'id',
         'ja',
         'ko',
         'zh'
@@ -3642,6 +3645,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEs();
     case 'hi':
       return AppLocalizationsHi();
+    case 'id':
+      return AppLocalizationsId();
     case 'ja':
       return AppLocalizationsJa();
     case 'ko':

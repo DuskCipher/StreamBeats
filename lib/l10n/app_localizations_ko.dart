@@ -533,7 +533,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get searchNoSuggestions => '추천 검색어가 없습니다';
 
   @override
-  String get searchNoResults => '검색 결과가 없습니다.\n다른 키워드나 소스를 시도해 보세요.';
+  String searchNoResults(Object query) {
+    return '검색 결과가 없습니다.\n다른 키워드나 소스를 시도해 보세요.';
+  }
 
   @override
   String get searchFailed => '검색 실패';

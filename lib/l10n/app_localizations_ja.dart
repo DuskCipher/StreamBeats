@@ -534,7 +534,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get searchNoSuggestions => '候補が見つかりませんでした';
 
   @override
-  String get searchNoResults => '結果が見つかりませんでした。\nキーワードやソースを変えてみてください。';
+  String searchNoResults(Object query) {
+    return '結果が見つかりませんでした。\nキーワードやソースを変えてみてください。';
+  }
 
   @override
   String get searchFailed => '検索に失敗しました';

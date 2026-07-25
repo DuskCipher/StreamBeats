@@ -139,191 +139,580 @@
   "settingsDownloadsSubtitle": "Lokasi unduhan, kualitas unduhan, dan lainnya...",
   "settingsLocalTracks": "Lagu Lokal",
   "settingsLocalTracksSubtitle": "Pindai, kelola folder, dan pemindaian otomatis.",
-  "settingsLanguage": "Bahasa",
-  "settingsLanguageSubtitle": "Pilih bahasa aplikasi",
-  "settingsAccentColor": "Warna Aksen",
-  "settingsAccentColorSubtitle": "Sesuaikan warna tema aplikasi",
-  "settingsThemeMode": "Mode Tema",
-  "settingsThemeModeSubtitle": "Gelap, Terang, atau ikuti Sistem",
-  "settingsBackupRestore": "Cadangkan & Pulihkan",
-  "settingsBackupRestoreSubtitle": "Ekspor data Anda ke file atau pulihkan kembali",
+  "settingsPlayer": "Player Settings",
+  "settingsPlayerSubtitle": "Stream quality, Auto Play, etc.",
+  "settingsPluginDefaults": "Plugin Defaults",
+  "settingsPluginDefaultsSubtitle": "Discover source, resolver priority.",
+  "settingsUIElements": "Antarmuka & Layanan",
+  "settingsUIElementsSubtitle": "Geser otomatis bagan, penyesuaian antarmuka, dll.",
+  "settingsLastFM": "Pengaturan Last.FM",
+  "settingsLastFMSubtitle": "Kunci API, rahasia, dan pengaturan pencatatan putar.",
+  "settingsStorage": "Penyimpanan",
+  "settingsStorageSubtitle": "Cadangan, Cache, Riwayat, Pemulihan dan lainnya...",
+  "settingsLanguageCountry": "Bahasa & Negara",
+  "settingsLanguageCountrySubtitle": "Pilih bahasa dan negara Anda.",
   "settingsAbout": "Tentang",
   "settingsAboutSubtitle": "Info aplikasi, versi, dan lisensi",
-  "settingsDiscordRPC": "Discord RPC",
-  "settingsDiscordRPCSubtitle": "Tampilkan musik yang sedang Anda dengar di status Discord",
-  "settingsEqualizer": "Equalizer",
-  "settingsEqualizerSubtitle": "Sesuaikan frekuensi suara musik",
-  "settingsCrossfade": "Crossfade",
-  "settingsCrossfadeSubtitle": "Transisi musik yang mulus antar lagu",
-  "settingsBlacklist": "Daftar Hitam",
-  "settingsBlacklistSubtitle": "Kelola folder atau lagu yang diabaikan",
-  "settingsCache": "Cache",
-  "settingsCacheSubtitle": "Kelola penyimpanan cache lagu",
+  "settingsScanning": "Pemindaian",
+  "settingsMusicFolders": "Folder Musik",
   "settingsQuality": "Kualitas Audio",
-  "settingsQualitySubtitle": "Atur kualitas suara saat streaming",
-  "settingsSource": "Sumber Utama",
-  "settingsSourceSubtitle": "Pilih penyedia musik default",
-  "settingsThemeModeDark": "Gelap",
-  "settingsThemeModeLight": "Terang",
-  "settingsThemeModeSystem": "Sistem",
-  "settingsBackupCreate": "Buat Cadangan",
-  "settingsBackupRestoreAction": "Pulihkan Cadangan",
-  "settingsBackupSuccess": "Cadangan berhasil dibuat!",
-  "settingsRestoreSuccess": "Cadangan berhasil dipulihkan!",
-  "settingsRestoreFailed": "Gagal memulihkan cadangan: {error}",
-  "@settingsRestoreFailed": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-  "settingsBackupFailed": "Gagal membuat cadangan: {error}",
-  "@settingsBackupFailed": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-  "settingsSelectBackupFile": "Pilih File Cadangan",
-  "settingsNoBackupsFound": "Tidak ada file cadangan ditemukan",
-  "settingsDeleteBackup": "Hapus Cadangan",
-  "settingsConfirmDeleteBackup": "Apakah Anda yakin ingin menghapus cadangan ini?",
-  "settingsDownloadPath": "Lokasi Unduhan",
-  "settingsDownloadQuality": "Kualitas Unduhan",
-  "settingsDownloadQualityHigh": "Tinggi (320kbps)",
-  "settingsDownloadQualityMedium": "Sedang (160kbps)",
-  "settingsDownloadQualityLow": "Rendah (96kbps)",
-  "settingsAutoScan": "Pemindaian Otomatis",
-  "settingsAutoScanSubtitle": "Pindai lagu secara otomatis saat aplikasi dibuka",
-  "settingsMetadataRefresh": "Perbarui Metadata Otomatis",
-  "settingsMetadataRefreshSubtitle": "Ambil sampul album dan info lagu terbaru",
-  "settingsPluginsInstall": "Pasang Plugin",
-  "settingsPluginsDeveloperMode": "Mode Pengembang",
-  "settingsPluginsDeveloperModeSubtitle": "Aktifkan untuk memuat plugin lokal",
-  "settingsUpdatesCheck": "Periksa Pembaruan",
-  "settingsUpdatesAutoCheck": "Periksa Otomatis",
-  "settingsUpdatesAutoCheckSubtitle": "Beri tahu jika ada versi baru",
-  "settingsUpdatesBeta": "Saluran Beta",
-  "settingsUpdatesBetaSubtitle": "Dapatkan akses ke fitur uji coba terbaru",
-  "settingsDiscordRPCEnabled": "Aktifkan RPC",
-  "settingsDiscordRPCStatus": "Status Ketersediaan",
-  "settingsDiscordRPCPlayStatus": "Tampilkan Status Putar/Jeda",
-  "settingsDiscordRPCLargeImage": "Gambar Sampul Besar",
-  "settingsEqualizerEnabled": "Aktifkan Equalizer",
-  "settingsEqualizerPreset": "Preset",
-  "settingsCrossfadeDuration": "Durasi Transisi",
-  "settingsCrossfadeDurationSubtitle": "Atur waktu tumpang tindih suara (detik)",
-  "settingsCacheSize": "Ukuran Cache",
-  "settingsCacheClear": "Hapus Cache",
-  "settingsCacheSizeTracks": "{count} lagu cached",
-  "@settingsCacheSizeTracks": {
+  "settingsHistory": "Riwayat",
+  "settingsBackupRestore": "Cadangkan & Pulihkan",
+  "settingsAutomatic": "Otomatis",
+  "settingsDangerZone": "Zona Bahaya",
+  "settingsScrobbling": "Pencatatan Putar (Scrobble)",
+  "settingsAuthentication": "Autentikasi",
+  "settingsHomeScreen": "Layar Beranda",
+  "settingsChartVisibility": "Visibilitas Bagan",
+  "settingsLocation": "Lokasi",
+  "pluginRepositoryTitle": "Repositori Plugin",
+  "pluginRepositorySubtitle": "Temukan plugin dari sumber URL jarak jauh",
+  "pluginRepositoryAddAction": "Tambah Repositori",
+  "pluginRepositoryAddTitle": "Tambah Repositori",
+  "pluginRepositoryAddSubtitle": "Masukkan URL file JSON repositori plugin yang valid.",
+  "pluginRepositoryEmpty": "Belum ada repositori yang ditambahkan.",
+  "pluginRepositoryUrlCopied": "URL Repositori disalin ke papan klip",
+  "pluginRepositoryNoDescription": "Deskripsi tidak tersedia.",
+  "pluginRepositoryUnknownUpdate": "Pembaruan tidak diketahui",
+  "pluginRepositoryPluginsCount": "{count, plural, =1{1 plugin} other{{count} plugin}}",
+  "@pluginRepositoryPluginsCount": {
     "placeholders": {
       "count": {
         "type": "int"
       }
     }
   },
-  "settingsCacheCleared": "Cache lagu berhasil dihapus!",
-  "settingsQualityStream": "Kualitas Streaming",
-  "settingsSourcePreferred": "Penyedia Musik Utama",
-  "libraryTitle": "Perpustakaan",
-  "libraryPlaylists": "Playlist",
-  "libraryArtists": "Artis",
-  "libraryAlbums": "Album",
-  "libraryFavorites": "Favorit",
-  "libraryDownloads": "Unduhan",
-  "libraryHistory": "Riwayat",
-  "libraryOffline": "Mode Offline",
-  "libraryImport": "Impor",
-  "searchTitle": "Cari",
-  "searchHistory": "Riwayat Pencarian",
-  "searchHistoryClear": "Hapus Semua",
-  "searchSuggestions": "Saran Pencarian",
-  "searchHint": "Cari lagu, artis, atau playlist...",
-  "searchEmpty": "Ketik sesuatu untuk mencari musik",
+  "pluginRepositoryErrorLoad": "Gagal memuat repositori.",
+  "pluginRepositoryErrorInvalid": "URL atau file repositori tidak valid.",
+  "pluginRepositoryErrorRemove": "Gagal menghapus repositori.",
+  "pluginRepositoryError": "Error: {message}",
+  "@pluginRepositoryError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "dialogAddingToDownloadQueue": "Menambahkan ke antrean unduhan",
+  "emptyNoInternet": "Tidak Ada Koneksi Internet!",
+  "emptyNoContentPlugin": "Tidak ada plugin konten dimuat. Muat Content Resolver di Pengelola Plugin.",
+  "emptyRefreshingSource": "Menyegarkan sumber Discover... Sumber sebelumnya tidak lagi tersedia.",
+  "emptyNoTracks": "Tidak ada lagu tersedia",
+  "emptyNoResults": "Pencarian tidak ditemukan",
+  "snackbarDeletedTrack": "Berhasil menghapus \"{title}\"",
+  "@snackbarDeletedTrack": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarDeleteFailed": "Gagal menghapus \"{title}\"",
+  "@snackbarDeleteFailed": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarAddedToNextQueue": "Ditambahkan untuk Diputar Berikutnya",
+  "snackbarAddedToQueue": "Ditambahkan ke Antrean",
+  "snackbarAddedToLiked": "\"{title}\" ditambahkan ke Favorit!",
+  "@snackbarAddedToLiked": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarNowPlaying": "Memutar {name}",
+  "@snackbarNowPlaying": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarPlaylistAddedToQueue": "Menambahkan {name} ke Antrean",
+  "@snackbarPlaylistAddedToQueue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarPlaylistQueued": "Playlist ditambahkan ke antrean unduhan",
+  "snackbarPlaylistUpdated": "Playlist Diperbarui!",
+  "snackbarNoInternet": "Koneksi internet terputus.",
+  "snackbarImportFailed": "Impor Gagal!",
+  "snackbarImportCompleted": "Impor Selesai",
+  "snackbarBackupFailed": "Cadangan Gagal!",
+  "snackbarExportedTo": "Diekspor ke: {path}",
+  "@snackbarExportedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarMediaIdCopied": "ID Media disalin",
+  "snackbarLinkCopied": "Tautan disalin",
+  "snackbarNoLinkAvailable": "Tautan tidak tersedia",
+  "snackbarCouldNotOpenLink": "Tidak dapat membuka tautan",
+  "snackbarPreparingDownload": "Menyiapkan unduhan untuk {title}...",
+  "@snackbarPreparingDownload": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarAlreadyDownloaded": "\"{title}\" sudah diunduh.",
+  "@snackbarAlreadyDownloaded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarAlreadyInQueue": "\"{title}\" sudah ada di antrean.",
+  "@snackbarAlreadyInQueue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarDownloaded": "Selesai mengunduh {title}",
+  "@snackbarDownloaded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "snackbarDownloadServiceUnavailable": "Error: Layanan unduhan tidak tersedia.",
+  "snackbarSongsAddedToQueue": "Menambahkan {count} lagu ke antrean unduhan",
+  "@snackbarSongsAddedToQueue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "snackbarDeleteTrackFailDevice": "Gagal menghapus trek dari penyimpanan perangkat.",
+  "searchHintExplore": "Apa yang ingin Anda dengarkan?",
+  "searchHintLibrary": "Cari di perpustakaan...",
+  "searchHintOfflineMusic": "Cari lagu Anda...",
+  "searchHintPlaylists": "Cari playlist...",
+  "searchStartTyping": "Mulai mengetik untuk mencari...",
+  "searchNoSuggestions": "Saran tidak ditemukan!",
   "searchNoResults": "Tidak ada hasil untuk \"{query}\"",
-  "@searchNoResults": {
+  "searchFailed": "Pencarian gagal!",
+  "searchDiscover": "Temukan musik keren...",
+  "searchSources": "SUMBER",
+  "searchNoPlugins": "Plugin tidak terpasang",
+  "searchTracks": "Lagu",
+  "searchAlbums": "Album",
+  "searchArtists": "Artis",
+  "searchPlaylists": "Playlist",
+  "exploreDiscover": "Temukan",
+  "exploreRecently": "Baru-baru Ini",
+  "exploreLastFmPicks": "Rekomendasi Last.Fm",
+  "exploreFailedToLoad": "Gagal memuat bagian beranda.",
+  "libraryTitle": "Perpustakaan",
+  "libraryEmptyState": "Perpustakaan Anda sepi. Tambahkan lagu untuk meramaikannya!",
+  "libraryIn": "di {playlistName}",
+  "@libraryIn": {
     "placeholders": {
-      "query": {
+      "playlistName": {
         "type": "String"
       }
     }
   },
-  "searchCategoryTracks": "Lagu",
-  "searchCategoryArtists": "Artis",
-  "searchCategoryAlbums": "Album",
-  "searchCategoryPlaylists": "Playlist",
-  "searchFilterAll": "Semua",
-  "offlineTitle": "Mode Offline",
-  "offlineSubtitle": "Putar musik yang sudah Anda unduh tanpa koneksi internet.",
-  "offlineEmpty": "Belum ada lagu yang diunduh",
-  "downloadQueueTitle": "Antrean Unduhan",
-  "downloadQueueEmpty": "Tidak ada unduhan aktif",
-  "downloadStatusDownloading": "Mengunduh...",
-  "downloadStatusPaused": "Ditangguhkan",
-  "downloadStatusCompleted": "Selesai",
-  "downloadStatusFailed": "Gagal",
-  "downloadStatusWaiting": "Menunggu",
-  "downloadActionPause": "Jeda",
-  "downloadActionResume": "Lanjutkan",
-  "downloadActionCancel": "Batal",
-  "downloadActionDelete": "Hapus",
-  "downloadSnackbarAdded": "\"{title}\" ditambahkan ke antrean unduhan",
-  "@downloadSnackbarAdded": {
+  "menuAddToPlaylist": "Tambah ke Playlist",
+  "menuSmartReplace": "Smart Replace",
+  "menuShare": "Bagikan",
+  "menuAvailableOffline": "Tersedia Offline",
+  "menuDownload": "Unduh",
+  "menuOpenOriginalLink": "Buka tautan asli",
+  "menuDeleteTrack": "Hapus",
+  "songInfoTitle": "Judul",
+  "songInfoArtist": "Artis",
+  "songInfoAlbum": "Album",
+  "songInfoMediaId": "ID Media",
+  "songInfoCopyId": "Salin ID",
+  "songInfoCopyLink": "Salin Tautan",
+  "songInfoOpenBrowser": "Buka di browser",
+  "tooltipRemoveFromLibrary": "Hapus dari Perpustakaan",
+  "tooltipSaveToLibrary": "Simpan ke Perpustakaan",
+  "tooltipOpenOriginalLink": "Buka Tautan Asli",
+  "tooltipShuffle": "Acak",
+  "tooltipAvailableOffline": "Tersedia Offline",
+  "tooltipDownloadPlaylist": "Unduh playlist",
+  "tooltipMoreOptions": "Opsi Lainnya",
+  "tooltipInfo": "Info",
+  "appuiTitle": "Antarmuka & Layanan",
+  "appuiAutoSlideCharts": "Geser Bagan Otomatis",
+  "appuiAutoSlideChartsSubtitle": "Geser bagan secara otomatis di beranda.",
+  "appuiLastFmPicksSubtitle": "Tampilkan saran dari Last.FM. Diperlukan masuk & mulai ulang.",
+  "appuiNoChartsAvailable": "Tidak ada bagan tersedia. Pasang plugin penyedia bagan.",
+  "appuiLoginToLastFm": "Silakan masuk ke Last.FM terlebih dahulu.",
+  "appuiShowInCarousel": "Tampilkan di korsel beranda.",
+  "countrySettingTitle": "Negara & Bahasa",
+  "countrySettingAutoDetect": "Deteksi Negara Otomatis",
+  "countrySettingAutoDetectSubtitle": "Deteksi negara Anda secara otomatis saat aplikasi dibuka.",
+  "countrySettingCountryLabel": "Negara",
+  "countrySettingLanguageLabel": "Bahasa",
+  "countrySettingSystemDefault": "Default Sistem",
+  "downloadSettingTitle": "Unduhan",
+  "downloadSettingQuality": "Kualitas Unduhan",
+  "downloadSettingQualitySubtitle": "Kualitas audio default untuk lagu yang diunduh.",
+  "downloadSettingFolder": "Folder Unduhan",
+  "downloadSettingResetFolder": "Reset Folder Unduhan",
+  "downloadSettingResetFolderSubtitle": "Kembalikan jalur folder unduhan bawaan.",
+  "lastfmTitle": "Last.FM",
+  "lastfmScrobbleTracks": "Scrobble Lagu",
+  "lastfmScrobbleTracksSubtitle": "Kirim lagu yang diputar ke profil Last.FM Anda.",
+  "lastfmAuthFirst": "Autentikasi API Last.FM Terlebih Dahulu.",
+  "lastfmAuthenticatedAs": "Terkoneksi sebagai",
+  "lastfmAuthFailed": "Autentikasi gagal:",
+  "lastfmNotAuthenticated": "Tidak terkoneksi",
+  "lastfmSteps": "Langkah autentikasi:\n1. Buat / buka akun Last.FM di last.fm\n2. Dapatkan API Key di last.fm/api/account/create\n3. Masukkan API Key & Secret Anda di bawah\n4. Ketuk \"Mulai Autentikasi\" dan setujui di browser\n5. Ketuk \"Simpan Kunci Sesi\" untuk menyelesaikan",
+  "lastfmApiKey": "API Key",
+  "lastfmApiSecret": "API Secret",
+  "lastfmStartAuth": "1. Mulai Autentikasi",
+  "lastfmGetSession": "2. Simpan Kunci Sesi",
+  "lastfmRemoveKeys": "Hapus Kunci API",
+  "lastfmStartAuthFirst": "Mulai autentikasi dulu, lalu setujui di browser.",
+  "localSettingTitle": "Lagu Lokal",
+  "localSettingAutoScan": "Pindai Otomatis Saat Mulai",
+  "localSettingAutoScanSubtitle": "Pindai lagu lokal secara otomatis saat aplikasi dibuka.",
+  "localSettingLastScan": "Pemindaian Terakhir",
+  "localSettingNeverScanned": "Belum Pernah",
+  "localSettingScanInProgress": "Sedang memindai...",
+  "localSettingScanNowSubtitle": "Picu pemindaian perpustakaan penuh secara manual.",
+  "localSettingNoFolders": "Belum ada folder. Tambahkan folder untuk mulai memindai.",
+  "localSettingAddFolder": "Tambah Folder",
+  "playerSettingTitle": "Pengaturan Pemutar",
+  "playerSettingStreamingHeader": "Streaming",
+  "playerSettingStreamQuality": "Kualitas Streaming",
+  "playerSettingStreamQualitySubtitle": "Kualitas audio global untuk pemutaran musik online.",
+  "playerSettingQualityLow": "Rendah",
+  "playerSettingQualityMedium": "Sedang",
+  "playerSettingQualityHigh": "Tinggi",
+  "playerSettingPlaybackHeader": "Pemutaran",
+  "playerSettingAutoPlay": "Putar Otomatis",
+  "playerSettingAutoPlaySubtitle": "Putar lagu serupa secara otomatis saat antrean habis.",
+  "playerSettingAutoFallback": "Pemutaran Cadangan Otomatis",
+  "playerSettingAutoFallbackSubtitle": "Jika plugin mati, coba penyedia lain yang cocok (hanya untuk pemutaran).",
+  "playerSettingCrossfade": "Crossfade",
+  "playerSettingCrossfadeOff": "Mati",
+  "playerSettingCrossfadeInstant": "Transisi lagu instan",
+  "playerSettingCrossfadeBlend": "Transisi tumpang tindih {seconds} detik",
+  "@playerSettingCrossfadeBlend": {
     "placeholders": {
-      "title": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "playerSettingEqualizer": "Equalizer",
+  "playerSettingEqualizerActive": "Aktif",
+  "playerSettingEqualizerActivePreset": "Aktif — Preset {preset}",
+  "@playerSettingEqualizerActivePreset": {
+    "placeholders": {
+      "preset": {
         "type": "String"
       }
     }
   },
-  "downloadSnackbarCompleted": "Unduhan selesai: {title}",
-  "@downloadSnackbarCompleted": {
+  "playerSettingEqualizerSubtitle": "Equalizer parametrik 10-band via FFmpeg.",
+  "pluginDefaultsTitle": "Default Plugin",
+  "pluginDefaultsDiscoverHeader": "Sumber Discover",
+  "pluginDefaultsNoResolver": "Resolver konten tidak dimuat. Pasang plugin untuk memilih sumber Discover.",
+  "pluginDefaultsAutomaticSubtitle": "Gunakan resolver konten pertama yang tersedia.",
+  "pluginDefaultsPriorityHeader": "Prioritas Resolver",
+  "pluginDefaultsNoPriority": "Resolver konten tidak dimuat. Pengaturan prioritas akan muncul setelah plugin dimuat.",
+  "pluginDefaultsPriorityDesc": "Seret untuk mengatur urutan. Resolver dengan prioritas lebih tinggi akan dicoba terlebih dahulu.",
+  "pluginDefaultsLyricsHeader": "Prioritas Lirik",
+  "pluginDefaultsLyricsNone": "Penyedia lirik tidak dimuat.",
+  "pluginDefaultsLyricsDesc": "Seret untuk mengatur prioritas penyedia lirik.",
+  "pluginDefaultsSuggestionsHeader": "Saran Pencarian",
+  "pluginDefaultsSuggestionsNone": "Penyedia saran pencarian tidak dimuat.",
+  "pluginDefaultsSuggestionsHistoryOnlyTitle": "Tidak Ada",
+  "pluginDefaultsSuggestionsHistoryOnlySubtitle": "Gunakan riwayat pencarian saja.",
+  "storageSettingTitle": "Penyimpanan",
+  "storageClearHistoryEvery": "Bersihkan Riwayat Setiap",
+  "storageClearHistorySubtitle": "Bersihkan riwayat putar otomatis setelah periode terpilih.",
+  "storageDays": "{count, plural, =1{1 Hari} other{{count} Hari}}",
+  "@storageDays": {
     "placeholders": {
-      "title": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storageBackupLocation": "Lokasi Cadangan",
+  "storageBackupLocationAndroid": "Folder Unduhan / direktori data aplikasi",
+  "storageBackupLocationDownloads": "Folder Unduhan",
+  "storageCreateBackup": "Buat Cadangan",
+  "storageCreateBackupSubtitle": "Simpan pengaturan dan data Anda ke file cadangan.",
+  "storageBackupCreatedAt": "Cadangan berhasil dibuat di {path}",
+  "@storageBackupCreatedAt": {
+    "placeholders": {
+      "path": {
         "type": "String"
       }
     }
   },
-  "downloadSnackbarFailed": "Unduhan gagal: {title}",
-  "@downloadSnackbarFailed": {
+  "storageBackupShareFailed": "Gagal membagikan cadangan: {error}",
+  "@storageBackupShareFailed": {
     "placeholders": {
-      "title": {
+      "error": {
         "type": "String"
       }
     }
   },
-  "historyTitle": "Riwayat Putar",
-  "historyEmpty": "Belum ada riwayat putar lagu",
-  "historyClear": "Hapus Riwayat",
-  "favoritesTitle": "Lagu Favorit",
-  "favoritesEmpty": "Belum ada lagu favorit",
-  "favoritesAdd": "Tambah ke Favorit",
-  "favoritesRemove": "Hapus dari Favorit",
-  "aboutTitle": "Tentang",
-  "aboutVersion": "Versi {version}",
-  "@aboutVersion": {
+  "storageBackupFailed": "Cadangan Gagal!",
+  "storageRestoreBackup": "Pulihkan Cadangan",
+  "storageRestoreBackupSubtitle": "Pulihkan pengaturan dan data Anda dari file cadangan.",
+  "storageAutoBackup": "Cadangkan Otomatis",
+  "storageAutoBackupSubtitle": "Buat cadangan data Anda secara berkala secara otomatis.",
+  "storageAutoLyrics": "Simpan Lirik Otomatis",
+  "storageAutoLyricsSubtitle": "Simpan lirik secara otomatis saat lagu diputar.",
+  "storageResetApp": "Reset Aplikasi StreamBeats",
+  "storageResetAppSubtitle": "Hapus semua data dan kembalikan aplikasi ke setelan pabrik.",
+  "storageResetConfirmTitle": "Konfirmasi Reset",
+  "storageResetConfirmMessage": "Apakah Anda yakin ingin mereset StreamBeats? Semua data Anda akan dihapus permanen.",
+  "storageResetButton": "Reset",
+  "storageResetSuccess": "Aplikasi berhasil dikembalikan ke setelan default.",
+  "storageLocationDialogTitle": "Lokasi Cadangan",
+  "storageLocationAndroid": "Cadangan disimpan di:\n\n1. Folder Downloads\n2. Android/data/ls.streambeats.musicplayer/data\n\nSalin file cadangan dari lokasi tersebut.",
+  "storageLocationOther": "Cadangan disimpan di folder Downloads. Silakan salin dari sana.",
+  "storageRestoreOptionsTitle": "Opsi Pemulihan",
+  "storageRestoreOptionsDesc": "Pilih data yang ingin Anda pulihkan dari file cadangan. Uncheck item yang tidak ingin diimpor. Secara default semua dipilih.",
+  "storageRestoreSelectAll": "Pilih Semua",
+  "storageRestoreMediaItems": "Item media (lagu, track, perpustakaan)",
+  "storageRestoreSearchHistory": "Riwayat pencarian",
+  "storageRestoreContinue": "Lanjutkan",
+  "storageRestoreNoFile": "Tidak ada file yang dipilih.",
+  "storageRestoreSaveFailed": "Gagal menyimpan file terpilih.",
+  "storageRestoreConfirmTitle": "Konfirmasi Pemulihan",
+  "storageRestoreConfirmPrefix": "Ini akan menimpa dan menggabungkan data saat ini dengan file cadangan:",
+  "storageRestoreConfirmSuffix": "Data Anda saat ini akan diubah. Lanjutkan?",
+  "storageRestoreYes": "Ya, Pulihkan",
+  "storageRestoreNo": "Batal",
+  "storageRestoring": "Memulihkan data...",
+  "storageRestoreMediaBullet": "• Item Media",
+  "storageRestoreHistoryBullet": "• Riwayat Pencarian",
+  "storageUnexpectedError": "Terjadi kesalahan tidak terduga saat memulihkan.",
+  "storageRestoreCompleted": "Pemulihan Selesai",
+  "storageRestoreFailedTitle": "Pemulihan Gagal",
+  "storageRestoreSuccessMessage": "Data berhasil dipulihkan! Mulai ulang aplikasi sekarang untuk hasil terbaik.",
+  "storageRestoreFailedMessage": "Proses pemulihan gagal dengan error berikut:",
+  "storageRestoreUnknownError": "Error tidak dikenal saat pemulihan.",
+  "storageRestoreRestartHint": "Silakan restart aplikasi untuk konsistensi data.",
+  "updateSettingTitle": "Pembaruan",
+  "updateAppUpdatesHeader": "Pembaruan Aplikasi",
+  "updateCheckForUpdates": "Periksa Pembaruan",
+  "updateCheckSubtitle": "Periksa apakah ada versi baru StreamBeats.",
+  "updateAutoNotify": "Notifikasi Pembaruan Otomatis",
+  "updateAutoNotifySubtitle": "Beri tahu di awal aplikasi jika ada versi baru.",
+  "updateCheckTitle": "Periksa Pembaruan",
+  "updateUpToDate": "StreamBeats🌸 sudah menggunakan versi terbaru!!!",
+  "updateViewPreRelease": "Lihat Versi Pra-Rilis Terbaru",
+  "updateCurrentVersion": "Versi Saat Ini: {curr} + {build}",
+  "@updateCurrentVersion": {
     "placeholders": {
-      "version": {
+      "curr": {
         "type": "String"
-      }
-    }
-  },
-  "aboutBuild": "Build {build}",
-  "@aboutBuild": {
-    "placeholders": {
+      },
       "build": {
         "type": "String"
       }
     }
   },
-  "aboutDescription": "StreamBeats adalah pemutar musik modern dan elegan yang dibangun dengan Flutter.",
-  "aboutLicense": "Lisensi",
-  "aboutCredits": "Kredit",
-  "aboutFeedback": "Kirim Umpan Balik",
-  "aboutSupport": "Dukung Kami",
-  "aboutWebsite": "Kunjungi Website",
+  "updateNewVersionAvailable": "Versi baru StreamBeats🌸 telah tersedia!!",
+  "updateVersion": "Versi: {ver}+{build}",
+  "@updateVersion": {
+    "placeholders": {
+      "ver": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  },
+  "updateDownloadNow": "Unduh Sekarang",
+  "updateChecking": "Memeriksa ketersediaan versi terbaru...",
+  "timerTitle": "Sleep Timer",
+  "timerInterludeMessage": "Bersiap menghentikan pemutaran musik dalam...",
+  "timerHours": "Jam",
+  "timerMinutes": "Menit",
+  "timerSeconds": "Detik",
+  "timerStop": "Hentikan Timer",
+  "timerFinishedMessage": "Musik telah dihentikan. Selamat Tidur 🥰.",
+  "timerGotIt": "Mengerti!",
+  "timerSetTimeError": "Silakan atur waktu terlebih dahulu",
+  "timerStart": "Mulai Timer",
+  "notificationsTitle": "Notifikasi",
+  "notificationsEmpty": "Belum ada notifikasi!",
+  "recentsTitle": "Riwayat",
+  "playlistByCreator": "oleh {creator}",
+  "@playlistByCreator": {
+    "placeholders": {
+      "creator": {
+        "type": "String"
+      }
+    }
+  },
+  "playlistTypeAlbum": "Album",
+  "playlistTypePlaylist": "Playlist",
+  "playlistYou": "Anda",
+  "pluginManagerTitle": "Plugin",
+  "pluginManagerEmpty": "Belum ada plugin terpasang.\nKetuk + untuk menambahkan file .bex.",
+  "pluginManagerFilterAll": "Semua",
+  "pluginManagerFilterContent": "Content Resolvers",
+  "pluginManagerFilterCharts": "Chart Providers",
+  "pluginManagerFilterLyrics": "Lyrics Providers",
+  "pluginManagerFilterSuggestions": "Saran Pencarian",
+  "pluginManagerFilterImporters": "Content Importers",
+  "pluginManagerTooltipRefresh": "Segarkan",
+  "pluginManagerTooltipInstall": "Pasang Plugin",
+  "pluginManagerNoMatch": "Tidak ada plugin yang cocok dengan filter ini",
+  "pluginManagerPickFailed": "Gagal memilih file: {error}",
+  "@pluginManagerPickFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "pluginManagerInstalling": "Memasang plugin...",
+  "pluginManagerTypeContentResolver": "Content Resolver",
+  "pluginManagerTypeChartProvider": "Chart Provider",
+  "pluginManagerTypeLyricsProvider": "Lyrics Provider",
+  "pluginManagerTypeSuggestionProvider": "Saran Pencarian",
+  "pluginManagerTypeContentImporter": "Content Importer",
+  "pluginManagerDeleteTitle": "Hapus Plugin?",
+  "pluginManagerDeleteMessage": "Apakah Anda yakin ingin menghapus \"{name}\"? Tindakan ini menghapus filenya secara permanen.",
+  "@pluginManagerDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pluginManagerDeleteAction": "Hapus",
+  "pluginManagerCancel": "Batal",
+  "pluginManagerEnablePlugin": "Aktifkan Plugin",
+  "pluginManagerUnloadPlugin": "Nonaktifkan Plugin",
+  "pluginManagerDeleting": "Menghapus...",
+  "pluginManagerApiKeysTitle": "API Keys",
+  "pluginManagerApiKeysSaved": "API Keys berhasil disimpan",
+  "pluginManagerSave": "Simpan",
+  "pluginManagerDetailVersion": "Versi",
+  "pluginManagerDetailType": "Tipe",
+  "pluginManagerDetailPublisher": "Penerbit",
+  "pluginManagerDetailLastUpdated": "Pembaruan Terakhir",
+  "pluginManagerDetailCreated": "Dibuat Pada",
+  "pluginManagerDetailHomepage": "Situs Web",
+  "pluginManagerDowngradeTitle": "Downgrade Plugin?",
+  "pluginManagerDowngradeMessage": "Anda akan memasang versi yang lebih lama atau sama dari \"{name}\". Lanjutkan?",
+  "@pluginManagerDowngradeMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pluginManagerDowngradeAction": "Tetap Pasang",
+  "pluginManagerDeleteStorageTitle": "Hapus Data Plugin?",
+  "pluginManagerDeleteStorageMessage": "Hapus juga API keys dan pengaturan tersimpan untuk \"{name}\"?",
+  "@pluginManagerDeleteStorageMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pluginManagerDeleteStorageKeep": "Simpan Data",
+  "pluginManagerDeleteStorageRemove": "Hapus Data",
+  "segmentsSheetTitle": "Segmen",
+  "segmentsSheetEmpty": "Tidak ada segmen tersedia",
+  "segmentsSheetUntitled": "Segmen Tanpa Judul",
+  "smartReplaceTitle": "Smart Replace",
+  "smartReplaceSubtitle": "Pilih pengganti yang dapat diputar untuk \"{title}\" dan perbarui referensi playlist tersimpan.",
+  "@smartReplaceSubtitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "smartReplaceClose": "Tutup",
+  "smartReplaceNoMatch": "Pengganti tidak ditemukan",
+  "smartReplaceNoMatchSubtitle": "Tidak ada plugin resolver aktif yang mengembalikan kecocokan yang kuat.",
+  "smartReplaceBestMatch": "Kecocokan terbaik",
+  "smartReplaceSearchFailed": "Pencarian gagal",
+  "smartReplaceApplyFailed": "Smart Replace gagal: {error}",
+  "@smartReplaceApplyFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "smartReplaceApplied": "Pengganti berhasil diterapkan{queue}.",
+  "@smartReplaceApplied": {
+    "placeholders": {
+      "queue": {
+        "type": "String"
+      }
+    }
+  },
+  "smartReplaceAppliedPlaylists": "Digantikan di {count} playlist{plural}{queue}.",
+  "@smartReplaceAppliedPlaylists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      },
+      "queue": {
+        "type": "String"
+      }
+    }
+  },
+  "smartReplaceQueueUpdated": " dan memperbarui antrean",
+  "playerUnknownQueue": "Tidak Diketahui",
+  "playerLiked": "\"{title}\" disukai!",
+  "@playerLiked": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "playerUnliked": "\"{title}\" batal disukai!",
+  "@playerUnliked": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineNoDownloads": "Tidak Ada Unduhan",
+  "offlineTitle": "Mode Offline",
+  "offlineSearchHint": "Cari lagu Anda...",
+  "offlineRefreshTooltip": "Segarkan Unduhan",
+  "offlineCloseSearch": "Tutup Pencarian",
+  "offlineSearchTooltip": "Cari",
+  "offlineOpenFailed": "Gagal membuka trek offline ini. Coba segarkan unduhan.",
+  "offlinePlayFailed": "Gagal memutar lagu offline ini. Silakan coba kembali.",
   "albumViewTrackCount": "{count, plural, =1{1 Lagu} other{{count} Lagu}}",
   "@albumViewTrackCount": {
     "placeholders": {
@@ -660,7 +1049,7 @@
   "@pluginBootstrapProgress": {
     "placeholders": {
       "percent": {
-        "type": "String"
+        "type": "int"
       }
     }
   },

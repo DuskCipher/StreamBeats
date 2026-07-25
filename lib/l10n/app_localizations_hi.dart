@@ -572,8 +572,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get searchNoSuggestions => 'कोई सुझाव नहीं मिला!';
 
   @override
-  String get searchNoResults =>
-      'कोई परिणाम नहीं मिला!\nकुछ और खोज कर देखें या स्रोत बदलें।';
+  String searchNoResults(Object query) {
+    return 'कोई परिणाम नहीं मिला!\nकुछ और खोज कर देखें या स्रोत बदलें।';
+  }
 
   @override
   String get searchFailed => 'खोज विफल रही!';

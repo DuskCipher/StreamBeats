@@ -230,10 +230,16 @@ class _OnboardingOverlayState extends State<OnboardingOverlay> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Icon(
-                            MingCute.music_2_fill,
-                            size: 70,
-                            color: Default_Theme.accentColor2,
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                'assets/icons/streambeats_logo.png',
+                                width: 72,
+                                height: 72,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 18),
                           Text(
@@ -316,7 +322,7 @@ class _OnboardingOverlayState extends State<OnboardingOverlay> {
                             onPressed: _finish,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Default_Theme.accentColor2,
-                              foregroundColor: Colors.white,
+                              foregroundColor: Colors.black,
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),

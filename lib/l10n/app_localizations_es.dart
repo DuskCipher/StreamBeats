@@ -570,8 +570,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchNoSuggestions => '¡No se encontraron sugerencias!';
 
   @override
-  String get searchNoResults =>
-      '¡No hay resultados!\nPrueba con otra palabra clave o fuente.';
+  String searchNoResults(Object query) {
+    return '¡No hay resultados!\nPrueba con otra palabra clave o fuente.';
+  }
 
   @override
   String get searchFailed => '¡Error en la búsqueda!';

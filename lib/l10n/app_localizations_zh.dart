@@ -532,7 +532,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get searchNoSuggestions => '未找到建议！';
 
   @override
-  String get searchNoResults => '未找到结果！\n请尝试其他关键词或来源。';
+  String searchNoResults(Object query) {
+    return '未找到结果！\n请尝试其他关键词或来源。';
+  }
 
   @override
   String get searchFailed => '搜索失败！';
