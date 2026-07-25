@@ -311,7 +311,7 @@ class _UrlInputView extends StatelessWidget {
             onPressed: onSubmit,
             style: FilledButton.styleFrom(
               backgroundColor: Default_Theme.accentColor2,
-              foregroundColor: Colors.white,
+              foregroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(vertical: 18),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14)),
@@ -666,7 +666,7 @@ class _ReviewViewState extends State<_ReviewView> {
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -1260,7 +1260,7 @@ class _DoneView extends StatelessWidget {
               onPressed: onDone,
               style: FilledButton.styleFrom(
                 backgroundColor: Default_Theme.accentColor2,
-                foregroundColor: Colors.white,
+                foregroundColor: Colors.black,
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14)),
@@ -1333,7 +1333,7 @@ class _ErrorView extends StatelessWidget {
               label: Text(AppLocalizations.of(context)!.importTryAgain),
               style: FilledButton.styleFrom(
                 backgroundColor: Default_Theme.accentColor2,
-                foregroundColor: Colors.white,
+                foregroundColor: Colors.black,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                 shape: RoundedRectangleBorder(

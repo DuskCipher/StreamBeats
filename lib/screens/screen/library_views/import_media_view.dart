@@ -387,10 +387,10 @@ class _ImporterPluginTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Default_Theme.primaryColor1.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-            color: Colors.white.withValues(alpha: 0.1)),
+            color: Default_Theme.primaryColor1.withValues(alpha: 0.05)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -409,12 +409,12 @@ class _ImporterPluginTile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Default_Theme.accentColor2.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     MingCute.download_2_fill,
-                    color: Colors.black,
+                    color: Default_Theme.accentColor2,
                     size: 24,
                   ),
                 ),
@@ -427,9 +427,9 @@ class _ImporterPluginTile extends StatelessWidget {
                       Text(
                         pluginName,
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -438,10 +438,11 @@ class _ImporterPluginTile extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           description!,
-                          style: const TextStyle(
-                            color: Colors.black54,
+                          style: TextStyle(
+                            color: Default_Theme.primaryColor2
+                                .withValues(alpha: 0.8),
                             fontSize: 13,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -453,7 +454,7 @@ class _ImporterPluginTile extends StatelessWidget {
                 const SizedBox(width: 8),
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: Colors.black54,
+                  color: Default_Theme.primaryColor2.withValues(alpha: 0.5),
                   size: 24,
                 ),
               ],
@@ -482,10 +483,10 @@ class _ImportFromBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Default_Theme.primaryColor1.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-            color: Colors.white.withValues(alpha: 0.1)),
+            color: Default_Theme.primaryColor1.withValues(alpha: 0.05)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -499,12 +500,12 @@ class _ImportFromBtn extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Default_Theme.primaryColor2.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     btnIcon,
-                    color: Colors.black,
+                    color: Colors.white,
                     size: 24,
                   ),
                 ),
@@ -513,15 +514,15 @@ class _ImportFromBtn extends StatelessWidget {
                   child: Text(
                     btnName,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: Colors.black54,
+                  color: Default_Theme.primaryColor2.withValues(alpha: 0.5),
                   size: 24,
                 ),
               ],
