@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/docs/bloomeetunes_new_banner.png" alt="StreamBeats Banner" width="100%">
+<img src="./assets/docs/StreamBeatstunes_new_banner.png" alt="StreamBeats Banner" width="100%">
 
 # 🎵 StreamBeats
 
