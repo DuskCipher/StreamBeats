@@ -7,23 +7,23 @@ import 'package:flutter/material.dart';
 /// imports are being migrated.
 class AppTheme {
   // ── Text Styles ─────────────────────────────────────────────────────────────
-  static const primaryTextStyle = TextStyle(fontFamily: "Fjalla");
-  static const secondoryTextStyle = TextStyle(fontFamily: "Gilroy");
+  static const primaryTextStyle = TextStyle(fontFamily: "Arial");
+  static const secondoryTextStyle = TextStyle(fontFamily: "Arial");
   static const secondoryTextStyleMedium =
-      TextStyle(fontFamily: "Gilroy", fontWeight: FontWeight.w700);
-  static const tertiaryTextStyle = TextStyle(fontFamily: "CodePro");
+      TextStyle(fontFamily: "Arial", fontWeight: FontWeight.w700);
+  static const tertiaryTextStyle = TextStyle(fontFamily: "Arial");
   static const fontAwesomeRegularFont =
       TextStyle(fontFamily: "FontAwesome-Regular");
   static const fontAwesomeSolidFont =
       TextStyle(fontFamily: "FontAwesome-Solids");
 
   // ── Colors ──────────────────────────────────────────────────────────────────
-  static const themeColor = Color(0xFF0A040C);
-  static const primaryColor1 = Color(0xFFDAEAF7);
-  static const primaryColor2 = Color.fromARGB(255, 242, 231, 240);
-  static const accentColor1 = Color(0xFF0EA5E0);
-  static const accentColor1light = Color(0xFF18C9ED);
-  static const accentColor2 = Color(0xFFFE385E);
+  static const themeColor = Color(0xFF000000);         // Hitam murni
+  static const primaryColor1 = Color(0xFFFFFFFF);      // Putih
+  static const primaryColor2 = Color(0xFF1A1A1A);      // Abu-abu sangat gelap
+  static const accentColor1 = Color(0xFFAAAAAA);       // Abu-abu terang
+  static const accentColor1light = Color(0xFFCCCCCC);  // Abu-abu muda
+  static const accentColor2 = Color(0xFFFFFFFF);       // Putih (pengganti pink)
   static const successColor = Color(0xFF5EFF43);
 
   // ── Theme Data ───────────────────────────────────────────────────────────────
@@ -32,18 +32,18 @@ class AppTheme {
       primary: accentColor2,
       secondary: accentColor1,
       surface: themeColor,
-      surfaceContainerHighest: Color(0xFF1A111B),
-      onPrimary: primaryColor1,
-      onSecondary: primaryColor1,
+      surfaceContainerHighest: Color(0xFF1A1A1A),
+      onPrimary: themeColor,
+      onSecondary: themeColor,
       onSurface: primaryColor1,
     );
 
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: themeColor,
-      dialogBackgroundColor: themeColor,
+      dialogBackgroundColor: Color(0xFF111111),
       primaryColorDark: accentColor2,
-      fontFamily: 'Gilroy',
+      fontFamily: 'Arial',
       primarySwatch: MaterialColor(
         accentColor2.value,
         {
@@ -61,11 +61,11 @@ class AppTheme {
       ),
       colorScheme: darkScheme.copyWith(
         primary: accentColor2,
-        secondary: accentColor2,
+        secondary: accentColor1,
       ),
       iconTheme: const IconThemeData(color: primaryColor1),
       scrollbarTheme: ScrollbarThemeData(
-        thumbColor: WidgetStateProperty.all(accentColor2),
+        thumbColor: WidgetStateProperty.all(accentColor1),
         interactive: true,
         radius: const Radius.circular(10),
         thickness: WidgetStateProperty.all(5),
@@ -77,44 +77,44 @@ class AppTheme {
         iconTheme: IconThemeData(color: primaryColor1),
       ),
       progressIndicatorTheme:
-          const ProgressIndicatorThemeData(color: accentColor2),
+          const ProgressIndicatorThemeData(color: accentColor1),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: accentColor2,
-        selectionColor: accentColor2,
-        selectionHandleColor: accentColor2,
+        cursorColor: accentColor1,
+        selectionColor: accentColor1,
+        selectionHandleColor: accentColor1,
       ),
       brightness: Brightness.dark,
       switchTheme: SwitchThemeData(
-        thumbColor: const WidgetStatePropertyAll(primaryColor1),
+        thumbColor: const WidgetStatePropertyAll(themeColor),
         trackOutlineColor: WidgetStateProperty.resolveWith((states) =>
             states.contains(WidgetState.selected)
-                ? accentColor1
-                : accentColor2),
+                ? primaryColor1
+                : accentColor1),
         trackColor: WidgetStateProperty.resolveWith((states) =>
             states.contains(WidgetState.selected)
-                ? accentColor1
-                : primaryColor2.withValues(alpha: 0.0)),
+                ? primaryColor1
+                : primaryColor2.withValues(alpha: 0.5)),
       ),
       searchBarTheme: const SearchBarThemeData(
-        backgroundColor: WidgetStatePropertyAll(themeColor),
+        backgroundColor: WidgetStatePropertyAll(Color(0xFF111111)),
       ),
       popupMenuTheme: const PopupMenuThemeData(
-        color: Color.fromARGB(255, 23, 18, 25),
+        color: Color(0xFF111111),
         textStyle: TextStyle(color: primaryColor1),
       ),
       dropdownMenuTheme: const DropdownMenuThemeData(
         menuStyle: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(themeColor),
+          backgroundColor: WidgetStatePropertyAll(Color(0xFF111111)),
         ),
         textStyle: TextStyle(color: primaryColor1),
       ),
       menuTheme: const MenuThemeData(
         style: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(themeColor),
+          backgroundColor: WidgetStatePropertyAll(Color(0xFF111111)),
         ),
       ),
       cardTheme: const CardThemeData(
-        color: themeColor,
+        color: Color(0xFF111111),
         surfaceTintColor: Colors.transparent,
       ),
     );
