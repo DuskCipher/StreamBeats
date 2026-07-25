@@ -209,20 +209,17 @@ class _SpinnerBody extends StatelessWidget {
                         color: Default_Theme.accentColor2,
                         size: 36,
                       )
-                    : const SizedBox(
+                    : Image.asset(
+                        'assets/icons/loading.gif',
                         width: 36,
                         height: 36,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          color: Default_Theme.accentColor2,
-                        ),
                       ),
               ),
             ),
           ),
           const SizedBox(height: 32),
           Text(
-            l10n?.pluginBootstrapTitle ?? 'Setting up Bloomee',
+            l10n?.pluginBootstrapTitle ?? 'Setting up StreamBeats',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
