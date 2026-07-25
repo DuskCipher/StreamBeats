@@ -140,7 +140,7 @@ class _SettingToggleTileState extends State<SettingToggleTile> {
                 Text(
                   widget.title,
                   style: Default_Theme.secondoryTextStyleMedium.copyWith(
-                    color: Default_Theme.primaryColor2,
+                    color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     letterSpacing: -0.2,
@@ -216,7 +216,7 @@ class SettingNavTile extends StatelessWidget {
                     Text(
                       title,
                       style: Default_Theme.secondoryTextStyleMedium.copyWith(
-                        color: Default_Theme.primaryColor2,
+                        color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -0.2,
@@ -335,9 +335,8 @@ class SettingRadioTile<T> extends StatelessWidget {
                       title,
                       style: Default_Theme.secondoryTextStyleMedium.copyWith(
                         color: isSelected
-                            ? Default_Theme.primaryColor2
-                            : Default_Theme.primaryColor2
-                                .withValues(alpha: 0.7),
+                            ? Colors.white
+                            : Colors.white.withValues(alpha: 0.7),
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -0.2,
@@ -455,7 +454,7 @@ class SettingQualityChipRow extends StatelessWidget {
                     Text(
                       title,
                       style: Default_Theme.secondoryTextStyleMedium.copyWith(
-                        color: Default_Theme.primaryColor2,
+                        color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -0.2,
@@ -613,7 +612,7 @@ class SettingTextFieldTile extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         style: const TextStyle(
-          color: Default_Theme.primaryColor2,
+          color: Colors.white,
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
@@ -715,7 +714,7 @@ class SettingDropdownTile<T> extends StatelessWidget {
                     Text(
                       title,
                       style: Default_Theme.secondoryTextStyleMedium.copyWith(
-                        color: Default_Theme.primaryColor2,
+                        color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -0.2,
