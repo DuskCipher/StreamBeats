@@ -172,15 +172,7 @@ class About extends StatelessWidget {
                     subtitle: 'Kunjungi toko resmi kami',
                     onTap: () => _launchURL('https://valora-store.vercel.app/'),
                   ),
-                  const SizedBox(height: 12),
 
-                  // Link 4: GitHub Source
-                  _buildLinkTile(
-                    icon: MingCute.github_fill,
-                    title: 'GitHub DuskCipher',
-                    subtitle: 'Repositori Source Code Utama',
-                    onTap: () => _launchURL('https://github.com/DuskCipher/StreamBeats'),
-                  ),
                   
                   const SizedBox(height: 40),
 
