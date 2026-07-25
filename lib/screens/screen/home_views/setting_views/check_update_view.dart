@@ -33,6 +33,12 @@ class CheckUpdateView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(),
+                    const Icon(
+                      MingCute.cat_fill,
+                      size: 80,
+                      color: Default_Theme.primaryColor1,
+                    ),
+                    const SizedBox(height: 20),
                     Text(
                       l10n.updateUpToDate,
                       style: const TextStyle(
@@ -90,6 +96,12 @@ class CheckUpdateView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(),
+                    const Icon(
+                      MingCute.cat_fill,
+                      size: 80,
+                      color: Default_Theme.primaryColor1,
+                    ),
+                    const SizedBox(height: 20),
                     Text(
                       l10n.updateNewVersionAvailable,
                       style: const TextStyle(
