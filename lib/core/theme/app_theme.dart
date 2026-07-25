@@ -20,7 +20,7 @@ class AppTheme {
   // ── Colors ──────────────────────────────────────────────────────────────────
   static const themeColor = Color(0xFF000000);         // Hitam murni
   static const primaryColor1 = Color(0xFFFFFFFF);      // Putih
-  static const primaryColor2 = Color(0xFF1A1A1A);      // Abu-abu sangat gelap
+  static const primaryColor2 = Color(0xFFBBBBBB);      // Abu-abu terang (teks sekunder)
   static const accentColor1 = Color(0xFFAAAAAA);       // Abu-abu terang
   static const accentColor1light = Color(0xFFCCCCCC);  // Abu-abu muda
   static const accentColor2 = Color(0xFFFFFFFF);       // Putih (pengganti pink)
