@@ -142,3 +142,6 @@ app.*.symbols
 
 
 /assets/*.env
+# APK release files (upload manually to GitHub Releases)
+*.apk
+*.aab

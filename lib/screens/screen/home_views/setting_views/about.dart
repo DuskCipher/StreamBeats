@@ -215,26 +215,7 @@ class About extends StatelessWidget {
                         launchUrl(Uri.parse('https://github.com/DuskCipher'),
                             mode: LaunchMode.externalApplication);
                       }),
-                  _InfoPill(
-                      icon: FontAwesome.x_twitter_brand,
-                      text: 'Contact',
-                      tooltip: l10n.aboutSendInquiry,
-                      onTap: () {
-                        launchUrl(
-                          Uri.parse('https://x.com/iamhemantindia'),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      }),
-                  _InfoPill(
-                      icon: FontAwesome.linkedin_in_brand,
-                      text: 'Linkedin',
-                      tooltip: l10n.aboutCreativeHighlights,
-                      onTap: () {
-                        launchUrl(
-                          Uri.parse('https://www.linkedin.com/in/hemantkarya'),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      }),
+
                 ],
               ),
             ],
