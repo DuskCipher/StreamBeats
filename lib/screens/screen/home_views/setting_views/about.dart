@@ -8,9 +8,11 @@ class About extends StatelessWidget {
   const About({super.key});
 
   Future<void> _launchURL(String urlString) async {
-    final Uri url = Uri.parse(urlString);
-    if (await canLaunchUrl(url)) {
+    try {
+      final Uri url = Uri.parse(urlString);
       await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      debugPrint("Error launching URL: $e");
     }
   }
 
@@ -130,6 +132,42 @@ class About extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 16),
+
+                  // Partner Card
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF111111),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'PARTNER',
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.4),
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'SANN404GRUP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Arial',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 28),
 
                   // Hubungi Kami / Komunitas Section
@@ -172,7 +210,6 @@ class About extends StatelessWidget {
                     subtitle: 'Kunjungi toko resmi kami',
                     onTap: () => _launchURL('https://valora-store.vercel.app/'),
                   ),
-
                   
                   const SizedBox(height: 40),
 
@@ -195,7 +232,7 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Dibuat dengan ❤️ oleh Valora Official Grup',
+                    'Dibuat dengan Baik hati oleh Valora Official Grup',
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.25),
                       fontSize: 12,
