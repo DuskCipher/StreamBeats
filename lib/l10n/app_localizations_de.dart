@@ -574,9 +574,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get searchNoSuggestions => 'Keine Vorschläge gefunden!';
 
   @override
-  String searchNoResults(Object query) {
-    return 'Keine Ergebnisse gefunden!\nVersuche es mit einem anderen Begriff oder einer anderen Quelle.';
-  }
+  String get searchNoResults =>
+      'Keine Ergebnisse gefunden!\nVersuche es mit einem anderen Begriff oder einer anderen Quelle.';
 
   @override
   String get searchFailed => 'Suche fehlgeschlagen!';

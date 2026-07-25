@@ -1141,8 +1141,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get updateCheckTitle => 'Periksa Pembaruan';
 
   @override
-  String get updateUpToDate =>
-      'StreamBeats🌸 sudah menggunakan versi terbaru!!!';
+  String get updateUpToDate => 'StreamBeats sudah menggunakan versi terbaru!!!';
 
   @override
   String get updateViewPreRelease => 'Lihat Versi Pra-Rilis Terbaru';
@@ -1154,7 +1153,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get updateNewVersionAvailable =>
-      'Versi baru StreamBeats🌸 telah tersedia!!';
+      'Versi baru StreamBeats telah tersedia!!';
 
   @override
   String updateVersion(String ver, String build) {
@@ -1979,7 +1978,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String updateAvailableBody(String ver, String build) {
-    return 'Versi baru StreamBeats🌸 telah tersedia!\n\nVersi: $ver+$build';
+    return 'Versi baru StreamBeats telah tersedia!\n\nVersi: $ver+$build';
   }
 
   @override

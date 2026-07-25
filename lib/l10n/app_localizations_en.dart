@@ -567,9 +567,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchNoSuggestions => 'No Suggestions found!';
 
   @override
-  String searchNoResults(Object query) {
-    return 'No results found!\nTry another keyword or source.';
-  }
+  String get searchNoResults =>
+      'No results found!\nTry another keyword or source.';
 
   @override
   String get searchFailed => 'Search failed!';
@@ -1144,7 +1143,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateCheckTitle => 'Check for Updates';
 
   @override
-  String get updateUpToDate => 'StreamBeats🌸 is up-to-date!!!';
+  String get updateUpToDate => 'StreamBeats is up-to-date!!!';
 
   @override
   String get updateViewPreRelease => 'View Latest Pre-Release';
@@ -1156,7 +1155,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateNewVersionAvailable =>
-      'New Version of StreamBeats🌸 is now available!!';
+      'New Version of StreamBeats is now available!!';
 
   @override
   String updateVersion(String ver, String build) {
@@ -1975,7 +1974,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String updateAvailableBody(String ver, String build) {
-    return 'New Version of StreamBeats🌸 is now available!\n\nVersion: $ver+$build';
+    return 'New Version of StreamBeats is now available!\n\nVersion: $ver+$build';
   }
 
   @override

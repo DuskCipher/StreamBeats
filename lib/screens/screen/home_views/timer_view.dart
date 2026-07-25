@@ -146,8 +146,8 @@ class _TimerViewState extends State<TimerView> {
                                     style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold)
-                                        .merge(Default_Theme.secondoryTextStyle),
+                                            fontFamily: 'Arial',
+                                            fontWeight: FontWeight.bold),
                                   ),
                               ],
                             ),
@@ -192,8 +192,8 @@ class _TimerViewState extends State<TimerView> {
                           style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold)
-                              .merge(Default_Theme.secondoryTextStyle),
+                                  fontFamily: 'Arial',
+                                  fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -375,8 +375,8 @@ class _TimerViewState extends State<TimerView> {
               style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
-                      fontWeight: FontWeight.bold)
-                  .merge(Default_Theme.secondoryTextStyle),
+                      fontFamily: 'Arial',
+                      fontWeight: FontWeight.bold),
             ),
           ),
         ),

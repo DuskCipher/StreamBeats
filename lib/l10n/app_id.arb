@@ -520,7 +520,7 @@
   "updateAutoNotify": "Notifikasi Pembaruan Otomatis",
   "updateAutoNotifySubtitle": "Beri tahu di awal aplikasi jika ada versi baru.",
   "updateCheckTitle": "Periksa Pembaruan",
-  "updateUpToDate": "StreamBeats🌸 sudah menggunakan versi terbaru!!!",
+  "updateUpToDate": "StreamBeats sudah menggunakan versi terbaru!!!",
   "updateViewPreRelease": "Lihat Versi Pra-Rilis Terbaru",
   "updateCurrentVersion": "Versi Saat Ini: {curr} + {build}",
   "@updateCurrentVersion": {
@@ -533,7 +533,7 @@
       }
     }
   },
-  "updateNewVersionAvailable": "Versi baru StreamBeats🌸 telah tersedia!!",
+  "updateNewVersionAvailable": "Versi baru StreamBeats telah tersedia!!",
   "updateVersion": "Versi: {ver}+{build}",
   "@updateVersion": {
     "placeholders": {
@@ -1009,7 +1009,7 @@
   "playerLoopOne": "Ulangi Satu",
   "playerLoopAll": "Ulangi Semua",
   "snackbarOpeningAlbumPage": "Membuka halaman album asli.",
-  "updateAvailableBody": "Versi baru StreamBeats🌸 telah tersedia!\n\nVersi: {ver}+{build}",
+  "updateAvailableBody": "Versi baru StreamBeats telah tersedia!\n\nVersi: {ver}+{build}",
   "@updateAvailableBody": {
     "placeholders": {
       "ver": {
