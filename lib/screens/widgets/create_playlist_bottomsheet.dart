@@ -150,11 +150,10 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                           cursorWidth: 3,
                           cursorRadius: const Radius.circular(3),
                           style: Default_Theme.secondoryTextStyleMedium.merge(
-                            TextStyle(
+                            const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.w600,
-                              color: Default_Theme.primaryColor2.withValues(
-                                  alpha: 0.9), // Typed text in clear white
+                              color: Colors.white, // Typed text in clear white
                             ),
                           ),
                           decoration: InputDecoration(
@@ -164,8 +163,8 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                                 Default_Theme.secondoryTextStyleMedium.merge(
                               TextStyle(
                                 fontSize: 32,
-                                color: Default_Theme.primaryColor2.withValues(
-                                    alpha: 0.2), // Greyed out hint text
+                                color: Colors.white.withValues(
+                                    alpha: 0.4), // Visible hint text
                               ),
                             ),
                             isDense: true,
@@ -220,11 +219,9 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                                       .merge(
                                     TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight
-                                          .w600, // Added more weight so it isn't blurry
-                                      color: Default_Theme.primaryColor2
-                                          .withValues(
-                                              alpha: 0.6), // Greyed-out white
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white.withValues(
+                                          alpha: 0.7), // Visible white
                                     ),
                                   ),
                                 ),
@@ -242,13 +239,8 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 24, vertical: 12),
                                   decoration: BoxDecoration(
-                                    color: Default_Theme.accentColor2
-                                        .withValues(alpha: 0.08),
+                                    color: Colors.white, // Solid white background
                                     borderRadius: BorderRadius.circular(14),
-                                    border: Border.all(
-                                      color: Default_Theme.accentColor2,
-                                      width: 1.2,
-                                    ),
                                   ),
                                   child: Text(
                                     l10n.createPlaylistDialogCreate,
@@ -258,7 +250,7 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                                       const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Default_Theme.accentColor2,
+                                        color: Colors.black, // Black text on white background
                                       ),
                                     ),
                                   ),
