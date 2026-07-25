@@ -121,7 +121,7 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
 
                   // --- Main Content ---
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 28, 32, 28),
+                    padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,127 +131,108 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                           l10n.playlistCreateNew,
                           style: Default_Theme.secondoryTextStyleMedium.merge(
                             const TextStyle(
-                              fontSize: 26,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Default_Theme.accentColor2,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                         const SizedBox(height: 24),
 
-                        // Input Field
-                        TextField(
-                          controller: _controller,
-                          focusNode: _focusNode,
-                          textInputAction: TextInputAction.done,
-                          maxLines: 1,
-                          maxLength: 35,
-                          cursorColor: Default_Theme.accentColor2,
-                          cursorWidth: 3,
-                          cursorRadius: const Radius.circular(3),
-                          style: Default_Theme.secondoryTextStyleMedium.merge(
-                            const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white, // Typed text in clear white
+                        // Input Field Container
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: _isInputValid 
+                                ? Colors.white.withValues(alpha: 0.5) 
+                                : Colors.white.withValues(alpha: 0.1),
+                              width: 1.5,
                             ),
                           ),
-                          decoration: InputDecoration(
-                            counterText: "",
-                            hintText: l10n.createPlaylistDialogNameHint,
-                            hintStyle:
-                                Default_Theme.secondoryTextStyleMedium.merge(
-                              TextStyle(
-                                fontSize: 32,
-                                color: Colors.white.withValues(
-                                    alpha: 0.4), // Visible hint text
+                          child: TextField(
+                            controller: _controller,
+                            focusNode: _focusNode,
+                            textInputAction: TextInputAction.done,
+                            maxLines: 1,
+                            maxLength: 35,
+                            cursorColor: Colors.white,
+                            cursorWidth: 3,
+                            cursorRadius: const Radius.circular(3),
+                            style: Default_Theme.secondoryTextStyleMedium.merge(
+                              const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
                             ),
-                            isDense: true,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 8),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              hintText: l10n.createPlaylistDialogNameHint,
+                              hintStyle: Default_Theme.secondoryTextStyleMedium.merge(
+                                TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            onSubmitted: (_) => _submit(),
                           ),
-                          onSubmitted: (_) => _submit(),
                         ),
-
-                        // Animated Underline
-                        const SizedBox(height: 8),
-                        Stack(
-                          children: [
-                            Container(
-                              height: 1.5,
-                              width: double.infinity,
-                              color: Default_Theme.accentColor2
-                                  .withValues(alpha: 0.1),
-                            ),
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeOut,
-                              height: 1.5,
-                              width: _isInputValid
-                                  ? MediaQuery.of(context).size.width
-                                  : 30,
-                              decoration: const BoxDecoration(
-                                color: Default_Theme.accentColor2,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 32),
 
                         // --- Action Buttons ---
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // FIXED Cancel Button (Greyed-out white, more weight)
-                            InkWell(
-                              onTap: () => context.pop(),
-                              borderRadius: BorderRadius.circular(8),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 8),
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () => context.pop(),
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                    color: Colors.white.withValues(alpha: 0.2),
+                                    width: 1.5,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
                                 child: Text(
                                   l10n.buttonCancel,
-                                  style: Default_Theme.secondoryTextStyleMedium
-                                      .merge(
-                                    TextStyle(
+                                  style: Default_Theme.secondoryTextStyleMedium.merge(
+                                    const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white.withValues(
-                                          alpha: 0.7), // Visible white
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-
-                            // Outlined Create Button
-                            AnimatedOpacity(
-                              duration: const Duration(milliseconds: 200),
-                              opacity: _isInputValid ? 1.0 : 0.4,
-                              child: InkWell(
-                                onTap: _isInputValid ? _submit : null,
-                                borderRadius: BorderRadius.circular(14),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white, // Solid white background
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: FilledButton(
+                                onPressed: _isInputValid ? _submit : null,
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  disabledBackgroundColor: Colors.white.withValues(alpha: 0.2),
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14),
                                   ),
-                                  child: Text(
-                                    l10n.createPlaylistDialogCreate,
-                                    style: Default_Theme
-                                        .secondoryTextStyleMedium
-                                        .merge(
-                                      const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black, // Black text on white background
-                                      ),
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  l10n.createPlaylistDialogCreate,
+                                  style: Default_Theme.secondoryTextStyleMedium.merge(
+                                    TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: _isInputValid ? Colors.black : Colors.white54,
                                     ),
                                   ),
                                 ),
