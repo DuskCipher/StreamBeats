@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 /// imports are being migrated.
 class AppTheme {
   // ── Text Styles ─────────────────────────────────────────────────────────────
-  static const primaryTextStyle = TextStyle(fontFamily: "Arial");
-  static const secondoryTextStyle = TextStyle(fontFamily: "Arial");
+  static const primaryTextStyle = TextStyle(fontFamily: "Arial", color: Colors.white);
+  static const secondoryTextStyle = TextStyle(fontFamily: "Arial", color: Colors.white);
   static const secondoryTextStyleMedium =
-      TextStyle(fontFamily: "Arial", fontWeight: FontWeight.w700);
-  static const tertiaryTextStyle = TextStyle(fontFamily: "Arial");
+      TextStyle(fontFamily: "Arial", fontWeight: FontWeight.w700, color: Colors.white);
+  static const tertiaryTextStyle = TextStyle(fontFamily: "Arial", color: Colors.white);
   static const fontAwesomeRegularFont =
       TextStyle(fontFamily: "FontAwesome-Regular");
   static const fontAwesomeSolidFont =
@@ -33,9 +33,9 @@ class AppTheme {
       secondary: accentColor1,
       surface: themeColor,
       surfaceContainerHighest: Color(0xFF1A1A1A),
-      onPrimary: themeColor,
-      onSecondary: themeColor,
-      onSurface: primaryColor1,
+      onPrimary: Colors.black, // Teks hitam di atas tombol putih (primary) agar terbaca
+      onSecondary: Colors.black,
+      onSurface: Colors.white,  // Teks putih di atas background hitam
     );
 
     return ThemeData(
@@ -62,6 +62,23 @@ class AppTheme {
       colorScheme: darkScheme.copyWith(
         primary: accentColor2,
         secondary: accentColor1,
+      ),
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        displayMedium: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        displaySmall: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        headlineLarge: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        headlineMedium: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        headlineSmall: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        titleLarge: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        titleMedium: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        titleSmall: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        bodyMedium: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        bodySmall: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        labelLarge: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        labelMedium: TextStyle(color: Colors.white, fontFamily: 'Arial'),
+        labelSmall: TextStyle(color: Colors.white, fontFamily: 'Arial'),
       ),
       iconTheme: const IconThemeData(color: primaryColor1),
       scrollbarTheme: ScrollbarThemeData(
