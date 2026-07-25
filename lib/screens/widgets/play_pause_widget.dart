@@ -43,17 +43,18 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
   }
 
   void _setupAnimations() {
+    // Solid white — no color transition/gradasi
     _colorAnimation = ColorTween(
-      begin: Default_Theme.accentColor2, // Pink (paused)
-      end: Default_Theme.accentColor1, // Sky Blue (playing)
+      begin: Colors.white,
+      end: Colors.white,
     ).animate(CurvedAnimation(
       parent: _colorController,
       curve: Curves.easeOutCubic,
     ));
 
     _glowAnimation = ColorTween(
-      begin: Default_Theme.accentColor2.withValues(alpha: 0.6),
-      end: Default_Theme.accentColor1.withValues(alpha: 0.6),
+      begin: Colors.white.withValues(alpha: 0.4),
+      end: Colors.white.withValues(alpha: 0.4),
     ).animate(CurvedAnimation(
       parent: _colorController,
       curve: Curves.easeOutCubic,
@@ -133,13 +134,13 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
                         FontAwesome.pause_solid,
                         key: const ValueKey('pause'),
                         size: size * 0.5,
-                        color: Default_Theme.primaryColor1,
+                        color: Colors.black,
                       )
                     : Icon(
                         MingCute.play_fill,
                         key: const ValueKey('play'),
                         size: size * 0.5,
-                        color: Default_Theme.primaryColor1,
+                        color: Colors.black,
                       ),
               ),
             ),

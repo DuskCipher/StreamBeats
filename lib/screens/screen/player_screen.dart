@@ -724,21 +724,19 @@ class _PlayPauseButton extends StatelessWidget {
     return BlocBuilder<MiniPlayerCubit, MiniPlayerState>(
       builder: (context, state) {
         Widget child;
-        Color buttonColor = Default_Theme.accentColor2;
+        Color buttonColor = Colors.white;
 
         if (state.isLoading || state.isResolving) {
           child = const CircularProgressIndicator(
-              strokeWidth: 3, color: Default_Theme.primaryColor1);
-          buttonColor = state.isPlaying
-              ? Default_Theme.accentColor1
-              : Default_Theme.accentColor2;
+              strokeWidth: 3, color: Colors.black);
+          buttonColor = Colors.white;
         } else if (state.isCompleted) {
           child = const Icon(FontAwesome.rotate_right_solid,
-              color: Default_Theme.primaryColor1, size: 32);
-          buttonColor = Default_Theme.accentColor1;
+              color: Colors.black, size: 32);
+          buttonColor = Colors.white;
         } else if (state.hasError) {
           child = const Icon(MingCute.warning_line,
-              color: Default_Theme.primaryColor1, size: 32);
+              color: Colors.black, size: 32);
         } else if (state.isVisible) {
           return PlayPauseButton(
             size: 70,
@@ -768,7 +766,7 @@ class _PlayPauseButton extends StatelessWidget {
               shape: BoxShape.circle,
               color: buttonColor,
               boxShadow: [
-                BoxShadow(color: buttonColor, spreadRadius: 1, blurRadius: 15)
+                BoxShadow(color: buttonColor.withValues(alpha: 0.4), spreadRadius: 1, blurRadius: 15)
               ],
             ),
             child: Center(child: SizedBox(width: 32, height: 32, child: child)),
