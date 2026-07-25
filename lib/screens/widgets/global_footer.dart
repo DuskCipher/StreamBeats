@@ -234,10 +234,7 @@ class VerticalNavBar extends StatelessWidget {
       groupAlignment: 0.0,
       unselectedIconTheme:
           const IconThemeData(color: Default_Theme.primaryColor2),
-      selectedIconTheme: const IconThemeData(color: Colors.black),
-      selectedLabelTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      unselectedLabelTextStyle: const TextStyle(color: Default_Theme.primaryColor2),
-      indicatorColor: Colors.white,
+      indicatorColor: Default_Theme.accentColor2,
       indicatorShape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
@@ -255,12 +252,12 @@ class HorizontalNavBar extends StatelessWidget {
 
     return GNav(
       gap: 7.0,
-      tabBackgroundColor: Colors.white, // Solid white background
+      tabBackgroundColor: Default_Theme.accentColor2.withValues(alpha: 0.22),
       color: Default_Theme.primaryColor2,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      activeColor: Colors.black, // Black icon when active
+      activeColor: Default_Theme.accentColor2,
       textStyle: Default_Theme.secondoryTextStyleMedium.merge(
-          const TextStyle(color: Colors.black, fontSize: 18)), // Black text when active
+          const TextStyle(color: Default_Theme.accentColor2, fontSize: 18)),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       backgroundColor: Default_Theme.themeColor.withValues(alpha: 0.3),
       tabs: [
