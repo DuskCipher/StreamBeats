@@ -3,11 +3,12 @@
     "short_name": "StreamBeats",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "An Open source Free Music Player.",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "StreamBeats - Pemutar musik gratis, bebas iklan, dengan sistem plugin canggih. Nikmati musik lokal dan streaming tanpa gangguan.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "lang": "id",
     "icons": [
         {
             "src": "icons/Icon-192.png",
