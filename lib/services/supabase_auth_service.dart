@@ -5,7 +5,7 @@ class SupabaseAuthService {
   static final SupabaseClient _supabase = Supabase.instance.client;
 
   /// Web Client ID that you registered with Google Cloud.
-  static const webClientId = '347726171121-vhjrrc4ceqrtsft0tkt0kpacn69fr60b.apps.googleusercontent.com';
+  static const webClientId = '347726171121-05vv2sgttc1pi38k8dui4ka5hpn6o722.apps.googleusercontent.com';
 
   static bool _isInitialized = false;
 

@@ -7,13 +7,13 @@ param(
 
 $owner = "DuskCipher"
 $repo  = "StreamBeats"
-$tag   = "v3.0.6"
-$title = "StreamBeats v3.0.6"
+$tag   = "v3.0.7"
+$title = "StreamBeats v3.0.7"
 $body  = @"
-## StreamBeats v3.0.6
+## StreamBeats v3.0.7
 
-### 🚀 Fitur Baru (Supabase Social Features)
-- **Login Google:** Sinkronisasi akun yang aman dengan Supabase Auth.
+### 🚀 Perbaikan Penting
+- **Fix Login Google:** Memperbaiki konfigurasi Client ID yang menyebabkan error sign in failed.
 - **Berbagi Playlist Bersama:** Buat playlist unik dengan teman menggunakan kode khusus.
 - **Listen Together (Party Room):** Sinkronisasi pemutaran lagu secara real-time bersama teman (Host & Guest).
 
@@ -21,16 +21,16 @@ $body  = @"
 
 | File | Keterangan |
 |---|---|
-| StreamBeats-v3.0.6-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
-| StreamBeats-v3.0.6-armeabi-v7a.apk | HP lama 32-bit |
-| StreamBeats-v3.0.6-x86_64.apk | Emulator / Chromebook |
+| StreamBeats-v3.0.7-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
+| StreamBeats-v3.0.7-armeabi-v7a.apk | HP lama 32-bit |
+| StreamBeats-v3.0.7-x86_64.apk | Emulator / Chromebook |
 "@
 
 $apkDir = "build\app\outputs\flutter-apk"
 $apks   = @(
-    "$apkDir\StreamBeats-v3.0.6-arm64-v8a.apk",
-    "$apkDir\StreamBeats-v3.0.6-armeabi-v7a.apk",
-    "$apkDir\StreamBeats-v3.0.6-x86_64.apk"
+    "$apkDir\StreamBeats-v3.0.7-arm64-v8a.apk",
+    "$apkDir\StreamBeats-v3.0.7-armeabi-v7a.apk",
+    "$apkDir\StreamBeats-v3.0.7-x86_64.apk"
 )
 
 $headers = @{
@@ -53,9 +53,12 @@ try {
         body     = $body
         draft    = $false
         prerelease = $false
-    } | ConvertTo-Json
+    } | ConvertTo-Json -Compress
+
+    # Ensure UTF-8 string encoding for the request body
+    $releaseBodyBytes = [System.Text.Encoding]::UTF8.GetBytes($releaseBody)
     $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$owner/$repo/releases" `
-        -Method POST -Headers $headers -Body $releaseBody -ContentType "application/json"
+        -Method POST -Headers $headers -Body $releaseBodyBytes -ContentType "application/json"
     Write-Host "Release baru berhasil dibuat!" -ForegroundColor Green
 }
 
