@@ -188,7 +188,7 @@ class _ImportMediaFromPlatformsViewState
             },
             style: FilledButton.styleFrom(
               backgroundColor: Default_Theme.accentColor2,
-              foregroundColor: Colors.white,
+              foregroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
@@ -348,7 +348,7 @@ class _ImportMediaFromPlatformsViewState
                   : () => Navigator.of(dialogCtx).pop(val.text.trim()),
               style: FilledButton.styleFrom(
                 backgroundColor: Default_Theme.accentColor2,
-                foregroundColor: Colors.white,
+                foregroundColor: Colors.black,
                 disabledBackgroundColor:
                     Default_Theme.accentColor2.withValues(alpha: 0.4),
                 padding:
