@@ -52,6 +52,10 @@ class CheckUpdateView extends StatelessWidget {
                           launch_Url(Uri.parse(
                               "https://github.com/DuskCipher/StreamBeats/releases"));
                         },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                        ),
                         child: SizedBox(
                           // width: 150,
                           child: Row(
@@ -129,6 +133,10 @@ class CheckUpdateView extends StatelessWidget {
                           launch_Url(
                               Uri.parse("https://github.com/DuskCipher/StreamBeats/releases"));
                         },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                        ),
                         child: SizedBox(
                           width: 150,
                           child: Row(
