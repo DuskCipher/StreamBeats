@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:Bloomee/core/theme/app_theme.dart';
 import 'package:Bloomee/l10n/app_localizations.dart';
 import 'package:Bloomee/services/supabase_playlist_service.dart';
+import 'package:Bloomee/routes/app_router.dart';
 import 'package:Bloomee/screens/widgets/snackbar.dart';
 
 void createPlaylistDialog(BuildContext context) {
@@ -85,6 +86,7 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
         final code = await SupabasePlaylistService.createSharedPlaylist(title, []);
         if (code != null) {
           SnackbarService.showMessage('Berhasil! Kode Playlist: $code');
+          AppRouter.globalRouterKey.currentContext!.pushNamed('SharedPlaylist', queryParameters: {'code': code});
         } else {
           SnackbarService.showMessage('Gagal membuat playlist bersama.');
         }

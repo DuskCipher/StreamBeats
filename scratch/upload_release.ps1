@@ -7,30 +7,30 @@ param(
 
 $owner = "DuskCipher"
 $repo  = "StreamBeats"
-$tag   = "v3.0.7"
-$title = "StreamBeats v3.0.7"
+$tag   = "v3.0.8"
+$title = "StreamBeats v3.0.8"
 $body  = @"
-## StreamBeats v3.0.7
+## StreamBeats v3.0.8
 
-### 🚀 Perbaikan Penting
+### 🚀 Perbaikan & Tambahan UI
+- **Listen Together (Party Room):** Menambahkan tombol menu "Listen Together" di bagian Settings (setelah login).
 - **Fix Login Google:** Memperbaiki konfigurasi Client ID yang menyebabkan error sign in failed.
 - **Berbagi Playlist Bersama:** Buat playlist unik dengan teman menggunakan kode khusus.
-- **Listen Together (Party Room):** Sinkronisasi pemutaran lagu secara real-time bersama teman (Host & Guest).
 
 ### Pilih APK sesuai perangkat Anda:
 
 | File | Keterangan |
 |---|---|
-| StreamBeats-v3.0.7-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
-| StreamBeats-v3.0.7-armeabi-v7a.apk | HP lama 32-bit |
-| StreamBeats-v3.0.7-x86_64.apk | Emulator / Chromebook |
+| StreamBeats-v3.0.8-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
+| StreamBeats-v3.0.8-armeabi-v7a.apk | HP lama 32-bit |
+| StreamBeats-v3.0.8-x86_64.apk | Emulator / Chromebook |
 "@
 
 $apkDir = "build\app\outputs\flutter-apk"
 $apks   = @(
-    "$apkDir\StreamBeats-v3.0.7-arm64-v8a.apk",
-    "$apkDir\StreamBeats-v3.0.7-armeabi-v7a.apk",
-    "$apkDir\StreamBeats-v3.0.7-x86_64.apk"
+    "$apkDir\StreamBeats-v3.0.8-arm64-v8a.apk",
+    "$apkDir\StreamBeats-v3.0.8-armeabi-v7a.apk",
+    "$apkDir\StreamBeats-v3.0.8-x86_64.apk"
 )
 
 $headers = @{

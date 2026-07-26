@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:Bloomee/routes/app_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:Bloomee/services/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Bloomee/screens/widgets/snackbar.dart';
@@ -373,6 +374,16 @@ class _ProfileSection extends StatelessWidget {
                 onTap: () async {
                   await SupabaseAuthService.signOut();
                   SnackbarService.showMessage('Signed out successfully.');
+                },
+              ),
+              _SettingsTile(
+                title: 'Listen Together (Party Room)',
+                subtitle: 'Dengarkan musik sinkron bersama teman',
+                icon: Icons.cell_tower_rounded,
+                iconColor: Colors.purpleAccent,
+                isHighlightIcon: true,
+                onTap: () {
+                  AppRouter.globalRouterKey.currentContext!.pushNamed('PartyRoom');
                 },
               ),
             ],
