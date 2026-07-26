@@ -220,7 +220,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get playlistNoMatchSearch => 'Tidak ada playlist yang cocok';
 
   @override
-  String get playlistCreateNew => 'Buat Playlist Baru 😍';
+  String get playlistCreateNew => 'Buat Playlist Baru';
 
   @override
   String get playlistCreateFirstOne =>

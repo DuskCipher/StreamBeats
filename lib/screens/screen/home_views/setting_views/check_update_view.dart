@@ -39,11 +39,15 @@ class CheckUpdateView extends StatelessWidget {
                       color: Default_Theme.primaryColor1,
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      l10n.updateUpToDate,
-                      style: const TextStyle(
-                              color: Default_Theme.accentColor2, fontSize: 20)
-                          .merge(Default_Theme.secondoryTextStyleMedium),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Text(
+                        l10n.updateUpToDate,
+                        style: const TextStyle(
+                                color: Default_Theme.accentColor2, fontSize: 20)
+                            .merge(Default_Theme.secondoryTextStyleMedium),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -70,8 +74,10 @@ class CheckUpdateView extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
                                   l10n.updateViewPreRelease,
-                                  style: const TextStyle(fontSize: 17).merge(
-                                      Default_Theme.secondoryTextStyleMedium),
+                                  style: Default_Theme.secondoryTextStyleMedium.copyWith(
+                                    fontSize: 17,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ],
@@ -146,8 +152,10 @@ class CheckUpdateView extends StatelessWidget {
                                   size: 25),
                               Text(
                                 l10n.updateDownloadNow,
-                                style: const TextStyle(fontSize: 17).merge(
-                                    Default_Theme.secondoryTextStyleMedium),
+                                style: Default_Theme.secondoryTextStyleMedium.copyWith(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           ),
