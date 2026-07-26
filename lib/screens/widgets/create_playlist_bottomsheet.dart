@@ -86,7 +86,7 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
         final code = await SupabasePlaylistService.createSharedPlaylist(title, []);
         if (code != null) {
           SnackbarService.showMessage('Berhasil! Kode Playlist: $code');
-          AppRouter.globalRouterKey.currentContext!.pushNamed('SharedPlaylist', queryParameters: {'code': code});
+          context.pushNamed('SharedPlaylist', queryParameters: {'code': code});
         } else {
           SnackbarService.showMessage('Gagal membuat playlist bersama.');
         }

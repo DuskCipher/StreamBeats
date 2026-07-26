@@ -65,7 +65,7 @@ class _JoinSharedPlaylistDialogState extends State<_JoinSharedPlaylistDialog> {
       final success = await SupabasePlaylistService.joinPlaylist(code);
       if (success) {
         SnackbarService.showMessage('Berhasil bergabung!');
-        AppRouter.globalRouterKey.currentContext!.pushNamed('SharedPlaylist', queryParameters: {'code': code});
+        context.pushNamed('SharedPlaylist', queryParameters: {'code': code});
       } else {
         SnackbarService.showMessage('Playlist tidak ditemukan atau kode salah.');
       }

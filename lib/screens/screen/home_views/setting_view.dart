@@ -383,7 +383,7 @@ class _ProfileSection extends StatelessWidget {
                 iconColor: Colors.purpleAccent,
                 isHighlightIcon: true,
                 onTap: () {
-                  AppRouter.globalRouterKey.currentContext!.pushNamed('PartyRoom');
+                  context.pushNamed('PartyRoom');
                 },
               ),
             ],
