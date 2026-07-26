@@ -13,6 +13,8 @@ import 'package:Bloomee/screens/widgets/create_playlist_bottomsheet.dart';
 import 'package:Bloomee/core/theme/app_theme.dart';
 import 'package:Bloomee/l10n/app_localizations.dart';
 import 'package:Bloomee/utils/load_image.dart';
+import 'package:Bloomee/services/supabase_playlist_service.dart';
+import 'package:Bloomee/screens/widgets/snackbar.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class AddToPlaylistScreen extends StatefulWidget {
@@ -29,10 +31,13 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
   final ValueNotifier<Set<String>> _songInPlaylists = ValueNotifier({});
   final ValueNotifier<Set<String>> _pendingPlaylistOps = ValueNotifier({});
 
+  List<Map<String, String>> _sharedPlaylists = [];
+
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
+    _loadSharedPlaylists();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadSongPlaylists();
     });
@@ -69,6 +74,24 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
 
   void _onSearchChanged() {
     _searchQuery.value = _searchController.text.trim();
+  }
+
+  Future<void> _loadSharedPlaylists() async {
+    final list = await SupabasePlaylistService.getLocalSharedPlaylists();
+    if (mounted) {
+      setState(() {
+        _sharedPlaylists = list;
+      });
+    }
+  }
+
+  Future<void> _addToSharedPlaylist(Track song, String code, String title) async {
+    try {
+      await SupabasePlaylistService.addSongToPlaylist(code, song);
+      SnackbarService.showMessage('Lagu ditambahkan ke "$title"!');
+    } catch (e) {
+      SnackbarService.showMessage('Gagal: $e');
+    }
   }
 
   List<PlaylistItemProperties> _filterPlaylists(
@@ -276,7 +299,7 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                                       bottom: 100,
                                     ),
                                     physics: const BouncingScrollPhysics(),
-                                    itemCount: filteredPlaylists.length + 1,
+                                    itemCount: filteredPlaylists.length + 1 + (_sharedPlaylists.isNotEmpty && query.isEmpty ? _sharedPlaylists.length + 1 : 0),
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
                                         return _CreatePlaylistTile(
@@ -285,28 +308,107 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                                         );
                                       }
 
-                                      final playlist =
-                                          filteredPlaylists[index - 1];
-                                      final isInPlaylist = songPlaylists
-                                          .contains(playlist.playlistName);
-                                      final isPending = pendingPlaylists
-                                          .contains(playlist.playlistName);
-                                      return AnimatedListItem(
-                                        key: ValueKey(playlist.playlistName),
-                                        index: index,
-                                        child: _PlaylistTile(
-                                          playlist: playlist,
-                                          isInPlaylist: isInPlaylist,
-                                          isPending: isPending,
-                                          onTap: isPending
-                                              ? null
-                                              : () => _toggleSongInPlaylist(
-                                                    context,
-                                                    mediaItem,
-                                                    playlist,
-                                                  ),
-                                        ),
-                                      );
+                                      // Local playlists
+                                      if (index <= filteredPlaylists.length) {
+                                        final playlist =
+                                            filteredPlaylists[index - 1];
+                                        final isInPlaylist = songPlaylists
+                                            .contains(playlist.playlistName);
+                                        final isPending = pendingPlaylists
+                                            .contains(playlist.playlistName);
+                                        return AnimatedListItem(
+                                          key: ValueKey(playlist.playlistName),
+                                          index: index,
+                                          child: _PlaylistTile(
+                                            playlist: playlist,
+                                            isInPlaylist: isInPlaylist,
+                                            isPending: isPending,
+                                            onTap: isPending
+                                                ? null
+                                                : () => _toggleSongInPlaylist(
+                                                      context,
+                                                      mediaItem,
+                                                      playlist,
+                                                    ),
+                                          ),
+                                        );
+                                      }
+
+                                      // Shared playlists header
+                                      final sharedStartIndex = filteredPlaylists.length + 1;
+                                      if (index == sharedStartIndex) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 12, bottom: 6),
+                                          child: Text(
+                                            'Playlist Bersama',
+                                            style: TextStyle(
+                                              color: Colors.white54,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.8,
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      // Shared playlist tiles
+                                      final spIndex = index - sharedStartIndex - 1;
+                                      if (spIndex >= 0 && spIndex < _sharedPlaylists.length) {
+                                        final sp = _sharedPlaylists[spIndex];
+                                        final code = sp['code'] ?? '';
+                                        final title = sp['title'] ?? 'Playlist Bersama';
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 2),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () => _addToSharedPlaylist(mediaItem, code, title),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 50,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        gradient: const LinearGradient(
+                                                          colors: [Color(0xFF7B2FF7), Color(0xFF4A00E0)],
+                                                          begin: Alignment.topLeft,
+                                                          end: Alignment.bottomRight,
+                                                        ),
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      child: const Icon(Icons.group_rounded, color: Colors.white, size: 22),
+                                                    ),
+                                                    const SizedBox(width: 14),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            title,
+                                                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                          Text(
+                                                            'Kode: $code',
+                                                            style: const TextStyle(color: Colors.white54, fontSize: 11),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Icon(Icons.add_circle_outline_rounded, color: Colors.purpleAccent.withValues(alpha: 0.7)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      return const SizedBox.shrink();
                                     },
                                   );
                                 },

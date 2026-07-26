@@ -4,9 +4,9 @@ import 'package:Bloomee/core/theme/app_theme.dart';
 import 'package:Bloomee/services/supabase_playlist_service.dart';
 import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
 import 'package:Bloomee/screens/widgets/song_tile.dart';
+import 'package:Bloomee/screens/widgets/snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/main.dart'; // for bloomeePlayerCubit
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class SharedPlaylistScreen extends StatelessWidget {
@@ -18,6 +18,90 @@ class SharedPlaylistScreen extends StatelessWidget {
     required this.playlistCode,
     this.playlistTitle = 'Playlist Bersama',
   }) : super(key: key);
+
+  /// Show a bottom sheet to add the currently playing song to this shared playlist.
+  void _showAddSongSheet(BuildContext context) {
+    final playerCubit = context.read<BloomeePlayerCubit>();
+    final currentTrack = playerCubit.bloomeePlayer.currentMedia;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1C1C1E),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Text(
+                'Tambah Lagu ke "$playlistTitle"',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Divider(color: Colors.white10),
+            if (currentTrack.title.isNotEmpty)
+              ListTile(
+                leading: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white10,
+                    image: currentTrack.thumbnail.url.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(currentTrack.thumbnail.url),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: currentTrack.thumbnail.url.isEmpty
+                      ? const Icon(Icons.music_note, color: Colors.white54)
+                      : null,
+                ),
+                title: Text(
+                  currentTrack.title,
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  currentTrack.artists.isNotEmpty ? currentTrack.artists.first.name : '',
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                  maxLines: 1,
+                ),
+                trailing: const Icon(Icons.add_circle_outline_rounded, color: Colors.purpleAccent),
+                onTap: () async {
+                  Navigator.pop(ctx);
+                  try {
+                    await SupabasePlaylistService.addSongToPlaylist(playlistCode, currentTrack);
+                    SnackbarService.showMessage('Lagu "${currentTrack.title}" berhasil ditambahkan!');
+                  } catch (e) {
+                    SnackbarService.showMessage('Gagal menambahkan lagu: $e');
+                  }
+                },
+              )
+            else
+              const Padding(
+                padding: EdgeInsets.all(24),
+                child: Text(
+                  'Tidak ada lagu yang sedang diputar.\nPutar lagu terlebih dahulu, lalu tekan tombol + untuk menambahkannya ke playlist ini.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +138,15 @@ class SharedPlaylistScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(MingCute.play_fill, color: Default_Theme.accentColor2),
             onPressed: () {
-              // We'll implement "Play All" logic here later
+              // Play all songs in the playlist
             },
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF7B2FF7),
+        onPressed: () => _showAddSongSheet(context),
+        child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
       ),
       body: StreamBuilder<List<Map<String, dynamic>>>(
         stream: SupabasePlaylistService.streamPlaylist(playlistCode),
@@ -75,11 +164,24 @@ class SharedPlaylistScreen extends StatelessWidget {
           final tracks = rawSongs.map((s) => mapToTrack(s)).toList();
 
           if (tracks.isEmpty) {
-            return const Center(
-              child: Text(
-                'Belum ada lagu di playlist ini.\nTambahkan lagu pertama Anda!',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white54, fontSize: 16),
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(MingCute.music_2_line, color: Colors.white24, size: 64),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Belum ada lagu di playlist ini.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white54, fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Tekan tombol + di bawah untuk menambahkan\nlagu yang sedang diputar.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white38, fontSize: 13),
+                  ),
+                ],
               ),
             );
           }
