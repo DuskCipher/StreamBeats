@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/docs/StreamBeatstunes_new_banner.png" alt="StreamBeats Banner" width="100%">
+<img src="./assets/docs/bloomeetunes_new_banner.png" alt="StreamBeats Banner" width="100%">
 
 # 🎵 StreamBeats
 
@@ -24,15 +24,7 @@
 </div>
 
 <div align="center">
-  <p float="left">
-    <img src="./assets/docs/playlistview.png" width="48%" />
-    <img src="./assets/docs/artistview.png" width="48%" />
-  </p>
-  <p float="left">
-    <img src="./assets/docs/playerview.png" width="48%" />
-    <img src="./assets/docs/lyricsview1.png" width="48%" />
-    <img src="./assets/docs/banner2BloomeScrnShot.png" width="90%"/>
-  </p>
+  <img src="./assets/docs/banner2BloomeScrnShot.png" width="90%"/>
 </div>
 
 ---
