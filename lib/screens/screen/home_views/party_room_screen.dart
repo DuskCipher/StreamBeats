@@ -36,20 +36,28 @@ class _PartyRoomScreenState extends State<PartyRoomScreen> {
     final code = _joinController.text.trim().toUpperCase();
     if (code.length < 5) return;
     
-    SnackbarService.showMessage('Bergabung ke $code...');
-    final success = await SupabasePartyService.joinParty(code);
-    if (success) {
-      SnackbarService.showMessage('Berhasil bergabung!');
-      setState(() {});
-    } else {
-      SnackbarService.showMessage('Gagal bergabung.');
+    try {
+      SnackbarService.showMessage('Bergabung ke $code...');
+      final success = await SupabasePartyService.joinParty(code);
+      if (success) {
+        SnackbarService.showMessage('Berhasil bergabung!');
+        if (mounted) setState(() {});
+      } else {
+        SnackbarService.showMessage('Gagal bergabung.');
+      }
+    } catch (e) {
+      SnackbarService.showMessage('Gagal bergabung: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
   void _leaveParty() async {
-    await SupabasePartyService.leaveParty();
-    SnackbarService.showMessage('Meninggalkan party.');
-    setState(() {});
+    try {
+      await SupabasePartyService.leaveParty();
+      SnackbarService.showMessage('Meninggalkan party.');
+      if (mounted) setState(() {});
+    } catch (e) {
+      SnackbarService.showMessage('Gagal meninggalkan party: $e');
+    }
   }
 
   @override

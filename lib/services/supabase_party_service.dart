@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
 
@@ -162,6 +163,8 @@ class SupabasePartyService {
   }
 
   static String _generateCode() {
-    return DateTime.now().millisecondsSinceEpoch.toRadixString(36).toUpperCase().substring(4, 10);
+    final random = Random();
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    return List.generate(6, (index) => chars[random.nextInt(chars.length)]).join();
   }
 }
