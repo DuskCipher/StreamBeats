@@ -7,31 +7,30 @@ param(
 
 $owner = "DuskCipher"
 $repo  = "StreamBeats"
-$tag   = "v3.0.5"
-$title = "StreamBeats v3.0.5"
+$tag   = "v3.0.6"
+$title = "StreamBeats v3.0.6"
 $body  = @"
-## StreamBeats v3.0.5
+## StreamBeats v3.0.6
+
+### 🚀 Fitur Baru (Supabase Social Features)
+- **Login Google:** Sinkronisasi akun yang aman dengan Supabase Auth.
+- **Berbagi Playlist Bersama:** Buat playlist unik dengan teman menggunakan kode khusus.
+- **Listen Together (Party Room):** Sinkronisasi pemutaran lagu secara real-time bersama teman (Host & Guest).
 
 ### Pilih APK sesuai perangkat Anda:
 
 | File | Keterangan |
 |---|---|
-| StreamBeats-v3.0.5-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
-| StreamBeats-v3.0.5-armeabi-v7a.apk | HP lama 32-bit |
-| StreamBeats-v3.0.5-x86_64.apk | Emulator / Chromebook |
-
-### Changelog:
-- Perbaikan warna teks pada tombol (tidak lagi putih di atas putih)
-- Perbaikan tampilan halaman Periksa Pembaruan
-- Update teks keterangan agar lebih rapi dan terpusat
-- Penghapusan emoji dari berbagai teks lokalisasi
+| StreamBeats-v3.0.6-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
+| StreamBeats-v3.0.6-armeabi-v7a.apk | HP lama 32-bit |
+| StreamBeats-v3.0.6-x86_64.apk | Emulator / Chromebook |
 "@
 
 $apkDir = "build\app\outputs\flutter-apk"
 $apks   = @(
-    "$apkDir\StreamBeats-v3.0.5-arm64-v8a.apk",
-    "$apkDir\StreamBeats-v3.0.5-armeabi-v7a.apk",
-    "$apkDir\StreamBeats-v3.0.5-x86_64.apk"
+    "$apkDir\StreamBeats-v3.0.6-arm64-v8a.apk",
+    "$apkDir\StreamBeats-v3.0.6-armeabi-v7a.apk",
+    "$apkDir\StreamBeats-v3.0.6-x86_64.apk"
 )
 
 $headers = @{

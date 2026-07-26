@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' as io;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
 import 'package:Bloomee/blocs/global_events/global_events_cubit.dart';
 import 'package:Bloomee/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
@@ -153,6 +154,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GestureBinding.instance.resamplingEnabled = true;
   MediaKit.ensureInitialized();
+  
+  await Supabase.initialize(
+    url: 'https://zawqnzfshwibrbvskhvr.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inphd3FuemZzaHdpYnJidnNraHZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNDU2NzYsImV4cCI6MjEwMDYyMTY3Nn0.bj5BBVK8UU8ctbe3Oy6jzOF38Ugt9nes0QY7K8PjQvQ',
+  );
+
   await bootstrapApp();
   setHighRefreshRate();
   await setupPlayerCubit();

@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:Bloomee/core/theme/app_theme.dart';
 import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:Bloomee/services/supabase_playlist_service.dart';
+import 'package:Bloomee/screens/widgets/snackbar.dart';
 
 void createPlaylistDialog(BuildContext context) {
   final l10n = AppLocalizations.of(context)!;
@@ -48,6 +50,7 @@ class _CreatePlaylistDialog extends StatefulWidget {
 class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  bool _isShared = false;
 
   @override
   void initState() {
@@ -73,10 +76,22 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
 
   bool get _isInputValid => _controller.text.trim().length > 2;
 
-  void _submit() {
+  void _submit() async {
     if (_isInputValid) {
-      context.read<LibraryItemsCubit>().createPlaylist(_controller.text.trim());
-      context.pop();
+      final title = _controller.text.trim();
+      if (_isShared) {
+        context.pop(); // dismiss dialog early
+        SnackbarService.showMessage('Membuat playlist bersama...');
+        final code = await SupabasePlaylistService.createSharedPlaylist(title, []);
+        if (code != null) {
+          SnackbarService.showMessage('Berhasil! Kode Playlist: $code');
+        } else {
+          SnackbarService.showMessage('Gagal membuat playlist bersama.');
+        }
+      } else {
+        context.read<LibraryItemsCubit>().createPlaylist(title);
+        context.pop();
+      }
     }
   }
 
@@ -176,7 +191,28 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                             onSubmitted: (_) => _submit(),
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 16),
+                        
+                        Theme(
+                          data: Theme.of(context).copyWith(
+                            listTileTheme: const ListTileThemeData(
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                          ),
+                          child: SwitchListTile(
+                            title: const Text('Jadikan Playlist Bersama', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+                            subtitle: const Text('Dengarkan dan kelola lagu bersama teman', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                            value: _isShared,
+                            onChanged: (val) {
+                              setState(() {
+                                _isShared = val;
+                              });
+                            },
+                            activeColor: Colors.white,
+                            activeTrackColor: Default_Theme.primaryColor1,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
 
                         // --- Action Buttons ---
                         Row(

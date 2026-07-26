@@ -9,6 +9,7 @@ import 'package:Bloomee/screens/screen/common_views/album_view.dart';
 import 'package:Bloomee/screens/screen/common_views/artist_view.dart';
 import 'package:Bloomee/screens/screen/common_views/playlist_view.dart';
 import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
+import 'package:Bloomee/screens/widgets/join_shared_playlist_bottomsheet.dart';
 import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
 import 'package:Bloomee/screens/widgets/song_tile.dart';
 import 'package:Bloomee/plugins/utils/media_id.dart';
@@ -429,6 +430,13 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
             onPressed: () => createPlaylistDialog(context),
             icon: const Icon(MingCute.add_fill,
                 size: 25, color: Default_Theme.primaryColor1),
+          ),
+          IconButton(
+            padding: const EdgeInsets.all(8),
+            onPressed: () => joinSharedPlaylistDialog(context),
+            tooltip: 'Gabung Playlist Bersama',
+            icon: const Icon(MingCute.user_add_fill,
+                size: 23, color: Default_Theme.primaryColor1),
           ),
           IconButton(
             padding: const EdgeInsets.all(8),

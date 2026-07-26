@@ -1,0 +1,167 @@
+import 'dart:async';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
+
+import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
+
+Map<String, dynamic> trackToMap(Track track) {
+  return {
+    'id': track.id,
+    'title': track.title,
+    'artist': track.artists.isNotEmpty ? track.artists.first.name : '',
+    'thumbnailUrl': track.thumbnail.url,
+    'durationMs': track.durationMs?.toInt(),
+  };
+}
+
+Track mapToTrack(Map<String, dynamic> map) {
+  return Track(
+    id: map['id'] ?? '',
+    title: map['title'] ?? '',
+    artists: [ArtistSummary(id: '', name: map['artist'] ?? '')],
+    thumbnail: Artwork(url: map['thumbnailUrl'] ?? '', layout: ImageLayout.square),
+    durationMs: map['durationMs'] != null ? BigInt.from(map['durationMs']) : null,
+    isExplicit: false,
+  );
+}
+
+enum PartyRole { host, guest, none }
+
+class SupabasePartyService {
+  static final SupabaseClient _supabase = Supabase.instance.client;
+  static RealtimeChannel? _channel;
+  
+  static PartyRole currentRole = PartyRole.none;
+  static String? currentRoomCode;
+  
+  // Callbacks for guests
+  static Function(Track)? onTrackPlay;
+  static Function()? onPause;
+  static Function()? onResume;
+  static Function(Duration)? onSeek;
+
+  /// Creates a new party room and acts as Host
+  static Future<String?> createParty() async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) throw Exception('Must be logged in');
+
+    currentRoomCode = _generateCode();
+    currentRole = PartyRole.host;
+
+    await _joinChannel(currentRoomCode!);
+    return currentRoomCode;
+  }
+
+  /// Joins an existing party room as a Guest
+  static Future<bool> joinParty(String code) async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) throw Exception('Must be logged in');
+
+    currentRoomCode = code;
+    currentRole = PartyRole.guest;
+
+    await _joinChannel(code);
+    return true; // Assume success for broadcast channels
+  }
+
+  /// Leaves the current party
+  static Future<void> leaveParty() async {
+    if (_channel != null) {
+      await _supabase.removeChannel(_channel!);
+      _channel = null;
+    }
+    currentRole = PartyRole.none;
+    currentRoomCode = null;
+  }
+
+  /// Initialize and subscribe to the Supabase Realtime Channel
+  static Future<void> _joinChannel(String code) async {
+    if (_channel != null) {
+      await _supabase.removeChannel(_channel!);
+    }
+
+    _channel = _supabase.channel('party_$code');
+
+    _channel!
+      .onBroadcast(
+        event: 'playback_sync',
+        callback: (payload) {
+          if (currentRole == PartyRole.guest) {
+            _handleBroadcastMessage(payload);
+          }
+        },
+      )
+      .subscribe();
+  }
+
+  /// Handle incoming broadcast messages (for Guests)
+  static void _handleBroadcastMessage(Map<String, dynamic> payload) {
+    final action = payload['action'] as String?;
+    if (action == null) return;
+
+    switch (action) {
+      case 'PLAY_TRACK':
+        if (onTrackPlay != null && payload['track'] != null) {
+          final track = mapToTrack(Map<String, dynamic>.from(payload['track']));
+          onTrackPlay!(track);
+        }
+        break;
+      case 'PAUSE':
+        if (onPause != null) onPause!();
+        break;
+      case 'RESUME':
+        if (onResume != null) onResume!();
+        break;
+      case 'SEEK':
+        if (onSeek != null && payload['position'] != null) {
+          final pos = Duration(milliseconds: payload['position']);
+          onSeek!(pos);
+        }
+        break;
+    }
+  }
+
+  // --- HOST BROADCAST METHODS ---
+
+  static void broadcastPlayTrack(Track track) {
+    if (currentRole != PartyRole.host || _channel == null) return;
+    _channel!.sendBroadcastMessage(
+      event: 'playback_sync',
+      payload: {
+        'action': 'PLAY_TRACK',
+        'track': trackToMap(track),
+      },
+    );
+  }
+
+  static void broadcastPause() {
+    if (currentRole != PartyRole.host || _channel == null) return;
+    _channel!.sendBroadcastMessage(
+      event: 'playback_sync',
+      payload: {'action': 'PAUSE'},
+    );
+  }
+
+  static void broadcastResume() {
+    if (currentRole != PartyRole.host || _channel == null) return;
+    _channel!.sendBroadcastMessage(
+      event: 'playback_sync',
+      payload: {'action': 'RESUME'},
+    );
+  }
+
+  static void broadcastSeek(Duration position) {
+    if (currentRole != PartyRole.host || _channel == null) return;
+    _channel!.sendBroadcastMessage(
+      event: 'playback_sync',
+      payload: {
+        'action': 'SEEK',
+        'position': position.inMilliseconds,
+      },
+    );
+  }
+
+  static String _generateCode() {
+    return DateTime.now().millisecondsSinceEpoch.toRadixString(36).toUpperCase().substring(4, 10);
+  }
+}

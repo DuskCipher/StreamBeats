@@ -1,4 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:Bloomee/routes/app_router.dart';
+import 'package:Bloomee/services/supabase_auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:Bloomee/screens/widgets/snackbar.dart';
 import 'package:Bloomee/screens/screen/home_views/setting_views/about.dart';
 import 'package:Bloomee/screens/screen/home_views/setting_views/appui_setting.dart';
 import 'package:Bloomee/screens/screen/home_views/setting_views/local_music_setting.dart';
@@ -45,6 +49,10 @@ class SettingsView extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
+              // ── Group 0: Profile & Social ──
+              _ProfileSection(),
+              const SizedBox(height: 16),
+
               // ── Group 1: Core App & Plugins ──
               _SettingsSection(
                 children: [
@@ -325,3 +333,76 @@ class _SettingsTile extends StatelessWidget {
     );
   }
 }
+
+class _ProfileSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<AuthState>(
+      stream: SupabaseAuthService.authStateChanges,
+      builder: (context, snapshot) {
+        final user = SupabaseAuthService.currentUser;
+        if (user != null) {
+          final meta = user.userMetadata ?? {};
+          final name = meta['full_name'] ?? user.email ?? 'StreamBeats User';
+          final avatarUrl = meta['avatar_url'];
+
+          return _SettingsSection(
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: CircleAvatar(
+                  radius: 24,
+                  backgroundColor: Default_Theme.accentColor2.withValues(alpha: 0.2),
+                  backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+                  child: avatarUrl == null ? const Icon(Icons.person, color: Default_Theme.accentColor2) : null,
+                ),
+                title: Text(
+                  name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  'Tap to sign out',
+                  style: TextStyle(
+                    color: Default_Theme.primaryColor2.withValues(alpha: 0.7),
+                    fontSize: 12,
+                  ),
+                ),
+                onTap: () async {
+                  await SupabaseAuthService.signOut();
+                  SnackbarService.showMessage('Signed out successfully.');
+                },
+              ),
+            ],
+          );
+        } else {
+          return _SettingsSection(
+            children: [
+              _SettingsTile(
+                title: 'Sign in with Google',
+                subtitle: 'Sign in to share playlists & listen together',
+                icon: FontAwesome.google_brand,
+                iconColor: Colors.blueAccent,
+                isHighlightIcon: true,
+                onTap: () async {
+                  try {
+                    SnackbarService.showMessage('Signing in...');
+                    final response = await SupabaseAuthService.signInWithGoogle();
+                    if (response != null) {
+                      SnackbarService.showMessage('Welcome back!');
+                    }
+                  } catch (e) {
+                    SnackbarService.showMessage('Sign in failed.');
+                  }
+                },
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+}
+

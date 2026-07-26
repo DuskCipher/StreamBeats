@@ -8,6 +8,8 @@ import 'package:Bloomee/screens/screen/library_screen.dart';
 import 'package:Bloomee/screens/screen/library_views/import_media_view.dart';
 import 'package:Bloomee/screens/screen/library_views/import_process_screen.dart';
 import 'package:Bloomee/screens/screen/library_views/playlist_screen.dart';
+import 'package:Bloomee/screens/screen/library_views/shared_playlist_screen.dart';
+import 'package:Bloomee/screens/screen/home_views/party_room_screen.dart';
 import 'package:Bloomee/screens/screen/offline_screen.dart';
 import 'package:Bloomee/screens/screen/local_music_screen.dart';
 import 'package:Bloomee/screens/screen/search_screen.dart';
@@ -59,6 +61,19 @@ class AppRouter {
                   path: '/Library',
                   builder: (context, state) => const LibraryScreen(),
                   routes: [
+                    GoRoute(
+                      path: 'PartyRoom',
+                      name: 'PartyRoom',
+                      builder: (context, state) => const PartyRoomScreen(),
+                    ),
+                    GoRoute(
+                      path: 'SharedPlaylist',
+                      name: 'SharedPlaylist',
+                      builder: (context, state) {
+                        final code = state.uri.queryParameters['code'] ?? '';
+                        return SharedPlaylistScreen(playlistCode: code);
+                      },
+                    ),
                     GoRoute(
                       path: RoutePaths.importMediaFromPlatforms,
                       name: RoutePaths.importMediaFromPlatforms,

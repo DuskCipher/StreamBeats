@@ -22,6 +22,7 @@ import 'package:Bloomee/services/player/recently_played_tracker.dart';
 import 'package:Bloomee/services/plugin/plugin_service.dart';
 import 'package:Bloomee/services/meta_resolver/smart_track_replacement_service.dart';
 import 'package:Bloomee/services/discord_service.dart';
+import 'package:Bloomee/services/supabase_party_service.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:async/async.dart';
@@ -340,6 +341,28 @@ class BloomeeMusicPlayer extends BaseAudioHandler
       engine,
       () => _queueManager.currentTrack,
     );
+
+    // Setup guest listeners for Listen Together
+    SupabasePartyService.onTrackPlay = (track) {
+      if (SupabasePartyService.currentRole == PartyRole.guest) {
+        _enqueuePlayTrack(track, doPlay: true);
+      }
+    };
+    SupabasePartyService.onPause = () {
+      if (SupabasePartyService.currentRole == PartyRole.guest) {
+        engine.pause();
+      }
+    };
+    SupabasePartyService.onResume = () {
+      if (SupabasePartyService.currentRole == PartyRole.guest) {
+        engine.play();
+      }
+    };
+    SupabasePartyService.onSeek = (pos) {
+      if (SupabasePartyService.currentRole == PartyRole.guest) {
+        engine.seek(pos);
+      }
+    };
   }
 
   // ─── Subscriptions ─────────────────────────────────────────────────────────
@@ -453,6 +476,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> play() async {
+    SupabasePartyService.broadcastResume();
     if (_isDisposed) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
@@ -475,6 +499,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> pause() async {
+    SupabasePartyService.broadcastPause();
     if (_isDisposed) return;
     // Manual pause clears any pending auto-resume.
     _shouldResumeAfterInterruption = false;
@@ -483,6 +508,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) async {
+    SupabasePartyService.broadcastSeek(position);
     if (_isDisposed) return;
     await engine.seek(position);
   }
@@ -589,6 +615,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
     try {
       _updateCurrentTrack(track);
+      SupabasePartyService.broadcastPlayTrack(track);
 
       if (doPlay) {
         final granted = await _activateAudioSession();
