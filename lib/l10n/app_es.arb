@@ -384,11 +384,11 @@
   "updateAutoNotify": "Notificar actualizaciones",
   "updateAutoNotifySubtitle": "Avisar al abrir la app si hay una actualización disponible.",
   "updateCheckTitle": "Búsqueda de actualizaciones",
-  "updateUpToDate": "¡StreamBeats🌸 está al día!",
+  "updateUpToDate": "¡StreamBeats está al día!",
   "updateViewPreRelease": "Ver última Pre-Release",
   "updateCurrentVersion": "Versión actual: {curr} + {build}",
   "@updateCurrentVersion": { "placeholders": { "curr": { "type": "String" }, "build": { "type": "String" } } },
-  "updateNewVersionAvailable": "¡Hay una nueva versión de StreamBeats🌸 disponible!",
+  "updateNewVersionAvailable": "¡Hay una nueva versión de StreamBeats disponible!",
   "updateVersion": "Versión: {ver}+{build}",
   "@updateVersion": { "placeholders": { "ver": { "type": "String" }, "build": { "type": "String" } } },
   "updateDownloadNow": "Descargar ahora",
@@ -504,7 +504,7 @@
   "aboutFollowGitHub": "Síguelo en GitHub",
   "aboutSendInquiry": "Consulta de negocios",
   "aboutCreativeHighlights": "Actualizaciones y contenido creativo",
-  "aboutTipQuote": "¿Te gusta StreamBeats? Tu apoyo ayuda a que siga creciendo. 🌸",
+  "aboutTipQuote": "¿Te gusta StreamBeats? Tu apoyo ayuda a que siga creciendo. ",
   "aboutTipButton": "Quiero ayudar",
   "aboutTipDesc": "Quiero que StreamBeats siga mejorando.",
   "aboutGitHub": "GitHub",
@@ -704,7 +704,7 @@
 
   "snackbarOpeningAlbumPage": "Abriendo página original del álbum.",
 
-  "updateAvailableBody": "¡Nueva versión de StreamBeats🌸 disponible!\n\nVersión: {ver}+{build}",
+  "updateAvailableBody": "¡Nueva versión de StreamBeats disponible!\n\nVersión: {ver}+{build}",
   "@updateAvailableBody": { "placeholders": { "ver": { "type": "String" }, "build": { "type": "String" } } },
 
   "pluginSnackbarInstalled": "Plugin \"{id}\" instalado con éxito",

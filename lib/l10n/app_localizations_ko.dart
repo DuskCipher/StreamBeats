@@ -1077,7 +1077,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get updateNewVersionAvailable => '새로운 버전의 StreamBeats🌸가 출시되었습니다!';
+  String get updateNewVersionAvailable => '새로운 버전의 StreamBeats가 출시되었습니다!';
 
   @override
   String updateVersion(String ver, String build) {
@@ -1382,8 +1382,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get aboutCreativeHighlights => '업데이트 및 주요 소식';
 
   @override
-  String get aboutTipQuote =>
-      'StreamBeats가 마음에 드시나요? 소중한 후원이 더 멋진 발전을 만듭니다. 🌸';
+  String get aboutTipQuote => 'StreamBeats가 마음에 드시나요? 소중한 후원이 더 멋진 발전을 만듭니다.';
 
   @override
   String get aboutTipButton => '후원하기';
@@ -1857,7 +1856,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String updateAvailableBody(String ver, String build) {
-    return '새로운 버전의 StreamBeats🌸가 출시되었습니다!\n\n버전: $ver+$build';
+    return '새로운 버전의 StreamBeats가 출시되었습니다!\n\n버전: $ver+$build';
   }
 
   @override

@@ -1153,7 +1153,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get updateCheckTitle => 'Update-Suche';
 
   @override
-  String get updateUpToDate => 'StreamBeats🌸 ist auf dem neuesten Stand!!!';
+  String get updateUpToDate => 'StreamBeats ist auf dem neuesten Stand!!!';
 
   @override
   String get updateViewPreRelease => 'Neueste Pre-Release ansehen';
@@ -1165,7 +1165,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get updateNewVersionAvailable =>
-      'Neue Version von StreamBeats🌸 verfügbar!';
+      'Neue Version von StreamBeats verfügbar!';
 
   @override
   String updateVersion(String ver, String build) {
@@ -1481,7 +1481,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get aboutTipQuote =>
-      'Gefällt dir StreamBeats? Eine kleine Unterstützung lässt die App weiter blühen. 🌸';
+      'Gefällt dir StreamBeats? Eine kleine Unterstützung lässt die App weiter blühen. ';
 
   @override
   String get aboutTipButton => 'Ich möchte helfen';
@@ -1990,7 +1990,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String updateAvailableBody(String ver, String build) {
-    return 'Neue Version von StreamBeats🌸 verfügbar!\n\nVersion: $ver+$build';
+    return 'Neue Version von StreamBeats verfügbar!\n\nVersion: $ver+$build';
   }
 
   @override

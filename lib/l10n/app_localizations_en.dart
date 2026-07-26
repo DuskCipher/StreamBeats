@@ -1472,7 +1472,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutTipQuote =>
-      'Enjoying StreamBeats? A small tip keeps it blooming. 🌸';
+      'Enjoying StreamBeats? A small tip keeps it blooming. ';
 
   @override
   String get aboutTipButton => 'I\'ll help';

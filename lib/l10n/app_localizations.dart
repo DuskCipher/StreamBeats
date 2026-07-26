@@ -2681,7 +2681,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutTipQuote.
   ///
   /// In en, this message translates to:
-  /// **'Enjoying StreamBeats? A small tip keeps it blooming. 🌸'**
+  /// **'Enjoying StreamBeats? A small tip keeps it blooming. '**
   String get aboutTipQuote;
 
   /// No description provided for @aboutTipButton.
