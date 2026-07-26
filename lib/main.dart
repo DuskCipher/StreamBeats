@@ -57,6 +57,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'blocs/media_player/bloomee_player_cubit.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:Bloomee/services/discord_service.dart';
+import 'package:Bloomee/services/supabase_party_service.dart';
 import 'package:Bloomee/services/db/legacy/legacy_migration_service.dart'
     as legacy_migration;
 import 'package:Bloomee/screens/widgets/legacy_migration_overlay.dart';
@@ -215,6 +216,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       unawaited(_ensurePlayerHealthyOnResume());
       // Check for plugin updates when app resumes (30-min cooldown enforced).
       unawaited(_checkPluginUpdatesOnResume());
+      // Reconnect party room realtime channel if guest/host
+      unawaited(SupabasePartyService.reconnectIfNecessary());
     }
   }
 

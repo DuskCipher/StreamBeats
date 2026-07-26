@@ -65,8 +65,29 @@ class SupabasePartyService {
     return true; // Assume success for broadcast channels
   }
 
+  static Timer? _reconnectTimer;
+
+  static void _scheduleReconnect() {
+    _reconnectTimer?.cancel();
+    _reconnectTimer = Timer(const Duration(seconds: 5), () async {
+      if (currentRoomCode != null && currentRole != PartyRole.none) {
+        print('SupabasePartyService: Attempting to reconnect to room $currentRoomCode...');
+        await _joinChannel(currentRoomCode!);
+      }
+    });
+  }
+
+  static Future<void> reconnectIfNecessary() async {
+    if (currentRoomCode != null && currentRole != PartyRole.none) {
+      print('SupabasePartyService: Force reconnecting on app resume...');
+      await _joinChannel(currentRoomCode!);
+    }
+  }
+
   /// Leaves the current party
   static Future<void> leaveParty() async {
+    _reconnectTimer?.cancel();
+    _reconnectTimer = null;
     if (_channel != null) {
       await _supabase.removeChannel(_channel!);
       _channel = null;
@@ -92,7 +113,16 @@ class SupabasePartyService {
           }
         },
       )
-      .subscribe();
+      .subscribe((status, [error]) {
+        print('SupabasePartyService: subscription status: $status, error: $error');
+        if (status == RealtimeSubscribeStatus.closed ||
+            status == RealtimeSubscribeStatus.channelError) {
+          _scheduleReconnect();
+        } else if (status == RealtimeSubscribeStatus.subscribed) {
+          _reconnectTimer?.cancel();
+          _reconnectTimer = null;
+        }
+      });
   }
 
   /// Handle incoming broadcast messages (for Guests)

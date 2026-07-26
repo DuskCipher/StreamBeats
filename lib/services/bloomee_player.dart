@@ -1037,6 +1037,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
     bool doPlay = false,
     bool shuffling = false,
   }) async {
+    if ((doPlay || shuffling) && !await _checkGuestPartyLeave()) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
     _isAdvancing = true;
@@ -1097,6 +1098,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   Future<void> updateQueueTracks(List<Track> tracks,
       {bool doPlay = false, int startIndex = 0}) async {
+    if (doPlay && !await _checkGuestPartyLeave()) return;
     _queueManager.updateQueue(tracks, startIndex: startIndex);
     if (doPlay) {
       final t = _queueManager.currentTrack;
@@ -1129,6 +1131,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
   @override
   Future<void> updateQueue(List<MediaItem> newQueue,
       {bool doPlay = false}) async {
+    if (doPlay && !await _checkGuestPartyLeave()) return;
     _queueManager.updateQueue(newQueue.map(mediaItemToTrack).toList());
     if (doPlay) {
       final t = _queueManager.currentTrack;
