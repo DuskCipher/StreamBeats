@@ -50,7 +50,7 @@ class SupabasePlaylistService {
       return code;
     } catch (e) {
       print('Error creating shared playlist: $e');
-      return null;
+      rethrow;
     }
   }
 

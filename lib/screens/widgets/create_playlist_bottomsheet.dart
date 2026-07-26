@@ -81,14 +81,17 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
     if (_isInputValid) {
       final title = _controller.text.trim();
       if (_isShared) {
-        context.pop(); // dismiss dialog early
-        SnackbarService.showMessage('Membuat playlist bersama...');
-        final code = await SupabasePlaylistService.createSharedPlaylist(title, []);
-        if (code != null) {
-          SnackbarService.showMessage('Berhasil! Kode Playlist: $code');
-          context.pushNamed('SharedPlaylist', queryParameters: {'code': code});
-        } else {
-          SnackbarService.showMessage('Gagal membuat playlist bersama.');
+        try {
+          final code = await SupabasePlaylistService.createSharedPlaylist(title, []);
+          if (code != null) {
+            context.pop(); // Dismiss the dialog
+            SnackbarService.showMessage('Berhasil! Kode Playlist: $code');
+            context.pushNamed('SharedPlaylist', queryParameters: {'code': code});
+          } else {
+            SnackbarService.showMessage('Gagal membuat playlist bersama.');
+          }
+        } catch (e) {
+          SnackbarService.showMessage('Gagal: ${e.toString().replaceAll('Exception: ', '')}');
         }
       } else {
         context.read<LibraryItemsCubit>().createPlaylist(title);
