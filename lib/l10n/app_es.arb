@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "es",
 
   "onboardingTitle": "Bienvenido a StreamBeats",
@@ -77,7 +77,7 @@
   "playlistShuffle": "Aleatorio",
   "playlistMoreOptions": "Más opciones",
   "playlistNoMatchSearch": "Ninguna lista coincide con tu búsqueda",
-  "playlistCreateNew": "Crear nueva lista 😍",
+  "playlistCreateNew": "Crear nueva lista",
   "playlistCreateFirstOne": "No tienes listas aún. ¡Crea una para empezar!",
   "addToPlaylistNoSongSelected": "No hay canción seleccionada",
   "createPlaylistDialogBarrierLabel": "Diálogo para crear lista",

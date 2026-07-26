@@ -96,7 +96,7 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
           constraints: const BoxConstraints(maxWidth: 400),
           child: Container(
             decoration: BoxDecoration(
-              color: Default_Theme.themeColor,
+              color: const Color(0xFF1A1A1A), // Floating grey box
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
@@ -112,13 +112,6 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // --- Top Accent Line ---
-                  Container(
-                    height: 6,
-                    width: double.infinity,
-                    color: Default_Theme.accentColor2,
-                  ),
-
                   // --- Main Content ---
                   Padding(
                     padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
