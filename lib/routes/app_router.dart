@@ -71,7 +71,8 @@ class AppRouter {
                       name: 'SharedPlaylist',
                       builder: (context, state) {
                         final code = state.uri.queryParameters['code'] ?? '';
-                        return SharedPlaylistScreen(playlistCode: code);
+                        final title = state.uri.queryParameters['title'] ?? 'Playlist Bersama';
+                        return SharedPlaylistScreen(playlistCode: code, playlistTitle: title);
                       },
                     ),
                     GoRoute(

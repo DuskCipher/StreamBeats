@@ -11,8 +11,13 @@ import 'package:iconsx_plus/iconsx_plus.dart';
 
 class SharedPlaylistScreen extends StatelessWidget {
   final String playlistCode;
+  final String playlistTitle;
   
-  const SharedPlaylistScreen({Key? key, required this.playlistCode}) : super(key: key);
+  const SharedPlaylistScreen({
+    Key? key,
+    required this.playlistCode,
+    this.playlistTitle = 'Playlist Bersama',
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +33,9 @@ class SharedPlaylistScreen extends StatelessWidget {
         ),
         title: Column(
           children: [
-            const Text(
-              'Playlist Bersama',
-              style: TextStyle(
+            Text(
+              playlistTitle,
+              style: const TextStyle(
                 color: Default_Theme.primaryColor1,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

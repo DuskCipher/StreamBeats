@@ -12,10 +12,14 @@ import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
 import 'package:Bloomee/screens/widgets/join_shared_playlist_bottomsheet.dart';
 import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
 import 'package:Bloomee/screens/widgets/song_tile.dart';
+import 'dart:async';
 import 'package:Bloomee/plugins/utils/media_id.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:Bloomee/services/supabase_playlist_service.dart';
+import 'package:Bloomee/screens/widgets/snackbar.dart';
 import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
 import 'package:Bloomee/core/constants/route_paths.dart';
 import 'package:Bloomee/screens/widgets/create_playlist_bottomsheet.dart';
@@ -55,19 +59,76 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
 
+  List<Map<String, String>> _sharedPlaylists = [];
+  StreamSubscription<void>? _refreshSub;
+
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
+    _loadSharedPlaylists();
+    _refreshSub = SupabasePlaylistService.refreshStream.listen((_) {
+      _loadSharedPlaylists();
+    });
   }
 
   @override
   void dispose() {
+    _refreshSub?.cancel();
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     _searchFocusNode.dispose();
     _searchQuery.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadSharedPlaylists() async {
+    final list = await SupabasePlaylistService.getLocalSharedPlaylists();
+    if (mounted) {
+      setState(() {
+        _sharedPlaylists = list;
+      });
+    }
+  }
+
+  void _showSharedPlaylistOpts(BuildContext context, String code, String title) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1C1C1E),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              subtitle: Text('Kode: $code', style: const TextStyle(color: Colors.white70)),
+            ),
+            const Divider(color: Colors.white10),
+            ListTile(
+              leading: const Icon(Icons.copy_rounded, color: Colors.white),
+              title: const Text('Salin Kode Playlist', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pop(context);
+                Clipboard.setData(ClipboardData(text: code));
+                SnackbarService.showMessage('Kode playlist berhasil disalin!');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent),
+              title: const Text('Hapus dari Daftar', style: TextStyle(color: Colors.redAccent)),
+              onTap: () async {
+                Navigator.pop(context);
+                await SupabasePlaylistService.removeLocalSharedPlaylist(code);
+                SnackbarService.showMessage('Playlist dihapus dari daftar.');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _onSearchChanged() {
@@ -121,7 +182,10 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
               );
             }
 
-            if (itemsState.playlists.isEmpty) {
+            final hasLocalPlaylists = itemsState.playlists.isNotEmpty;
+            final hasSharedPlaylists = _sharedPlaylists.isNotEmpty;
+
+            if (!hasLocalPlaylists && !hasSharedPlaylists) {
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -272,6 +336,69 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
                               : () => setState(() => _isReordering = true),
                         ),
                       ],
+                    ],
+                    // ── Shared Playlists (Bersama) Section ──────────────
+                    if (_sharedPlaylists.isNotEmpty && !isSearching) ...[
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
+                          child: Text(
+                            'Playlist Bersama',
+                            style: Default_Theme.secondoryTextStyle.merge(
+                              const TextStyle(
+                                color: Colors.white54,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SliverList.builder(
+                        itemCount: _sharedPlaylists.length,
+                        itemBuilder: (context, index) {
+                          final sp = _sharedPlaylists[index];
+                          final code = sp['code'] ?? '';
+                          final title = sp['title'] ?? 'Playlist Bersama';
+                          return ListTile(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                            leading: Container(
+                              width: 48,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF7B2FF7), Color(0xFF4A00E0)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Icon(Icons.group_rounded, color: Colors.white, size: 22),
+                            ),
+                            title: Text(
+                              title,
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              'Kode: $code',
+                              style: const TextStyle(color: Colors.white54, fontSize: 12),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.more_vert_rounded, color: Colors.white54),
+                              onPressed: () => _showSharedPlaylistOpts(context, code, title),
+                            ),
+                            onTap: () {
+                              context.pushNamed(
+                                'SharedPlaylist',
+                                queryParameters: {'code': code, 'title': title},
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ],
                 );

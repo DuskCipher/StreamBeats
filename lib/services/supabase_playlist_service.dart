@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
-
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
+import 'package:Bloomee/services/db/db_provider.dart';
+import 'package:Bloomee/services/db/dao/settings_dao.dart';
 
 Map<String, dynamic> trackToMap(Track track) {
   return {
@@ -30,6 +31,9 @@ class SupabasePlaylistService {
   static final SupabaseClient _supabase = Supabase.instance.client;
   static const String _table = 'shared_playlists';
 
+  static final _refreshController = StreamController<void>.broadcast();
+  static Stream<void> get refreshStream => _refreshController.stream;
+
   /// Create a new shared playlist and get its unique code
   static Future<String?> createSharedPlaylist(String title, List<Track> initialSongs) async {
     final user = _supabase.auth.currentUser;
@@ -48,6 +52,7 @@ class SupabasePlaylistService {
         'members': [user.id],
         'songs': songsJson,
       });
+      await _saveSharedPlaylistLocally(code, title);
       return code;
     } catch (e) {
       print('Error creating shared playlist: $e');
@@ -69,6 +74,8 @@ class SupabasePlaylistService {
         members.add(user.id);
         await _supabase.from(_table).update({'members': members}).eq('code', code);
       }
+      final title = response['title'] ?? 'Playlist Bersama';
+      await _saveSharedPlaylistLocally(code, title);
       return true;
     } catch (e) {
       print('Error joining playlist: $e');
@@ -112,5 +119,48 @@ class SupabasePlaylistService {
     final random = Random();
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     return List.generate(6, (index) => chars[random.nextInt(chars.length)]).join();
+  }
+
+  static Future<void> _saveSharedPlaylistLocally(String code, String title) async {
+    try {
+      final settings = SettingsDAO(DBProvider.db);
+      final raw = await settings.getSettingStr('local_shared_playlists') ?? '[]';
+      final List<dynamic> list = jsonDecode(raw);
+      
+      if (!list.any((item) => item['code'] == code)) {
+        list.add({'code': code, 'title': title});
+        await settings.putSettingStr('local_shared_playlists', jsonEncode(list));
+        _refreshController.add(null);
+      }
+    } catch (e) {
+      print('Error saving shared playlist locally: $e');
+    }
+  }
+
+  static Future<List<Map<String, String>>> getLocalSharedPlaylists() async {
+    try {
+      final settings = SettingsDAO(DBProvider.db);
+      final raw = await settings.getSettingStr('local_shared_playlists') ?? '[]';
+      final List<dynamic> list = jsonDecode(raw);
+      return list.map((item) => {
+        'code': item['code'].toString(),
+        'title': item['title'].toString(),
+      }).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<void> removeLocalSharedPlaylist(String code) async {
+    try {
+      final settings = SettingsDAO(DBProvider.db);
+      final raw = await settings.getSettingStr('local_shared_playlists') ?? '[]';
+      final List<dynamic> list = jsonDecode(raw);
+      list.removeWhere((item) => item['code'] == code);
+      await settings.putSettingStr('local_shared_playlists', jsonEncode(list));
+      _refreshController.add(null);
+    } catch (e) {
+      print('Error removing shared playlist locally: $e');
+    }
   }
 }

@@ -24,6 +24,8 @@ import 'package:Bloomee/services/meta_resolver/smart_track_replacement_service.d
 import 'package:Bloomee/services/discord_service.dart';
 import 'package:Bloomee/services/supabase_party_service.dart';
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/material.dart';
+import 'package:Bloomee/routes/app_router.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:async/async.dart';
 import 'package:easy_debounce/easy_throttle.dart';
@@ -102,6 +104,51 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   // ── M-12 ──────────────────────────────────────────────────────────────────
   Duration _savedPositionForRevive = Duration.zero;
+
+  Future<bool> _checkGuestPartyLeave() async {
+    if (SupabasePartyService.currentRole != PartyRole.guest) {
+      return true;
+    }
+    final context = AppRouter.globalRouterKey.currentContext;
+    if (context == null) return false;
+
+    final shouldLeave = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1C1C1E),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          'Keluar dari Room?',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        content: const Text(
+          'Anda sedang berada di dalam room bersama. Apakah Anda ingin keluar dari room untuk mengontrol musik sendiri?',
+          style: TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Tidak', style: TextStyle(color: Colors.white54)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.purpleAccent,
+            ),
+            child: const Text('Ya, Keluar', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldLeave == true) {
+      await SupabasePartyService.leaveParty();
+      SnackbarService.showMessage('Meninggalkan party.');
+      return true;
+    }
+    return false;
+  }
 
   // ── Modular component accessors ───────────────────────────────────────────
   BehaviorSubject<bool> get shuffleMode => _queueManager.shuffleMode;
@@ -476,6 +523,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> play() async {
+    if (!await _checkGuestPartyLeave()) return;
     SupabasePartyService.broadcastResume();
     if (_isDisposed) return;
     _errorHandler.resetCircuitBreaker();
@@ -499,6 +547,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> pause() async {
+    if (!await _checkGuestPartyLeave()) return;
     SupabasePartyService.broadcastPause();
     if (_isDisposed) return;
     // Manual pause clears any pending auto-resume.
@@ -508,6 +557,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) async {
+    if (!await _checkGuestPartyLeave()) return;
     SupabasePartyService.broadcastSeek(position);
     if (_isDisposed) return;
     await engine.seek(position);
@@ -770,6 +820,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   void _onTrackCompleted() {
     if (loopMode.value == LoopMode.one || _isAdvancing) return;
+    if (SupabasePartyService.currentRole == PartyRole.guest) return; // Wait for Host's broadcast
     _isAdvancing = true;
     Future.microtask(() async {
       try {
@@ -906,6 +957,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
   @override
   Future<void> playMediaItem(MediaItem mi,
       {bool doPlay = true, Duration? initialPosition}) async {
+    if (!await _checkGuestPartyLeave()) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
     await _enqueuePlayTrack(mediaItemToTrack(mi),
@@ -914,6 +966,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> skipToNext() async {
+    if (!await _checkGuestPartyLeave()) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
     await _internalSkipToNext();
@@ -939,6 +992,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> skipToPrevious() async {
+    if (!await _checkGuestPartyLeave()) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
     await _internalSkipToPrevious();
@@ -964,6 +1018,7 @@ class BloomeeMusicPlayer extends BaseAudioHandler
 
   @override
   Future<void> skipToQueueItem(int index) async {
+    if (!await _checkGuestPartyLeave()) return;
     _errorHandler.resetCircuitBreaker();
     _shouldResumeAfterInterruption = false;
     _isAdvancing = true;

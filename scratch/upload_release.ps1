@@ -7,32 +7,31 @@ param(
 
 $owner = "DuskCipher"
 $repo  = "StreamBeats"
-$tag   = "v3.1.1"
-$title = "StreamBeats v3.1.1"
+$tag   = "v3.2.0"
+$title = "StreamBeats v3.2.0"
 $body  = @"
-## StreamBeats v3.1.1
+## StreamBeats v3.2.0
 
-### 🚀 Perbaikan Utama (Critical Bug Fix)
-- **Fix RangeError:** Memperbaiki bug RangeError (Not in inclusive range 3..8: 9) yang terjadi saat membuat kode unik untuk Playlist Bersama & Party Room. Kode acak sekarang menggunakan Random Generator yang 100% aman.
-- **Listen Together & Playlist Bersama:** Menambahkan penangkap error/bug di UI agar bisa langsung menampilkan penyebab detail jika ada kegagalan dari database Supabase.
-- **Listen Together (Party Room):** Menambahkan tombol menu "Listen Together" di bagian Settings (setelah login).
-- **Fix Login Google:** Memperbaiki konfigurasi Client ID yang menyebabkan error sign in failed.
-- **Berbagi Playlist Bersama:** Buat playlist unik dengan teman menggunakan kode khusus.
+### 🚀 Fitur Baru & Sinkronisasi Listen Together
+- **Dialog Konfirmasi Guest:** Sekarang jika Guest di Party Room mencoba memutar, menjeda, memajukan, atau mengganti lagu, aplikasi akan menampilkan pop-up konfirmasi: *"Apakah Anda ingin keluar dari room untuk mengontrol musik sendiri?"*
+- **Sinkronisasi Otomatis:** Guest tidak akan berganti lagu secara otomatis lagi saat lagu selesai, melainkan selalu tersinkronisasi mengikuti Host.
+- **Fix RangeError:** Memperbaiki bug RangeError pada pembuatan kode acak.
+- **Listen Together & Playlist Bersama:** Ditambahkan penanganan error transparan di layar.
 
 ### Pilih APK sesuai perangkat Anda:
 
 | File | Keterangan |
 |---|---|
-| StreamBeats-v3.1.1-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
-| StreamBeats-v3.1.1-armeabi-v7a.apk | HP lama 32-bit |
-| StreamBeats-v3.1.1-x86_64.apk | Emulator / Chromebook |
+| StreamBeats-v3.2.0-arm64-v8a.apk | HP modern 64-bit (2018+). **Direkomendasikan!** |
+| StreamBeats-v3.2.0-armeabi-v7a.apk | HP lama 32-bit |
+| StreamBeats-v3.2.0-x86_64.apk | Emulator / Chromebook |
 "@
 
 $apkDir = "build\app\outputs\flutter-apk"
 $apks   = @(
-    "$apkDir\StreamBeats-v3.1.1-arm64-v8a.apk",
-    "$apkDir\StreamBeats-v3.1.1-armeabi-v7a.apk",
-    "$apkDir\StreamBeats-v3.1.1-x86_64.apk"
+    "$apkDir\StreamBeats-v3.2.0-arm64-v8a.apk",
+    "$apkDir\StreamBeats-v3.2.0-armeabi-v7a.apk",
+    "$apkDir\StreamBeats-v3.2.0-x86_64.apk"
 )
 
 $headers = @{
