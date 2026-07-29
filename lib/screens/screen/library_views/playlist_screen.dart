@@ -5,21 +5,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/screen/library_views/cubit/current_playlist_cubit.dart';
-import 'package:Bloomee/screens/screen/library_views/more_opts_sheet.dart';
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
-import 'package:Bloomee/screens/widgets/play_pause_widget.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/screen/library_views/cubit/current_playlist_cubit.dart';
+import 'package:streambeats/screens/screen/library_views/more_opts_sheet.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/screens/widgets/play_pause_widget.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 
 part 'playlist_info_dialog.dart';
 
@@ -100,7 +100,7 @@ class _PlaylistViewState extends State<PlaylistView> {
         await context.read<CurrentPlaylistCubit>().ensureAllTracksLoaded();
     if (!mounted || fullPlaylist.tracks.isEmpty) return;
 
-    context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+    context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
           Playlist(tracks: fullPlaylist.tracks, title: fullPlaylist.title),
           idx: index ?? 0,
           doPlay: true,
@@ -270,8 +270,6 @@ class _PlaylistViewState extends State<PlaylistView> {
     );
   }
 
-  // ─── Pro-Desktop Layout (Perfectly Centered Left Panel) ───
-
   Widget _buildDesktopLayout(
       CurrentPlaylistState state,
       Color fgColor,
@@ -282,11 +280,9 @@ class _PlaylistViewState extends State<PlaylistView> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // FIXED LEFT PANEL: Centered content, elegant flex scaling
         SizedBox(
           width: math.max(340, constraints.maxWidth * 0.35),
           child: Padding(
-            // Optically balanced padding so it sits perfectly in the center of its space
             padding: const EdgeInsets.fromLTRB(40, 90, 20, 40),
             child: Column(
               crossAxisAlignment:
@@ -294,7 +290,6 @@ class _PlaylistViewState extends State<PlaylistView> {
               children: [
                 const Spacer(flex: 1), // Top breathing room
 
-                // Intelligently scaling cover art
                 Flexible(
                   flex: 10,
                   child: Center(
@@ -307,12 +302,10 @@ class _PlaylistViewState extends State<PlaylistView> {
 
                 const SizedBox(height: 32),
 
-                // Meta Info (Centered)
                 _buildInfo(state, l10n, isCentered: true),
 
                 const SizedBox(height: 24),
 
-                // Single-Line Forced Actions (Centered)
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.center,
@@ -326,7 +319,6 @@ class _PlaylistViewState extends State<PlaylistView> {
           ),
         ),
 
-        // SCROLLABLE RIGHT PANEL: The track list
         Expanded(
           child: Container(
             margin: const EdgeInsets.fromLTRB(
@@ -379,8 +371,6 @@ class _PlaylistViewState extends State<PlaylistView> {
       ],
     );
   }
-
-  // ─── Mobile Layout (Scrolling Canvas) ───
 
   Widget _buildMobileLayout(
       CurrentPlaylistState state,
@@ -586,17 +576,16 @@ class _PlaylistViewState extends State<PlaylistView> {
 
           const SizedBox(width: 12),
 
-          // Big Center Play Button
           StreamBuilder<String>(
               stream:
-                  context.watch<BloomeePlayerCubit>().bloomeePlayer.queueTitle,
+                  context.watch<StreamBeatsPlayerCubit>().streambeatsPlayer.queueTitle,
               builder: (context, snapshot) {
                 final isCurrent =
                     snapshot.hasData && snapshot.data == state.playlist.title;
                 return StreamBuilder<bool>(
                     stream: context
-                        .read<BloomeePlayerCubit>()
-                        .bloomeePlayer
+                        .read<StreamBeatsPlayerCubit>()
+                        .streambeatsPlayer
                         .engine
                         .playingStream,
                     builder: (context, playingSnapshot) {
@@ -620,13 +609,13 @@ class _PlaylistViewState extends State<PlaylistView> {
                               ? () {}
                               : () => isCurrent
                                   ? context
-                                      .read<BloomeePlayerCubit>()
-                                      .bloomeePlayer
+                                      .read<StreamBeatsPlayerCubit>()
+                                      .streambeatsPlayer
                                       .play()
                                   : _playFromPlaylist(context, state),
                           onPause: () => context
-                              .read<BloomeePlayerCubit>()
-                              .bloomeePlayer
+                              .read<StreamBeatsPlayerCubit>()
+                              .streambeatsPlayer
                               .pause(),
                         ),
                       );

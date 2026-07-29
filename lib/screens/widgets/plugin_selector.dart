@@ -1,38 +1,20 @@
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Horizontal scrolling chip bar for selecting the active plugin.
-///
-/// Displays loaded plugins of a given [pluginType] as selectable chips.
-/// The currently active plugin is highlighted with [Default_Theme.accentColor2].
-///
-/// Usage:
-/// ```dart
-/// PluginSelectorBar(
-///   pluginType: PluginType.contentResolver,
-///   activePluginId: _activeId,
-///   onPluginSelected: (info) => setState(() => _activeId = info.manifest.id),
-/// )
-/// ```
 class PluginSelectorBar extends StatelessWidget {
-  /// Which plugin type to show (contentResolver or chartProvider).
   final PluginType pluginType;
 
-  /// Currently selected plugin ID (highlighted).
   final String? activePluginId;
 
-  /// Called when user taps a plugin chip.
   final ValueChanged<PluginInfo> onPluginSelected;
 
-  /// Whether to show an "All" chip at the start.
   final bool showAllOption;
 
-  /// Called when user taps the "All" chip.
   final VoidCallback? onAllSelected;
 
   const PluginSelectorBar({

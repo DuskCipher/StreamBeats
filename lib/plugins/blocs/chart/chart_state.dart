@@ -1,29 +1,19 @@
 import 'package:equatable/equatable.dart';
-import 'package:Bloomee/core/models/exported.dart';
+import 'package:streambeats/core/models/exported.dart';
 
-/// State for [ChartBloc].
-///
-/// Uses Rust-generated types directly.
 class ChartState extends Equatable {
-  /// Active chart provider plugin ID.
   final String? activePluginId;
 
-  /// Status of chart listing load.
   final ChartStatus chartsStatus;
 
-  /// Available charts from the active provider.
   final List<ChartSummary> charts;
 
-  /// Status of chart detail (items) load.
   final ChartStatus chartDetailStatus;
 
-  /// The currently loaded chart's ID.
   final String? activeChartId;
 
-  /// Items in the currently loaded chart.
   final List<ChartItem> chartItems;
 
-  /// Error message, if any.
   final String? error;
 
   const ChartState({

@@ -1,18 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'commands.dart';
 
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
-
-// dart format off
 T _$identity<T>(T value) => value;
 
-/// @nodoc
 mixin _$ChartProviderCommand {
   @override
   bool operator ==(Object other) {
@@ -29,25 +18,12 @@ mixin _$ChartProviderCommand {
   }
 }
 
-/// @nodoc
 class $ChartProviderCommandCopyWith<$Res> {
   $ChartProviderCommandCopyWith(
       ChartProviderCommand _, $Res Function(ChartProviderCommand) __);
 }
 
-/// Adds pattern-matching-related methods to [ChartProviderCommand].
 extension ChartProviderCommandPatterns on ChartProviderCommand {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -67,19 +43,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChartProviderCommand_GetCharts value) getCharts,
@@ -94,18 +57,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
         return getChartDetails(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -124,18 +75,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCharts,
@@ -153,19 +92,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCharts,
@@ -179,18 +105,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
         return getChartDetails(_that.id);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -208,8 +122,6 @@ extension ChartProviderCommandPatterns on ChartProviderCommand {
     }
   }
 }
-
-/// @nodoc
 
 class ChartProviderCommand_GetCharts extends ChartProviderCommand {
   const ChartProviderCommand_GetCharts() : super._();
@@ -230,15 +142,11 @@ class ChartProviderCommand_GetCharts extends ChartProviderCommand {
   }
 }
 
-/// @nodoc
-
 class ChartProviderCommand_GetChartDetails extends ChartProviderCommand {
   const ChartProviderCommand_GetChartDetails({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of ChartProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ChartProviderCommand_GetChartDetailsCopyWith<
@@ -263,7 +171,6 @@ class ChartProviderCommand_GetChartDetails extends ChartProviderCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ChartProviderCommand_GetChartDetailsCopyWith<$Res>
     implements $ChartProviderCommandCopyWith<$Res> {
   factory $ChartProviderCommand_GetChartDetailsCopyWith(
@@ -274,7 +181,6 @@ abstract mixin class $ChartProviderCommand_GetChartDetailsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ChartProviderCommand_GetChartDetailsCopyWithImpl<$Res>
     implements $ChartProviderCommand_GetChartDetailsCopyWith<$Res> {
   _$ChartProviderCommand_GetChartDetailsCopyWithImpl(this._self, this._then);
@@ -282,8 +188,6 @@ class _$ChartProviderCommand_GetChartDetailsCopyWithImpl<$Res>
   final ChartProviderCommand_GetChartDetails _self;
   final $Res Function(ChartProviderCommand_GetChartDetails) _then;
 
-  /// Create a copy of ChartProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -297,12 +201,9 @@ class _$ChartProviderCommand_GetChartDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$ContentImporterCommand {
   String get url;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentImporterCommandCopyWith<ContentImporterCommand> get copyWith =>
@@ -326,7 +227,6 @@ mixin _$ContentImporterCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentImporterCommandCopyWith<$Res> {
   factory $ContentImporterCommandCopyWith(ContentImporterCommand value,
           $Res Function(ContentImporterCommand) _then) =
@@ -335,7 +235,6 @@ abstract mixin class $ContentImporterCommandCopyWith<$Res> {
   $Res call({String url});
 }
 
-/// @nodoc
 class _$ContentImporterCommandCopyWithImpl<$Res>
     implements $ContentImporterCommandCopyWith<$Res> {
   _$ContentImporterCommandCopyWithImpl(this._self, this._then);
@@ -343,8 +242,6 @@ class _$ContentImporterCommandCopyWithImpl<$Res>
   final ContentImporterCommand _self;
   final $Res Function(ContentImporterCommand) _then;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -359,19 +256,7 @@ class _$ContentImporterCommandCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [ContentImporterCommand].
 extension ContentImporterCommandPatterns on ContentImporterCommand {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -395,19 +280,6 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ContentImporterCommand_CanHandleUrl value)
@@ -426,18 +298,6 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
         return getTracks(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -460,18 +320,6 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String url)? canHandleUrl,
@@ -493,19 +341,6 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String url) canHandleUrl,
@@ -522,18 +357,6 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
         return getTracks(_that.url);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -556,16 +379,12 @@ extension ContentImporterCommandPatterns on ContentImporterCommand {
   }
 }
 
-/// @nodoc
-
 class ContentImporterCommand_CanHandleUrl extends ContentImporterCommand {
   const ContentImporterCommand_CanHandleUrl({required this.url}) : super._();
 
   @override
   final String url;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -591,7 +410,6 @@ class ContentImporterCommand_CanHandleUrl extends ContentImporterCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentImporterCommand_CanHandleUrlCopyWith<$Res>
     implements $ContentImporterCommandCopyWith<$Res> {
   factory $ContentImporterCommand_CanHandleUrlCopyWith(
@@ -603,7 +421,6 @@ abstract mixin class $ContentImporterCommand_CanHandleUrlCopyWith<$Res>
   $Res call({String url});
 }
 
-/// @nodoc
 class _$ContentImporterCommand_CanHandleUrlCopyWithImpl<$Res>
     implements $ContentImporterCommand_CanHandleUrlCopyWith<$Res> {
   _$ContentImporterCommand_CanHandleUrlCopyWithImpl(this._self, this._then);
@@ -611,8 +428,6 @@ class _$ContentImporterCommand_CanHandleUrlCopyWithImpl<$Res>
   final ContentImporterCommand_CanHandleUrl _self;
   final $Res Function(ContentImporterCommand_CanHandleUrl) _then;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
@@ -627,8 +442,6 @@ class _$ContentImporterCommand_CanHandleUrlCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentImporterCommand_GetCollectionInfo extends ContentImporterCommand {
   const ContentImporterCommand_GetCollectionInfo({required this.url})
       : super._();
@@ -636,8 +449,6 @@ class ContentImporterCommand_GetCollectionInfo extends ContentImporterCommand {
   @override
   final String url;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -663,7 +474,6 @@ class ContentImporterCommand_GetCollectionInfo extends ContentImporterCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentImporterCommand_GetCollectionInfoCopyWith<$Res>
     implements $ContentImporterCommandCopyWith<$Res> {
   factory $ContentImporterCommand_GetCollectionInfoCopyWith(
@@ -675,7 +485,6 @@ abstract mixin class $ContentImporterCommand_GetCollectionInfoCopyWith<$Res>
   $Res call({String url});
 }
 
-/// @nodoc
 class _$ContentImporterCommand_GetCollectionInfoCopyWithImpl<$Res>
     implements $ContentImporterCommand_GetCollectionInfoCopyWith<$Res> {
   _$ContentImporterCommand_GetCollectionInfoCopyWithImpl(
@@ -684,8 +493,6 @@ class _$ContentImporterCommand_GetCollectionInfoCopyWithImpl<$Res>
   final ContentImporterCommand_GetCollectionInfo _self;
   final $Res Function(ContentImporterCommand_GetCollectionInfo) _then;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
@@ -700,16 +507,12 @@ class _$ContentImporterCommand_GetCollectionInfoCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentImporterCommand_GetTracks extends ContentImporterCommand {
   const ContentImporterCommand_GetTracks({required this.url}) : super._();
 
   @override
   final String url;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -734,7 +537,6 @@ class ContentImporterCommand_GetTracks extends ContentImporterCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentImporterCommand_GetTracksCopyWith<$Res>
     implements $ContentImporterCommandCopyWith<$Res> {
   factory $ContentImporterCommand_GetTracksCopyWith(
@@ -746,7 +548,6 @@ abstract mixin class $ContentImporterCommand_GetTracksCopyWith<$Res>
   $Res call({String url});
 }
 
-/// @nodoc
 class _$ContentImporterCommand_GetTracksCopyWithImpl<$Res>
     implements $ContentImporterCommand_GetTracksCopyWith<$Res> {
   _$ContentImporterCommand_GetTracksCopyWithImpl(this._self, this._then);
@@ -754,8 +555,6 @@ class _$ContentImporterCommand_GetTracksCopyWithImpl<$Res>
   final ContentImporterCommand_GetTracks _self;
   final $Res Function(ContentImporterCommand_GetTracks) _then;
 
-  /// Create a copy of ContentImporterCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
@@ -770,7 +569,6 @@ class _$ContentImporterCommand_GetTracksCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$ContentResolverCommand {
   @override
   bool operator ==(Object other) {
@@ -787,25 +585,12 @@ mixin _$ContentResolverCommand {
   }
 }
 
-/// @nodoc
 class $ContentResolverCommandCopyWith<$Res> {
   $ContentResolverCommandCopyWith(
       ContentResolverCommand _, $Res Function(ContentResolverCommand) __);
 }
 
-/// Adds pattern-matching-related methods to [ContentResolverCommand].
 extension ContentResolverCommandPatterns on ContentResolverCommand {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -876,19 +661,6 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ContentResolverCommand_GetTrackDetails value)
@@ -946,18 +718,6 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
         return getSegmentsForTrack(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -1027,18 +787,6 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? getTrackDetails,
@@ -1100,19 +848,6 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) getTrackDetails,
@@ -1161,18 +896,6 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
         return getSegmentsForTrack(_that.id);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -1235,15 +958,11 @@ extension ContentResolverCommandPatterns on ContentResolverCommand {
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetTrackDetails extends ContentResolverCommand {
   const ContentResolverCommand_GetTrackDetails({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetTrackDetailsCopyWith<
@@ -1268,7 +987,6 @@ class ContentResolverCommand_GetTrackDetails extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetTrackDetailsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetTrackDetailsCopyWith(
@@ -1279,7 +997,6 @@ abstract mixin class $ContentResolverCommand_GetTrackDetailsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetTrackDetailsCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetTrackDetailsCopyWith<$Res> {
   _$ContentResolverCommand_GetTrackDetailsCopyWithImpl(this._self, this._then);
@@ -1287,8 +1004,6 @@ class _$ContentResolverCommand_GetTrackDetailsCopyWithImpl<$Res>
   final ContentResolverCommand_GetTrackDetails _self;
   final $Res Function(ContentResolverCommand_GetTrackDetails) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1302,15 +1017,11 @@ class _$ContentResolverCommand_GetTrackDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetAlbumDetails extends ContentResolverCommand {
   const ContentResolverCommand_GetAlbumDetails({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetAlbumDetailsCopyWith<
@@ -1335,7 +1046,6 @@ class ContentResolverCommand_GetAlbumDetails extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetAlbumDetailsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetAlbumDetailsCopyWith(
@@ -1346,7 +1056,6 @@ abstract mixin class $ContentResolverCommand_GetAlbumDetailsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetAlbumDetailsCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetAlbumDetailsCopyWith<$Res> {
   _$ContentResolverCommand_GetAlbumDetailsCopyWithImpl(this._self, this._then);
@@ -1354,8 +1063,6 @@ class _$ContentResolverCommand_GetAlbumDetailsCopyWithImpl<$Res>
   final ContentResolverCommand_GetAlbumDetails _self;
   final $Res Function(ContentResolverCommand_GetAlbumDetails) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1369,15 +1076,11 @@ class _$ContentResolverCommand_GetAlbumDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetArtistDetails extends ContentResolverCommand {
   const ContentResolverCommand_GetArtistDetails({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetArtistDetailsCopyWith<
@@ -1402,7 +1105,6 @@ class ContentResolverCommand_GetArtistDetails extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetArtistDetailsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetArtistDetailsCopyWith(
@@ -1413,7 +1115,6 @@ abstract mixin class $ContentResolverCommand_GetArtistDetailsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetArtistDetailsCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetArtistDetailsCopyWith<$Res> {
   _$ContentResolverCommand_GetArtistDetailsCopyWithImpl(this._self, this._then);
@@ -1421,8 +1122,6 @@ class _$ContentResolverCommand_GetArtistDetailsCopyWithImpl<$Res>
   final ContentResolverCommand_GetArtistDetails _self;
   final $Res Function(ContentResolverCommand_GetArtistDetails) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1436,16 +1135,12 @@ class _$ContentResolverCommand_GetArtistDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetPlaylistDetails extends ContentResolverCommand {
   const ContentResolverCommand_GetPlaylistDetails({required this.id})
       : super._();
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetPlaylistDetailsCopyWith<
@@ -1470,7 +1165,6 @@ class ContentResolverCommand_GetPlaylistDetails extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetPlaylistDetailsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetPlaylistDetailsCopyWith(
@@ -1481,7 +1175,6 @@ abstract mixin class $ContentResolverCommand_GetPlaylistDetailsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetPlaylistDetailsCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetPlaylistDetailsCopyWith<$Res> {
   _$ContentResolverCommand_GetPlaylistDetailsCopyWithImpl(
@@ -1490,8 +1183,6 @@ class _$ContentResolverCommand_GetPlaylistDetailsCopyWithImpl<$Res>
   final ContentResolverCommand_GetPlaylistDetails _self;
   final $Res Function(ContentResolverCommand_GetPlaylistDetails) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1505,15 +1196,11 @@ class _$ContentResolverCommand_GetPlaylistDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetStreams extends ContentResolverCommand {
   const ContentResolverCommand_GetStreams({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetStreamsCopyWith<ContentResolverCommand_GetStreams>
@@ -1537,7 +1224,6 @@ class ContentResolverCommand_GetStreams extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetStreamsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetStreamsCopyWith(
@@ -1548,7 +1234,6 @@ abstract mixin class $ContentResolverCommand_GetStreamsCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetStreamsCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetStreamsCopyWith<$Res> {
   _$ContentResolverCommand_GetStreamsCopyWithImpl(this._self, this._then);
@@ -1556,8 +1241,6 @@ class _$ContentResolverCommand_GetStreamsCopyWithImpl<$Res>
   final ContentResolverCommand_GetStreams _self;
   final $Res Function(ContentResolverCommand_GetStreams) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1571,8 +1254,6 @@ class _$ContentResolverCommand_GetStreamsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_Search extends ContentResolverCommand {
   const ContentResolverCommand_Search(
       {required this.query, required this.filter, this.pageToken})
@@ -1582,8 +1263,6 @@ class ContentResolverCommand_Search extends ContentResolverCommand {
   final ContentSearchFilter filter;
   final String? pageToken;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_SearchCopyWith<ContentResolverCommand_Search>
@@ -1610,7 +1289,6 @@ class ContentResolverCommand_Search extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_SearchCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_SearchCopyWith(
@@ -1621,7 +1299,6 @@ abstract mixin class $ContentResolverCommand_SearchCopyWith<$Res>
   $Res call({String query, ContentSearchFilter filter, String? pageToken});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_SearchCopyWithImpl<$Res>
     implements $ContentResolverCommand_SearchCopyWith<$Res> {
   _$ContentResolverCommand_SearchCopyWithImpl(this._self, this._then);
@@ -1629,8 +1306,6 @@ class _$ContentResolverCommand_SearchCopyWithImpl<$Res>
   final ContentResolverCommand_Search _self;
   final $Res Function(ContentResolverCommand_Search) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? query = null,
@@ -1654,8 +1329,6 @@ class _$ContentResolverCommand_SearchCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_MoreAlbumTracks extends ContentResolverCommand {
   const ContentResolverCommand_MoreAlbumTracks(
       {required this.id, required this.pageToken})
@@ -1664,8 +1337,6 @@ class ContentResolverCommand_MoreAlbumTracks extends ContentResolverCommand {
   final String id;
   final String pageToken;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_MoreAlbumTracksCopyWith<
@@ -1692,7 +1363,6 @@ class ContentResolverCommand_MoreAlbumTracks extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_MoreAlbumTracksCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_MoreAlbumTracksCopyWith(
@@ -1703,7 +1373,6 @@ abstract mixin class $ContentResolverCommand_MoreAlbumTracksCopyWith<$Res>
   $Res call({String id, String pageToken});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_MoreAlbumTracksCopyWithImpl<$Res>
     implements $ContentResolverCommand_MoreAlbumTracksCopyWith<$Res> {
   _$ContentResolverCommand_MoreAlbumTracksCopyWithImpl(this._self, this._then);
@@ -1711,8 +1380,6 @@ class _$ContentResolverCommand_MoreAlbumTracksCopyWithImpl<$Res>
   final ContentResolverCommand_MoreAlbumTracks _self;
   final $Res Function(ContentResolverCommand_MoreAlbumTracks) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1731,8 +1398,6 @@ class _$ContentResolverCommand_MoreAlbumTracksCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_MoreArtistAlbums extends ContentResolverCommand {
   const ContentResolverCommand_MoreArtistAlbums(
       {required this.id, required this.pageToken})
@@ -1741,8 +1406,6 @@ class ContentResolverCommand_MoreArtistAlbums extends ContentResolverCommand {
   final String id;
   final String pageToken;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_MoreArtistAlbumsCopyWith<
@@ -1769,7 +1432,6 @@ class ContentResolverCommand_MoreArtistAlbums extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_MoreArtistAlbumsCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_MoreArtistAlbumsCopyWith(
@@ -1780,7 +1442,6 @@ abstract mixin class $ContentResolverCommand_MoreArtistAlbumsCopyWith<$Res>
   $Res call({String id, String pageToken});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_MoreArtistAlbumsCopyWithImpl<$Res>
     implements $ContentResolverCommand_MoreArtistAlbumsCopyWith<$Res> {
   _$ContentResolverCommand_MoreArtistAlbumsCopyWithImpl(this._self, this._then);
@@ -1788,8 +1449,6 @@ class _$ContentResolverCommand_MoreArtistAlbumsCopyWithImpl<$Res>
   final ContentResolverCommand_MoreArtistAlbums _self;
   final $Res Function(ContentResolverCommand_MoreArtistAlbums) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1808,8 +1467,6 @@ class _$ContentResolverCommand_MoreArtistAlbumsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_MorePlaylistTracks extends ContentResolverCommand {
   const ContentResolverCommand_MorePlaylistTracks(
       {required this.id, required this.pageToken})
@@ -1818,8 +1475,6 @@ class ContentResolverCommand_MorePlaylistTracks extends ContentResolverCommand {
   final String id;
   final String pageToken;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_MorePlaylistTracksCopyWith<
@@ -1846,7 +1501,6 @@ class ContentResolverCommand_MorePlaylistTracks extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_MorePlaylistTracksCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_MorePlaylistTracksCopyWith(
@@ -1857,7 +1511,6 @@ abstract mixin class $ContentResolverCommand_MorePlaylistTracksCopyWith<$Res>
   $Res call({String id, String pageToken});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_MorePlaylistTracksCopyWithImpl<$Res>
     implements $ContentResolverCommand_MorePlaylistTracksCopyWith<$Res> {
   _$ContentResolverCommand_MorePlaylistTracksCopyWithImpl(
@@ -1866,8 +1519,6 @@ class _$ContentResolverCommand_MorePlaylistTracksCopyWithImpl<$Res>
   final ContentResolverCommand_MorePlaylistTracks _self;
   final $Res Function(ContentResolverCommand_MorePlaylistTracks) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1886,8 +1537,6 @@ class _$ContentResolverCommand_MorePlaylistTracksCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetRadioTracks extends ContentResolverCommand {
   const ContentResolverCommand_GetRadioTracks(
       {required this.id, this.pageToken})
@@ -1896,8 +1545,6 @@ class ContentResolverCommand_GetRadioTracks extends ContentResolverCommand {
   final String id;
   final String? pageToken;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetRadioTracksCopyWith<
@@ -1924,7 +1571,6 @@ class ContentResolverCommand_GetRadioTracks extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetRadioTracksCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetRadioTracksCopyWith(
@@ -1935,7 +1581,6 @@ abstract mixin class $ContentResolverCommand_GetRadioTracksCopyWith<$Res>
   $Res call({String id, String? pageToken});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetRadioTracksCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetRadioTracksCopyWith<$Res> {
   _$ContentResolverCommand_GetRadioTracksCopyWithImpl(this._self, this._then);
@@ -1943,8 +1588,6 @@ class _$ContentResolverCommand_GetRadioTracksCopyWithImpl<$Res>
   final ContentResolverCommand_GetRadioTracks _self;
   final $Res Function(ContentResolverCommand_GetRadioTracks) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1962,8 +1605,6 @@ class _$ContentResolverCommand_GetRadioTracksCopyWithImpl<$Res>
     ));
   }
 }
-
-/// @nodoc
 
 class ContentResolverCommand_GetHomeSections extends ContentResolverCommand {
   const ContentResolverCommand_GetHomeSections() : super._();
@@ -1984,8 +1625,6 @@ class ContentResolverCommand_GetHomeSections extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_LoadMore extends ContentResolverCommand {
   const ContentResolverCommand_LoadMore(
       {required this.id, required this.moreLink})
@@ -1994,8 +1633,6 @@ class ContentResolverCommand_LoadMore extends ContentResolverCommand {
   final String id;
   final String moreLink;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_LoadMoreCopyWith<ContentResolverCommand_LoadMore>
@@ -2021,7 +1658,6 @@ class ContentResolverCommand_LoadMore extends ContentResolverCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_LoadMoreCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_LoadMoreCopyWith(
@@ -2032,7 +1668,6 @@ abstract mixin class $ContentResolverCommand_LoadMoreCopyWith<$Res>
   $Res call({String id, String moreLink});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_LoadMoreCopyWithImpl<$Res>
     implements $ContentResolverCommand_LoadMoreCopyWith<$Res> {
   _$ContentResolverCommand_LoadMoreCopyWithImpl(this._self, this._then);
@@ -2040,8 +1675,6 @@ class _$ContentResolverCommand_LoadMoreCopyWithImpl<$Res>
   final ContentResolverCommand_LoadMore _self;
   final $Res Function(ContentResolverCommand_LoadMore) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -2060,8 +1693,6 @@ class _$ContentResolverCommand_LoadMoreCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class ContentResolverCommand_GetSegmentsForTrack
     extends ContentResolverCommand {
   const ContentResolverCommand_GetSegmentsForTrack({required this.id})
@@ -2069,8 +1700,6 @@ class ContentResolverCommand_GetSegmentsForTrack
 
   final String id;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ContentResolverCommand_GetSegmentsForTrackCopyWith<
@@ -2095,7 +1724,6 @@ class ContentResolverCommand_GetSegmentsForTrack
   }
 }
 
-/// @nodoc
 abstract mixin class $ContentResolverCommand_GetSegmentsForTrackCopyWith<$Res>
     implements $ContentResolverCommandCopyWith<$Res> {
   factory $ContentResolverCommand_GetSegmentsForTrackCopyWith(
@@ -2106,7 +1734,6 @@ abstract mixin class $ContentResolverCommand_GetSegmentsForTrackCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$ContentResolverCommand_GetSegmentsForTrackCopyWithImpl<$Res>
     implements $ContentResolverCommand_GetSegmentsForTrackCopyWith<$Res> {
   _$ContentResolverCommand_GetSegmentsForTrackCopyWithImpl(
@@ -2115,8 +1742,6 @@ class _$ContentResolverCommand_GetSegmentsForTrackCopyWithImpl<$Res>
   final ContentResolverCommand_GetSegmentsForTrack _self;
   final $Res Function(ContentResolverCommand_GetSegmentsForTrack) _then;
 
-  /// Create a copy of ContentResolverCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -2130,7 +1755,6 @@ class _$ContentResolverCommand_GetSegmentsForTrackCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$LyricsProviderCommand {
   @override
   bool operator ==(Object other) {
@@ -2147,25 +1771,12 @@ mixin _$LyricsProviderCommand {
   }
 }
 
-/// @nodoc
 class $LyricsProviderCommandCopyWith<$Res> {
   $LyricsProviderCommandCopyWith(
       LyricsProviderCommand _, $Res Function(LyricsProviderCommand) __);
 }
 
-/// Adds pattern-matching-related methods to [LyricsProviderCommand].
 extension LyricsProviderCommandPatterns on LyricsProviderCommand {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -2187,19 +1798,6 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LyricsProviderCommand_GetLyrics value) getLyrics,
@@ -2217,18 +1815,6 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
         return getLyricsById(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -2248,18 +1834,6 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
         return null;
     }
   }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -2281,19 +1855,6 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(TrackMetadata metadata) getLyrics,
@@ -2310,18 +1871,6 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
         return getLyricsById(_that.id);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -2343,15 +1892,11 @@ extension LyricsProviderCommandPatterns on LyricsProviderCommand {
   }
 }
 
-/// @nodoc
-
 class LyricsProviderCommand_GetLyrics extends LyricsProviderCommand {
   const LyricsProviderCommand_GetLyrics({required this.metadata}) : super._();
 
   final TrackMetadata metadata;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LyricsProviderCommand_GetLyricsCopyWith<LyricsProviderCommand_GetLyrics>
@@ -2376,7 +1921,6 @@ class LyricsProviderCommand_GetLyrics extends LyricsProviderCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $LyricsProviderCommand_GetLyricsCopyWith<$Res>
     implements $LyricsProviderCommandCopyWith<$Res> {
   factory $LyricsProviderCommand_GetLyricsCopyWith(
@@ -2387,7 +1931,6 @@ abstract mixin class $LyricsProviderCommand_GetLyricsCopyWith<$Res>
   $Res call({TrackMetadata metadata});
 }
 
-/// @nodoc
 class _$LyricsProviderCommand_GetLyricsCopyWithImpl<$Res>
     implements $LyricsProviderCommand_GetLyricsCopyWith<$Res> {
   _$LyricsProviderCommand_GetLyricsCopyWithImpl(this._self, this._then);
@@ -2395,8 +1938,6 @@ class _$LyricsProviderCommand_GetLyricsCopyWithImpl<$Res>
   final LyricsProviderCommand_GetLyrics _self;
   final $Res Function(LyricsProviderCommand_GetLyrics) _then;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? metadata = null,
@@ -2410,15 +1951,11 @@ class _$LyricsProviderCommand_GetLyricsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class LyricsProviderCommand_Search extends LyricsProviderCommand {
   const LyricsProviderCommand_Search({required this.query}) : super._();
 
   final String query;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LyricsProviderCommand_SearchCopyWith<LyricsProviderCommand_Search>
@@ -2442,7 +1979,6 @@ class LyricsProviderCommand_Search extends LyricsProviderCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $LyricsProviderCommand_SearchCopyWith<$Res>
     implements $LyricsProviderCommandCopyWith<$Res> {
   factory $LyricsProviderCommand_SearchCopyWith(
@@ -2453,7 +1989,6 @@ abstract mixin class $LyricsProviderCommand_SearchCopyWith<$Res>
   $Res call({String query});
 }
 
-/// @nodoc
 class _$LyricsProviderCommand_SearchCopyWithImpl<$Res>
     implements $LyricsProviderCommand_SearchCopyWith<$Res> {
   _$LyricsProviderCommand_SearchCopyWithImpl(this._self, this._then);
@@ -2461,8 +1996,6 @@ class _$LyricsProviderCommand_SearchCopyWithImpl<$Res>
   final LyricsProviderCommand_Search _self;
   final $Res Function(LyricsProviderCommand_Search) _then;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? query = null,
@@ -2476,15 +2009,11 @@ class _$LyricsProviderCommand_SearchCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class LyricsProviderCommand_GetLyricsById extends LyricsProviderCommand {
   const LyricsProviderCommand_GetLyricsById({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LyricsProviderCommand_GetLyricsByIdCopyWith<
@@ -2509,7 +2038,6 @@ class LyricsProviderCommand_GetLyricsById extends LyricsProviderCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $LyricsProviderCommand_GetLyricsByIdCopyWith<$Res>
     implements $LyricsProviderCommandCopyWith<$Res> {
   factory $LyricsProviderCommand_GetLyricsByIdCopyWith(
@@ -2520,7 +2048,6 @@ abstract mixin class $LyricsProviderCommand_GetLyricsByIdCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$LyricsProviderCommand_GetLyricsByIdCopyWithImpl<$Res>
     implements $LyricsProviderCommand_GetLyricsByIdCopyWith<$Res> {
   _$LyricsProviderCommand_GetLyricsByIdCopyWithImpl(this._self, this._then);
@@ -2528,8 +2055,6 @@ class _$LyricsProviderCommand_GetLyricsByIdCopyWithImpl<$Res>
   final LyricsProviderCommand_GetLyricsById _self;
   final $Res Function(LyricsProviderCommand_GetLyricsById) _then;
 
-  /// Create a copy of LyricsProviderCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -2543,7 +2068,6 @@ class _$LyricsProviderCommand_GetLyricsByIdCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$PluginRequest {
   Object get field0;
 
@@ -2565,24 +2089,11 @@ mixin _$PluginRequest {
   }
 }
 
-/// @nodoc
 class $PluginRequestCopyWith<$Res> {
   $PluginRequestCopyWith(PluginRequest _, $Res Function(PluginRequest) __);
 }
 
-/// Adds pattern-matching-related methods to [PluginRequest].
 extension PluginRequestPatterns on PluginRequest {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -2612,19 +2123,6 @@ extension PluginRequestPatterns on PluginRequest {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PluginRequest_ContentResolver value)
@@ -2651,18 +2149,6 @@ extension PluginRequestPatterns on PluginRequest {
         return contentImporter(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -2691,18 +2177,6 @@ extension PluginRequestPatterns on PluginRequest {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ContentResolverCommand field0)? contentResolver,
@@ -2730,19 +2204,6 @@ extension PluginRequestPatterns on PluginRequest {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ContentResolverCommand field0) contentResolver,
@@ -2766,18 +2227,6 @@ extension PluginRequestPatterns on PluginRequest {
         return contentImporter(_that.field0);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -2806,16 +2255,12 @@ extension PluginRequestPatterns on PluginRequest {
   }
 }
 
-/// @nodoc
-
 class PluginRequest_ContentResolver extends PluginRequest {
   const PluginRequest_ContentResolver(this.field0) : super._();
 
   @override
   final ContentResolverCommand field0;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginRequest_ContentResolverCopyWith<PluginRequest_ContentResolver>
@@ -2839,7 +2284,6 @@ class PluginRequest_ContentResolver extends PluginRequest {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginRequest_ContentResolverCopyWith<$Res>
     implements $PluginRequestCopyWith<$Res> {
   factory $PluginRequest_ContentResolverCopyWith(
@@ -2852,7 +2296,6 @@ abstract mixin class $PluginRequest_ContentResolverCopyWith<$Res>
   $ContentResolverCommandCopyWith<$Res> get field0;
 }
 
-/// @nodoc
 class _$PluginRequest_ContentResolverCopyWithImpl<$Res>
     implements $PluginRequest_ContentResolverCopyWith<$Res> {
   _$PluginRequest_ContentResolverCopyWithImpl(this._self, this._then);
@@ -2860,8 +2303,6 @@ class _$PluginRequest_ContentResolverCopyWithImpl<$Res>
   final PluginRequest_ContentResolver _self;
   final $Res Function(PluginRequest_ContentResolver) _then;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -2874,8 +2315,6 @@ class _$PluginRequest_ContentResolverCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentResolverCommandCopyWith<$Res> get field0 {
@@ -2885,16 +2324,12 @@ class _$PluginRequest_ContentResolverCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginRequest_ChartProvider extends PluginRequest {
   const PluginRequest_ChartProvider(this.field0) : super._();
 
   @override
   final ChartProviderCommand field0;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginRequest_ChartProviderCopyWith<PluginRequest_ChartProvider>
@@ -2918,7 +2353,6 @@ class PluginRequest_ChartProvider extends PluginRequest {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginRequest_ChartProviderCopyWith<$Res>
     implements $PluginRequestCopyWith<$Res> {
   factory $PluginRequest_ChartProviderCopyWith(
@@ -2931,7 +2365,6 @@ abstract mixin class $PluginRequest_ChartProviderCopyWith<$Res>
   $ChartProviderCommandCopyWith<$Res> get field0;
 }
 
-/// @nodoc
 class _$PluginRequest_ChartProviderCopyWithImpl<$Res>
     implements $PluginRequest_ChartProviderCopyWith<$Res> {
   _$PluginRequest_ChartProviderCopyWithImpl(this._self, this._then);
@@ -2939,8 +2372,6 @@ class _$PluginRequest_ChartProviderCopyWithImpl<$Res>
   final PluginRequest_ChartProvider _self;
   final $Res Function(PluginRequest_ChartProvider) _then;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -2953,8 +2384,6 @@ class _$PluginRequest_ChartProviderCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChartProviderCommandCopyWith<$Res> get field0 {
@@ -2964,16 +2393,12 @@ class _$PluginRequest_ChartProviderCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginRequest_LyricsProvider extends PluginRequest {
   const PluginRequest_LyricsProvider(this.field0) : super._();
 
   @override
   final LyricsProviderCommand field0;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginRequest_LyricsProviderCopyWith<PluginRequest_LyricsProvider>
@@ -2997,7 +2422,6 @@ class PluginRequest_LyricsProvider extends PluginRequest {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginRequest_LyricsProviderCopyWith<$Res>
     implements $PluginRequestCopyWith<$Res> {
   factory $PluginRequest_LyricsProviderCopyWith(
@@ -3010,7 +2434,6 @@ abstract mixin class $PluginRequest_LyricsProviderCopyWith<$Res>
   $LyricsProviderCommandCopyWith<$Res> get field0;
 }
 
-/// @nodoc
 class _$PluginRequest_LyricsProviderCopyWithImpl<$Res>
     implements $PluginRequest_LyricsProviderCopyWith<$Res> {
   _$PluginRequest_LyricsProviderCopyWithImpl(this._self, this._then);
@@ -3018,8 +2441,6 @@ class _$PluginRequest_LyricsProviderCopyWithImpl<$Res>
   final PluginRequest_LyricsProvider _self;
   final $Res Function(PluginRequest_LyricsProvider) _then;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3032,8 +2453,6 @@ class _$PluginRequest_LyricsProviderCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LyricsProviderCommandCopyWith<$Res> get field0 {
@@ -3043,16 +2462,12 @@ class _$PluginRequest_LyricsProviderCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginRequest_SearchSuggestionProvider extends PluginRequest {
   const PluginRequest_SearchSuggestionProvider(this.field0) : super._();
 
   @override
   final SearchSuggestionCommand field0;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginRequest_SearchSuggestionProviderCopyWith<
@@ -3077,7 +2492,6 @@ class PluginRequest_SearchSuggestionProvider extends PluginRequest {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginRequest_SearchSuggestionProviderCopyWith<$Res>
     implements $PluginRequestCopyWith<$Res> {
   factory $PluginRequest_SearchSuggestionProviderCopyWith(
@@ -3090,7 +2504,6 @@ abstract mixin class $PluginRequest_SearchSuggestionProviderCopyWith<$Res>
   $SearchSuggestionCommandCopyWith<$Res> get field0;
 }
 
-/// @nodoc
 class _$PluginRequest_SearchSuggestionProviderCopyWithImpl<$Res>
     implements $PluginRequest_SearchSuggestionProviderCopyWith<$Res> {
   _$PluginRequest_SearchSuggestionProviderCopyWithImpl(this._self, this._then);
@@ -3098,8 +2511,6 @@ class _$PluginRequest_SearchSuggestionProviderCopyWithImpl<$Res>
   final PluginRequest_SearchSuggestionProvider _self;
   final $Res Function(PluginRequest_SearchSuggestionProvider) _then;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3112,8 +2523,6 @@ class _$PluginRequest_SearchSuggestionProviderCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SearchSuggestionCommandCopyWith<$Res> get field0 {
@@ -3123,16 +2532,12 @@ class _$PluginRequest_SearchSuggestionProviderCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginRequest_ContentImporter extends PluginRequest {
   const PluginRequest_ContentImporter(this.field0) : super._();
 
   @override
   final ContentImporterCommand field0;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginRequest_ContentImporterCopyWith<PluginRequest_ContentImporter>
@@ -3156,7 +2561,6 @@ class PluginRequest_ContentImporter extends PluginRequest {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginRequest_ContentImporterCopyWith<$Res>
     implements $PluginRequestCopyWith<$Res> {
   factory $PluginRequest_ContentImporterCopyWith(
@@ -3169,7 +2573,6 @@ abstract mixin class $PluginRequest_ContentImporterCopyWith<$Res>
   $ContentImporterCommandCopyWith<$Res> get field0;
 }
 
-/// @nodoc
 class _$PluginRequest_ContentImporterCopyWithImpl<$Res>
     implements $PluginRequest_ContentImporterCopyWith<$Res> {
   _$PluginRequest_ContentImporterCopyWithImpl(this._self, this._then);
@@ -3177,8 +2580,6 @@ class _$PluginRequest_ContentImporterCopyWithImpl<$Res>
   final PluginRequest_ContentImporter _self;
   final $Res Function(PluginRequest_ContentImporter) _then;
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3191,8 +2592,6 @@ class _$PluginRequest_ContentImporterCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PluginRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ContentImporterCommandCopyWith<$Res> get field0 {
@@ -3202,7 +2601,6 @@ class _$PluginRequest_ContentImporterCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$PluginResponse {
   @override
   bool operator ==(Object other) {
@@ -3219,24 +2617,11 @@ mixin _$PluginResponse {
   }
 }
 
-/// @nodoc
 class $PluginResponseCopyWith<$Res> {
   $PluginResponseCopyWith(PluginResponse _, $Res Function(PluginResponse) __);
 }
 
-/// Adds pattern-matching-related methods to [PluginResponse].
 extension PluginResponsePatterns on PluginResponse {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -3314,19 +2699,6 @@ extension PluginResponsePatterns on PluginResponse {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PluginResponse_TrackDetails value) trackDetails,
@@ -3400,18 +2772,6 @@ extension PluginResponsePatterns on PluginResponse {
         return ack(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -3488,18 +2848,6 @@ extension PluginResponsePatterns on PluginResponse {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Track field0)? trackDetails,
@@ -3575,19 +2923,6 @@ extension PluginResponsePatterns on PluginResponse {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Track field0) trackDetails,
@@ -3660,18 +2995,6 @@ extension PluginResponsePatterns on PluginResponse {
         return ack();
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -3748,15 +3071,11 @@ extension PluginResponsePatterns on PluginResponse {
   }
 }
 
-/// @nodoc
-
 class PluginResponse_TrackDetails extends PluginResponse {
   const PluginResponse_TrackDetails(this.field0) : super._();
 
   final Track field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_TrackDetailsCopyWith<PluginResponse_TrackDetails>
@@ -3780,7 +3099,6 @@ class PluginResponse_TrackDetails extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_TrackDetailsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_TrackDetailsCopyWith(
@@ -3791,7 +3109,6 @@ abstract mixin class $PluginResponse_TrackDetailsCopyWith<$Res>
   $Res call({Track field0});
 }
 
-/// @nodoc
 class _$PluginResponse_TrackDetailsCopyWithImpl<$Res>
     implements $PluginResponse_TrackDetailsCopyWith<$Res> {
   _$PluginResponse_TrackDetailsCopyWithImpl(this._self, this._then);
@@ -3799,8 +3116,6 @@ class _$PluginResponse_TrackDetailsCopyWithImpl<$Res>
   final PluginResponse_TrackDetails _self;
   final $Res Function(PluginResponse_TrackDetails) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3814,15 +3129,11 @@ class _$PluginResponse_TrackDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_AlbumDetails extends PluginResponse {
   const PluginResponse_AlbumDetails(this.field0) : super._();
 
   final AlbumDetails field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_AlbumDetailsCopyWith<PluginResponse_AlbumDetails>
@@ -3846,7 +3157,6 @@ class PluginResponse_AlbumDetails extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_AlbumDetailsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_AlbumDetailsCopyWith(
@@ -3857,7 +3167,6 @@ abstract mixin class $PluginResponse_AlbumDetailsCopyWith<$Res>
   $Res call({AlbumDetails field0});
 }
 
-/// @nodoc
 class _$PluginResponse_AlbumDetailsCopyWithImpl<$Res>
     implements $PluginResponse_AlbumDetailsCopyWith<$Res> {
   _$PluginResponse_AlbumDetailsCopyWithImpl(this._self, this._then);
@@ -3865,8 +3174,6 @@ class _$PluginResponse_AlbumDetailsCopyWithImpl<$Res>
   final PluginResponse_AlbumDetails _self;
   final $Res Function(PluginResponse_AlbumDetails) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3880,15 +3187,11 @@ class _$PluginResponse_AlbumDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_ArtistDetails extends PluginResponse {
   const PluginResponse_ArtistDetails(this.field0) : super._();
 
   final ArtistDetails field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_ArtistDetailsCopyWith<PluginResponse_ArtistDetails>
@@ -3912,7 +3215,6 @@ class PluginResponse_ArtistDetails extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_ArtistDetailsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_ArtistDetailsCopyWith(
@@ -3923,7 +3225,6 @@ abstract mixin class $PluginResponse_ArtistDetailsCopyWith<$Res>
   $Res call({ArtistDetails field0});
 }
 
-/// @nodoc
 class _$PluginResponse_ArtistDetailsCopyWithImpl<$Res>
     implements $PluginResponse_ArtistDetailsCopyWith<$Res> {
   _$PluginResponse_ArtistDetailsCopyWithImpl(this._self, this._then);
@@ -3931,8 +3232,6 @@ class _$PluginResponse_ArtistDetailsCopyWithImpl<$Res>
   final PluginResponse_ArtistDetails _self;
   final $Res Function(PluginResponse_ArtistDetails) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -3946,15 +3245,11 @@ class _$PluginResponse_ArtistDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_PlaylistDetails extends PluginResponse {
   const PluginResponse_PlaylistDetails(this.field0) : super._();
 
   final PlaylistDetails field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_PlaylistDetailsCopyWith<PluginResponse_PlaylistDetails>
@@ -3978,7 +3273,6 @@ class PluginResponse_PlaylistDetails extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_PlaylistDetailsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_PlaylistDetailsCopyWith(
@@ -3989,7 +3283,6 @@ abstract mixin class $PluginResponse_PlaylistDetailsCopyWith<$Res>
   $Res call({PlaylistDetails field0});
 }
 
-/// @nodoc
 class _$PluginResponse_PlaylistDetailsCopyWithImpl<$Res>
     implements $PluginResponse_PlaylistDetailsCopyWith<$Res> {
   _$PluginResponse_PlaylistDetailsCopyWithImpl(this._self, this._then);
@@ -3997,8 +3290,6 @@ class _$PluginResponse_PlaylistDetailsCopyWithImpl<$Res>
   final PluginResponse_PlaylistDetails _self;
   final $Res Function(PluginResponse_PlaylistDetails) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4012,8 +3303,6 @@ class _$PluginResponse_PlaylistDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_Streams extends PluginResponse {
   const PluginResponse_Streams(final List<StreamSource> field0)
       : _field0 = field0,
@@ -4022,12 +3311,9 @@ class PluginResponse_Streams extends PluginResponse {
   final List<StreamSource> _field0;
   List<StreamSource> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_StreamsCopyWith<PluginResponse_Streams> get copyWith =>
@@ -4052,7 +3338,6 @@ class PluginResponse_Streams extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_StreamsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_StreamsCopyWith(PluginResponse_Streams value,
@@ -4062,7 +3347,6 @@ abstract mixin class $PluginResponse_StreamsCopyWith<$Res>
   $Res call({List<StreamSource> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_StreamsCopyWithImpl<$Res>
     implements $PluginResponse_StreamsCopyWith<$Res> {
   _$PluginResponse_StreamsCopyWithImpl(this._self, this._then);
@@ -4070,8 +3354,6 @@ class _$PluginResponse_StreamsCopyWithImpl<$Res>
   final PluginResponse_Streams _self;
   final $Res Function(PluginResponse_Streams) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4085,15 +3367,11 @@ class _$PluginResponse_StreamsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_Search extends PluginResponse {
   const PluginResponse_Search(this.field0) : super._();
 
   final PagedMediaItems field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_SearchCopyWith<PluginResponse_Search> get copyWith =>
@@ -4117,7 +3395,6 @@ class PluginResponse_Search extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_SearchCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_SearchCopyWith(PluginResponse_Search value,
@@ -4127,7 +3404,6 @@ abstract mixin class $PluginResponse_SearchCopyWith<$Res>
   $Res call({PagedMediaItems field0});
 }
 
-/// @nodoc
 class _$PluginResponse_SearchCopyWithImpl<$Res>
     implements $PluginResponse_SearchCopyWith<$Res> {
   _$PluginResponse_SearchCopyWithImpl(this._self, this._then);
@@ -4135,8 +3411,6 @@ class _$PluginResponse_SearchCopyWithImpl<$Res>
   final PluginResponse_Search _self;
   final $Res Function(PluginResponse_Search) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4150,15 +3424,11 @@ class _$PluginResponse_SearchCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_MoreTracks extends PluginResponse {
   const PluginResponse_MoreTracks(this.field0) : super._();
 
   final PagedTracks field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_MoreTracksCopyWith<PluginResponse_MoreTracks> get copyWith =>
@@ -4182,7 +3452,6 @@ class PluginResponse_MoreTracks extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_MoreTracksCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_MoreTracksCopyWith(PluginResponse_MoreTracks value,
@@ -4192,7 +3461,6 @@ abstract mixin class $PluginResponse_MoreTracksCopyWith<$Res>
   $Res call({PagedTracks field0});
 }
 
-/// @nodoc
 class _$PluginResponse_MoreTracksCopyWithImpl<$Res>
     implements $PluginResponse_MoreTracksCopyWith<$Res> {
   _$PluginResponse_MoreTracksCopyWithImpl(this._self, this._then);
@@ -4200,8 +3468,6 @@ class _$PluginResponse_MoreTracksCopyWithImpl<$Res>
   final PluginResponse_MoreTracks _self;
   final $Res Function(PluginResponse_MoreTracks) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4215,15 +3481,11 @@ class _$PluginResponse_MoreTracksCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_MoreAlbums extends PluginResponse {
   const PluginResponse_MoreAlbums(this.field0) : super._();
 
   final PagedAlbums field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_MoreAlbumsCopyWith<PluginResponse_MoreAlbums> get copyWith =>
@@ -4247,7 +3509,6 @@ class PluginResponse_MoreAlbums extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_MoreAlbumsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_MoreAlbumsCopyWith(PluginResponse_MoreAlbums value,
@@ -4257,7 +3518,6 @@ abstract mixin class $PluginResponse_MoreAlbumsCopyWith<$Res>
   $Res call({PagedAlbums field0});
 }
 
-/// @nodoc
 class _$PluginResponse_MoreAlbumsCopyWithImpl<$Res>
     implements $PluginResponse_MoreAlbumsCopyWith<$Res> {
   _$PluginResponse_MoreAlbumsCopyWithImpl(this._self, this._then);
@@ -4265,8 +3525,6 @@ class _$PluginResponse_MoreAlbumsCopyWithImpl<$Res>
   final PluginResponse_MoreAlbums _self;
   final $Res Function(PluginResponse_MoreAlbums) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4280,8 +3538,6 @@ class _$PluginResponse_MoreAlbumsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_HomeSections extends PluginResponse {
   const PluginResponse_HomeSections(final List<Section> field0)
       : _field0 = field0,
@@ -4290,12 +3546,9 @@ class PluginResponse_HomeSections extends PluginResponse {
   final List<Section> _field0;
   List<Section> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_HomeSectionsCopyWith<PluginResponse_HomeSections>
@@ -4320,7 +3573,6 @@ class PluginResponse_HomeSections extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_HomeSectionsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_HomeSectionsCopyWith(
@@ -4331,7 +3583,6 @@ abstract mixin class $PluginResponse_HomeSectionsCopyWith<$Res>
   $Res call({List<Section> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_HomeSectionsCopyWithImpl<$Res>
     implements $PluginResponse_HomeSectionsCopyWith<$Res> {
   _$PluginResponse_HomeSectionsCopyWithImpl(this._self, this._then);
@@ -4339,8 +3590,6 @@ class _$PluginResponse_HomeSectionsCopyWithImpl<$Res>
   final PluginResponse_HomeSections _self;
   final $Res Function(PluginResponse_HomeSections) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4354,8 +3603,6 @@ class _$PluginResponse_HomeSectionsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_LoadMoreItems extends PluginResponse {
   const PluginResponse_LoadMoreItems(final List<MediaItem> field0)
       : _field0 = field0,
@@ -4364,12 +3611,9 @@ class PluginResponse_LoadMoreItems extends PluginResponse {
   final List<MediaItem> _field0;
   List<MediaItem> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_LoadMoreItemsCopyWith<PluginResponse_LoadMoreItems>
@@ -4394,7 +3638,6 @@ class PluginResponse_LoadMoreItems extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_LoadMoreItemsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_LoadMoreItemsCopyWith(
@@ -4405,7 +3648,6 @@ abstract mixin class $PluginResponse_LoadMoreItemsCopyWith<$Res>
   $Res call({List<MediaItem> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_LoadMoreItemsCopyWithImpl<$Res>
     implements $PluginResponse_LoadMoreItemsCopyWith<$Res> {
   _$PluginResponse_LoadMoreItemsCopyWithImpl(this._self, this._then);
@@ -4413,8 +3655,6 @@ class _$PluginResponse_LoadMoreItemsCopyWithImpl<$Res>
   final PluginResponse_LoadMoreItems _self;
   final $Res Function(PluginResponse_LoadMoreItems) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4428,8 +3668,6 @@ class _$PluginResponse_LoadMoreItemsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_Charts extends PluginResponse {
   const PluginResponse_Charts(final List<ChartSummary> field0)
       : _field0 = field0,
@@ -4438,12 +3676,9 @@ class PluginResponse_Charts extends PluginResponse {
   final List<ChartSummary> _field0;
   List<ChartSummary> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_ChartsCopyWith<PluginResponse_Charts> get copyWith =>
@@ -4468,7 +3703,6 @@ class PluginResponse_Charts extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_ChartsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_ChartsCopyWith(PluginResponse_Charts value,
@@ -4478,7 +3712,6 @@ abstract mixin class $PluginResponse_ChartsCopyWith<$Res>
   $Res call({List<ChartSummary> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_ChartsCopyWithImpl<$Res>
     implements $PluginResponse_ChartsCopyWith<$Res> {
   _$PluginResponse_ChartsCopyWithImpl(this._self, this._then);
@@ -4486,8 +3719,6 @@ class _$PluginResponse_ChartsCopyWithImpl<$Res>
   final PluginResponse_Charts _self;
   final $Res Function(PluginResponse_Charts) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4501,8 +3732,6 @@ class _$PluginResponse_ChartsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_ChartDetails extends PluginResponse {
   const PluginResponse_ChartDetails(final List<ChartItem> field0)
       : _field0 = field0,
@@ -4511,12 +3740,9 @@ class PluginResponse_ChartDetails extends PluginResponse {
   final List<ChartItem> _field0;
   List<ChartItem> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_ChartDetailsCopyWith<PluginResponse_ChartDetails>
@@ -4541,7 +3767,6 @@ class PluginResponse_ChartDetails extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_ChartDetailsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_ChartDetailsCopyWith(
@@ -4552,7 +3777,6 @@ abstract mixin class $PluginResponse_ChartDetailsCopyWith<$Res>
   $Res call({List<ChartItem> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_ChartDetailsCopyWithImpl<$Res>
     implements $PluginResponse_ChartDetailsCopyWith<$Res> {
   _$PluginResponse_ChartDetailsCopyWithImpl(this._self, this._then);
@@ -4560,8 +3784,6 @@ class _$PluginResponse_ChartDetailsCopyWithImpl<$Res>
   final PluginResponse_ChartDetails _self;
   final $Res Function(PluginResponse_ChartDetails) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4575,8 +3797,6 @@ class _$PluginResponse_ChartDetailsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_Segments extends PluginResponse {
   const PluginResponse_Segments(final List<TrackSegment> field0)
       : _field0 = field0,
@@ -4585,12 +3805,9 @@ class PluginResponse_Segments extends PluginResponse {
   final List<TrackSegment> _field0;
   List<TrackSegment> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_SegmentsCopyWith<PluginResponse_Segments> get copyWith =>
@@ -4615,7 +3832,6 @@ class PluginResponse_Segments extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_SegmentsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_SegmentsCopyWith(PluginResponse_Segments value,
@@ -4625,7 +3841,6 @@ abstract mixin class $PluginResponse_SegmentsCopyWith<$Res>
   $Res call({List<TrackSegment> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_SegmentsCopyWithImpl<$Res>
     implements $PluginResponse_SegmentsCopyWith<$Res> {
   _$PluginResponse_SegmentsCopyWithImpl(this._self, this._then);
@@ -4633,8 +3848,6 @@ class _$PluginResponse_SegmentsCopyWithImpl<$Res>
   final PluginResponse_Segments _self;
   final $Res Function(PluginResponse_Segments) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4648,15 +3861,11 @@ class _$PluginResponse_SegmentsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_LyricsResult extends PluginResponse {
   const PluginResponse_LyricsResult([this.field0]) : super._();
 
   final (PluginLyrics, LyricsMetadata)? field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_LyricsResultCopyWith<PluginResponse_LyricsResult>
@@ -4680,7 +3889,6 @@ class PluginResponse_LyricsResult extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_LyricsResultCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_LyricsResultCopyWith(
@@ -4691,7 +3899,6 @@ abstract mixin class $PluginResponse_LyricsResultCopyWith<$Res>
   $Res call({(PluginLyrics, LyricsMetadata)? field0});
 }
 
-/// @nodoc
 class _$PluginResponse_LyricsResultCopyWithImpl<$Res>
     implements $PluginResponse_LyricsResultCopyWith<$Res> {
   _$PluginResponse_LyricsResultCopyWithImpl(this._self, this._then);
@@ -4699,8 +3906,6 @@ class _$PluginResponse_LyricsResultCopyWithImpl<$Res>
   final PluginResponse_LyricsResult _self;
   final $Res Function(PluginResponse_LyricsResult) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = freezed,
@@ -4714,8 +3919,6 @@ class _$PluginResponse_LyricsResultCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_LyricsSearchResults extends PluginResponse {
   const PluginResponse_LyricsSearchResults(final List<LyricsMatch> field0)
       : _field0 = field0,
@@ -4724,12 +3927,9 @@ class PluginResponse_LyricsSearchResults extends PluginResponse {
   final List<LyricsMatch> _field0;
   List<LyricsMatch> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_LyricsSearchResultsCopyWith<
@@ -4755,7 +3955,6 @@ class PluginResponse_LyricsSearchResults extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_LyricsSearchResultsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_LyricsSearchResultsCopyWith(
@@ -4766,7 +3965,6 @@ abstract mixin class $PluginResponse_LyricsSearchResultsCopyWith<$Res>
   $Res call({List<LyricsMatch> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_LyricsSearchResultsCopyWithImpl<$Res>
     implements $PluginResponse_LyricsSearchResultsCopyWith<$Res> {
   _$PluginResponse_LyricsSearchResultsCopyWithImpl(this._self, this._then);
@@ -4774,8 +3972,6 @@ class _$PluginResponse_LyricsSearchResultsCopyWithImpl<$Res>
   final PluginResponse_LyricsSearchResults _self;
   final $Res Function(PluginResponse_LyricsSearchResults) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4789,16 +3985,12 @@ class _$PluginResponse_LyricsSearchResultsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_LyricsById extends PluginResponse {
   const PluginResponse_LyricsById(this.field0, this.field1) : super._();
 
   final PluginLyrics field0;
   final LyricsMetadata field1;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_LyricsByIdCopyWith<PluginResponse_LyricsById> get copyWith =>
@@ -4823,7 +4015,6 @@ class PluginResponse_LyricsById extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_LyricsByIdCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_LyricsByIdCopyWith(PluginResponse_LyricsById value,
@@ -4833,7 +4024,6 @@ abstract mixin class $PluginResponse_LyricsByIdCopyWith<$Res>
   $Res call({PluginLyrics field0, LyricsMetadata field1});
 }
 
-/// @nodoc
 class _$PluginResponse_LyricsByIdCopyWithImpl<$Res>
     implements $PluginResponse_LyricsByIdCopyWith<$Res> {
   _$PluginResponse_LyricsByIdCopyWithImpl(this._self, this._then);
@@ -4841,8 +4031,6 @@ class _$PluginResponse_LyricsByIdCopyWithImpl<$Res>
   final PluginResponse_LyricsById _self;
   final $Res Function(PluginResponse_LyricsById) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4861,8 +4049,6 @@ class _$PluginResponse_LyricsByIdCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_Suggestions extends PluginResponse {
   const PluginResponse_Suggestions(final List<Suggestion> field0)
       : _field0 = field0,
@@ -4871,12 +4057,9 @@ class PluginResponse_Suggestions extends PluginResponse {
   final List<Suggestion> _field0;
   List<Suggestion> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_SuggestionsCopyWith<PluginResponse_Suggestions>
@@ -4902,7 +4085,6 @@ class PluginResponse_Suggestions extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_SuggestionsCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_SuggestionsCopyWith(PluginResponse_Suggestions value,
@@ -4912,7 +4094,6 @@ abstract mixin class $PluginResponse_SuggestionsCopyWith<$Res>
   $Res call({List<Suggestion> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_SuggestionsCopyWithImpl<$Res>
     implements $PluginResponse_SuggestionsCopyWith<$Res> {
   _$PluginResponse_SuggestionsCopyWithImpl(this._self, this._then);
@@ -4920,8 +4101,6 @@ class _$PluginResponse_SuggestionsCopyWithImpl<$Res>
   final PluginResponse_Suggestions _self;
   final $Res Function(PluginResponse_Suggestions) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -4935,15 +4114,11 @@ class _$PluginResponse_SuggestionsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_CanHandle extends PluginResponse {
   const PluginResponse_CanHandle(this.field0) : super._();
 
   final bool field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_CanHandleCopyWith<PluginResponse_CanHandle> get copyWith =>
@@ -4967,7 +4142,6 @@ class PluginResponse_CanHandle extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_CanHandleCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_CanHandleCopyWith(PluginResponse_CanHandle value,
@@ -4977,7 +4151,6 @@ abstract mixin class $PluginResponse_CanHandleCopyWith<$Res>
   $Res call({bool field0});
 }
 
-/// @nodoc
 class _$PluginResponse_CanHandleCopyWithImpl<$Res>
     implements $PluginResponse_CanHandleCopyWith<$Res> {
   _$PluginResponse_CanHandleCopyWithImpl(this._self, this._then);
@@ -4985,8 +4158,6 @@ class _$PluginResponse_CanHandleCopyWithImpl<$Res>
   final PluginResponse_CanHandle _self;
   final $Res Function(PluginResponse_CanHandle) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -5000,15 +4171,11 @@ class _$PluginResponse_CanHandleCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_CollectionInfo extends PluginResponse {
   const PluginResponse_CollectionInfo(this.field0) : super._();
 
   final ImportCollectionSummary field0;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_CollectionInfoCopyWith<PluginResponse_CollectionInfo>
@@ -5032,7 +4199,6 @@ class PluginResponse_CollectionInfo extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_CollectionInfoCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_CollectionInfoCopyWith(
@@ -5043,7 +4209,6 @@ abstract mixin class $PluginResponse_CollectionInfoCopyWith<$Res>
   $Res call({ImportCollectionSummary field0});
 }
 
-/// @nodoc
 class _$PluginResponse_CollectionInfoCopyWithImpl<$Res>
     implements $PluginResponse_CollectionInfoCopyWith<$Res> {
   _$PluginResponse_CollectionInfoCopyWithImpl(this._self, this._then);
@@ -5051,8 +4216,6 @@ class _$PluginResponse_CollectionInfoCopyWithImpl<$Res>
   final PluginResponse_CollectionInfo _self;
   final $Res Function(PluginResponse_CollectionInfo) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -5066,8 +4229,6 @@ class _$PluginResponse_CollectionInfoCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginResponse_ImportTracks extends PluginResponse {
   const PluginResponse_ImportTracks(final List<ImportTrackItem> field0)
       : _field0 = field0,
@@ -5076,12 +4237,9 @@ class PluginResponse_ImportTracks extends PluginResponse {
   final List<ImportTrackItem> _field0;
   List<ImportTrackItem> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginResponse_ImportTracksCopyWith<PluginResponse_ImportTracks>
@@ -5106,7 +4264,6 @@ class PluginResponse_ImportTracks extends PluginResponse {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginResponse_ImportTracksCopyWith<$Res>
     implements $PluginResponseCopyWith<$Res> {
   factory $PluginResponse_ImportTracksCopyWith(
@@ -5117,7 +4274,6 @@ abstract mixin class $PluginResponse_ImportTracksCopyWith<$Res>
   $Res call({List<ImportTrackItem> field0});
 }
 
-/// @nodoc
 class _$PluginResponse_ImportTracksCopyWithImpl<$Res>
     implements $PluginResponse_ImportTracksCopyWith<$Res> {
   _$PluginResponse_ImportTracksCopyWithImpl(this._self, this._then);
@@ -5125,8 +4281,6 @@ class _$PluginResponse_ImportTracksCopyWithImpl<$Res>
   final PluginResponse_ImportTracks _self;
   final $Res Function(PluginResponse_ImportTracks) _then;
 
-  /// Create a copy of PluginResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -5139,8 +4293,6 @@ class _$PluginResponse_ImportTracksCopyWithImpl<$Res>
     ));
   }
 }
-
-/// @nodoc
 
 class PluginResponse_Ack extends PluginResponse {
   const PluginResponse_Ack() : super._();
@@ -5160,13 +4312,10 @@ class PluginResponse_Ack extends PluginResponse {
   }
 }
 
-/// @nodoc
 mixin _$SearchSuggestionCommand {
   int? get limit;
   bool get includeEntities;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $SearchSuggestionCommandCopyWith<SearchSuggestionCommand> get copyWith =>
@@ -5192,7 +4341,6 @@ mixin _$SearchSuggestionCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $SearchSuggestionCommandCopyWith<$Res> {
   factory $SearchSuggestionCommandCopyWith(SearchSuggestionCommand value,
           $Res Function(SearchSuggestionCommand) _then) =
@@ -5201,7 +4349,6 @@ abstract mixin class $SearchSuggestionCommandCopyWith<$Res> {
   $Res call({int? limit, bool includeEntities});
 }
 
-/// @nodoc
 class _$SearchSuggestionCommandCopyWithImpl<$Res>
     implements $SearchSuggestionCommandCopyWith<$Res> {
   _$SearchSuggestionCommandCopyWithImpl(this._self, this._then);
@@ -5209,8 +4356,6 @@ class _$SearchSuggestionCommandCopyWithImpl<$Res>
   final SearchSuggestionCommand _self;
   final $Res Function(SearchSuggestionCommand) _then;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5230,19 +4375,7 @@ class _$SearchSuggestionCommandCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [SearchSuggestionCommand].
 extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -5264,19 +4397,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SearchSuggestionCommand_GetSuggestions value)
@@ -5293,18 +4413,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
         return getDefaultSuggestions(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -5325,18 +4433,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query, int? limit, bool includeEntities)?
@@ -5356,19 +4452,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query, int? limit, bool includeEntities)
@@ -5384,18 +4467,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
         return getDefaultSuggestions(_that.limit, _that.includeEntities);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -5416,8 +4487,6 @@ extension SearchSuggestionCommandPatterns on SearchSuggestionCommand {
   }
 }
 
-/// @nodoc
-
 class SearchSuggestionCommand_GetSuggestions extends SearchSuggestionCommand {
   const SearchSuggestionCommand_GetSuggestions(
       {required this.query, this.limit, required this.includeEntities})
@@ -5429,8 +4498,6 @@ class SearchSuggestionCommand_GetSuggestions extends SearchSuggestionCommand {
   @override
   final bool includeEntities;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -5459,7 +4526,6 @@ class SearchSuggestionCommand_GetSuggestions extends SearchSuggestionCommand {
   }
 }
 
-/// @nodoc
 abstract mixin class $SearchSuggestionCommand_GetSuggestionsCopyWith<$Res>
     implements $SearchSuggestionCommandCopyWith<$Res> {
   factory $SearchSuggestionCommand_GetSuggestionsCopyWith(
@@ -5471,7 +4537,6 @@ abstract mixin class $SearchSuggestionCommand_GetSuggestionsCopyWith<$Res>
   $Res call({String query, int? limit, bool includeEntities});
 }
 
-/// @nodoc
 class _$SearchSuggestionCommand_GetSuggestionsCopyWithImpl<$Res>
     implements $SearchSuggestionCommand_GetSuggestionsCopyWith<$Res> {
   _$SearchSuggestionCommand_GetSuggestionsCopyWithImpl(this._self, this._then);
@@ -5479,8 +4544,6 @@ class _$SearchSuggestionCommand_GetSuggestionsCopyWithImpl<$Res>
   final SearchSuggestionCommand_GetSuggestions _self;
   final $Res Function(SearchSuggestionCommand_GetSuggestions) _then;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
@@ -5505,8 +4568,6 @@ class _$SearchSuggestionCommand_GetSuggestionsCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class SearchSuggestionCommand_GetDefaultSuggestions
     extends SearchSuggestionCommand {
   const SearchSuggestionCommand_GetDefaultSuggestions(
@@ -5518,8 +4579,6 @@ class SearchSuggestionCommand_GetDefaultSuggestions
   @override
   final bool includeEntities;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -5548,7 +4607,6 @@ class SearchSuggestionCommand_GetDefaultSuggestions
   }
 }
 
-/// @nodoc
 abstract mixin class $SearchSuggestionCommand_GetDefaultSuggestionsCopyWith<
     $Res> implements $SearchSuggestionCommandCopyWith<$Res> {
   factory $SearchSuggestionCommand_GetDefaultSuggestionsCopyWith(
@@ -5560,7 +4618,6 @@ abstract mixin class $SearchSuggestionCommand_GetDefaultSuggestionsCopyWith<
   $Res call({int? limit, bool includeEntities});
 }
 
-/// @nodoc
 class _$SearchSuggestionCommand_GetDefaultSuggestionsCopyWithImpl<$Res>
     implements $SearchSuggestionCommand_GetDefaultSuggestionsCopyWith<$Res> {
   _$SearchSuggestionCommand_GetDefaultSuggestionsCopyWithImpl(
@@ -5569,8 +4626,6 @@ class _$SearchSuggestionCommand_GetDefaultSuggestionsCopyWithImpl<$Res>
   final SearchSuggestionCommand_GetDefaultSuggestions _self;
   final $Res Function(SearchSuggestionCommand_GetDefaultSuggestions) _then;
 
-  /// Create a copy of SearchSuggestionCommand
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
@@ -5589,5 +4644,3 @@ class _$SearchSuggestionCommand_GetDefaultSuggestionsCopyWithImpl<$Res>
     ));
   }
 }
-
-// dart format on

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class LikeBtnWidget extends StatefulWidget {

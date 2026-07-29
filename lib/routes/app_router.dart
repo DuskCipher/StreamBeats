@@ -1,24 +1,20 @@
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/screens/widgets/global_footer.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/screens/widgets/global_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/screens/screen/common_views/add_to_playlist_screen.dart';
-import 'package:Bloomee/screens/screen/explore_screen.dart';
-import 'package:Bloomee/screens/screen/library_screen.dart';
-import 'package:Bloomee/screens/screen/library_views/import_media_view.dart';
-import 'package:Bloomee/screens/screen/library_views/import_process_screen.dart';
-import 'package:Bloomee/screens/screen/library_views/playlist_screen.dart';
-import 'package:Bloomee/screens/screen/library_views/shared_playlist_screen.dart';
-import 'package:Bloomee/screens/screen/home_views/party_room_screen.dart';
-import 'package:Bloomee/screens/screen/offline_screen.dart';
-import 'package:Bloomee/screens/screen/local_music_screen.dart';
-import 'package:Bloomee/screens/screen/search_screen.dart';
-import 'package:Bloomee/screens/screen/chart/chart_view.dart';
+import 'package:streambeats/screens/screen/common_views/add_to_playlist_screen.dart';
+import 'package:streambeats/screens/screen/explore_screen.dart';
+import 'package:streambeats/screens/screen/library_screen.dart';
+import 'package:streambeats/screens/screen/library_views/import_media_view.dart';
+import 'package:streambeats/screens/screen/library_views/import_process_screen.dart';
+import 'package:streambeats/screens/screen/library_views/playlist_screen.dart';
+import 'package:streambeats/screens/screen/library_views/shared_playlist_screen.dart';
+import 'package:streambeats/screens/screen/home_views/party_room_screen.dart';
+import 'package:streambeats/screens/screen/offline_screen.dart';
+import 'package:streambeats/screens/screen/local_music_screen.dart';
+import 'package:streambeats/screens/screen/search_screen.dart';
+import 'package:streambeats/screens/screen/chart/chart_view.dart';
 
-/// Canonical app router configuration.
-///
-/// Use [AppRouter] in new code. The [GlobalRoutes] typedef at the bottom
-/// provides backward-compatible access for existing callers.
 class AppRouter {
   static final globalRouterKey = GlobalKey<NavigatorState>();
 
@@ -137,6 +133,4 @@ class AppRouter {
   );
 }
 
-/// Backward-compat alias for [AppRouter].
-/// Prefer importing from [routes/app_router.dart] and using [AppRouter] directly.
 typedef GlobalRoutes = AppRouter;

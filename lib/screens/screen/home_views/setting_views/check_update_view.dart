@@ -1,8 +1,8 @@
-import 'package:Bloomee/services/bloomee_updater_tools.dart';
+import 'package:streambeats/services/streambeats_updater_tools.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/url_launcher.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/url_launcher.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class CheckUpdateView extends StatelessWidget {
@@ -61,7 +61,6 @@ class CheckUpdateView extends StatelessWidget {
                           foregroundColor: Colors.black,
                         ),
                         child: SizedBox(
-                          // width: 150,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,

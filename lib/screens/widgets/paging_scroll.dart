@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-//credit goes to: https://stackoverflow.com/a/72817531/21571707
-
 class PagingScrollPhysics extends ScrollPhysics {
   const PagingScrollPhysics(
       {required this.itemCount, required this.viewSize, super.parent});
@@ -19,8 +17,6 @@ class PagingScrollPhysics extends ScrollPhysics {
 
   double _getTargetPixels(
       ScrollMetrics position, Tolerance tolerance, double velocity) {
-    // plus view size because the max scroll extent is about where the screen
-    //  starts not where the screen ends.
     final pixels = position.maxScrollExtent + viewSize;
     final itemDimension = pixels / itemCount;
     var page = _getPage(position.pixels, itemDimension);

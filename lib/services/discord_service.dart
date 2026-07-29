@@ -1,14 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/constants/sentinel_values.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/constants/sentinel_values.dart';
 import 'package:dart_discord_rpc/dart_discord_rpc.dart';
 
 class DiscordService {
   static DiscordRPC? _discordRPC;
   static int? _startTimeStamp; // Persisting timestamp
 
-  /// Initializes Discord RPC once
   static void initialize() {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       try {
@@ -22,7 +21,6 @@ class DiscordService {
     }
   }
 
-  /// Updates the Discord presence
   static void updatePresence({
     required Track track,
     required bool isPlaying,
@@ -39,7 +37,7 @@ class DiscordService {
           DiscordPresence(
               details: track.title,
               state: isPlaying ? "Playing・$artistStr" : "Paused・$artistStr",
-              largeImageKey: "bloomeetunes_logo",
+              largeImageKey: "streambeatstunes_logo",
               largeImageText: "StreamBeats",
               startTimeStamp: _startTimeStamp),
         );
@@ -49,7 +47,6 @@ class DiscordService {
     }
   }
 
-  /// Clears Discord presence
   static void clearPresence() {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       try {

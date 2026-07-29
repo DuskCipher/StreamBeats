@@ -1,13 +1,10 @@
-import 'package:Bloomee/services/db/global_db.dart';
+import 'package:streambeats/services/db/global_db.dart';
 import 'package:isar_community/isar.dart';
 
-/// DAO for settings (string & bool) persistence.
 class SettingsDAO {
   final Future<Isar> _db;
 
   const SettingsDAO(this._db);
-
-  // --------------- String settings ---------------
 
   Future<void> putSettingStr(String key, String value) async {
     Isar isarDB = await _db;
@@ -46,8 +43,6 @@ class SettingsDAO {
       return null;
     }
   }
-
-  // --------------- Bool settings ---------------
 
   Future<void> putSettingBool(String key, bool value) async {
     Isar isarDB = await _db;

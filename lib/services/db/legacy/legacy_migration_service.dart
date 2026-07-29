@@ -4,17 +4,17 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Bloomee/core/models/exported.dart' as models;
-import 'package:Bloomee/services/db/dao/download_dao.dart';
-import 'package:Bloomee/services/db/dao/library_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/legacy/legacy_db_opener.dart'
+import 'package:streambeats/core/models/exported.dart' as models;
+import 'package:streambeats/services/db/dao/download_dao.dart';
+import 'package:streambeats/services/db/dao/library_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/legacy/legacy_db_opener.dart'
     as legacy_opener;
-import 'package:Bloomee/services/db/legacy/legacy_global_db.dart' as legacy;
+import 'package:streambeats/services/db/legacy/legacy_global_db.dart' as legacy;
 import 'package:isar_community/isar.dart';
 import 'package:path/path.dart' as p;
 
@@ -60,7 +60,6 @@ LegacyDbLocation? findLegacyDbLocation({
 
   bool _isMigratedArtifact(String filePath) {
     final lower = filePath.toLowerCase();
-    // Skip already-migrated files, temp files, lock files, and staging directories
     return lower.endsWith('.migrated') ||
         lower.endsWith('.lock') ||
         lower.endsWith('.tmp') ||
@@ -80,7 +79,6 @@ LegacyDbLocation? findLegacyDbLocation({
         }
       }
     } catch (_) {
-      // Ignore read/list failures and continue with conservative behavior.
     }
 
     return false;
@@ -152,8 +150,6 @@ LegacyDbLocation? findLegacyDbLocation({
   final hasMigrated =
       hasMigratedArtifacts(appSuppDir) || hasMigratedArtifacts(appDocDir);
 
-  // Fix #1: fallback to default.db ONLY when there is no migration state and
-  // no migrated artifacts present.
   if (hasStateFile || hasMigrated) {
     log(
       'Legacy DB discovery: skipping default.db fallback (stateFile=$hasStateFile, migratedArtifacts=$hasMigrated)',
@@ -243,7 +239,6 @@ Future<MigrationResult> runMigration({
 
     await legacy_opener.closeLegacyDB();
     legacyClosed = true;
-    // Calculate fingerprint BEFORE renaming the file so we don't get 'missing'
     final preRenameFingerprint =
         _legacyFileFingerprint(legacyLocation.filePath);
     _renameLegacyFiles(legacyLocation.filePath);
@@ -884,9 +879,6 @@ bool _isLegacyAlreadyMarkedMigrated(
       return true;
     }
 
-    // Relaxed check: if the state file indicates the migration completed successfully,
-    // and the database being scanned is just an empty/small dynamically-created default.isar
-    // file, we consider it already migrated to prevent the migration overlay from reappearing.
     if (decoded['completedAt'] != null) {
       final fileName = p.basename(location.filePath).toLowerCase();
       if (fileName == 'default.isar') {
@@ -913,8 +905,6 @@ bool _isLegacyAlreadyMarkedMigrated(
 void _writeMigrationState(String appSuppDir, String legacyFilePath,
     {String? preComputedFingerprint}) {
   final stateFile = File(p.join(appSuppDir, _migrationStateFileName));
-  // Use pre-computed fingerprint if provided (calculated before file rename)
-  // to avoid 'missing' when file is renamed after migration.
   final fingerprint =
       preComputedFingerprint ?? _legacyFileFingerprint(legacyFilePath);
   final payload = {

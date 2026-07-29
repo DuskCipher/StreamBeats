@@ -2,38 +2,29 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/legacy/legacy_media_id_mapper.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/m3u_processor.dart';
-import 'package:Bloomee/services/storage_backup_service.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/legacy/legacy_media_id_mapper.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/m3u_processor.dart';
+import 'package:streambeats/services/storage_backup_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 
-/// Service for importing and exporting playlists and tracks.
-///
-/// Exports/imports use a JSON format with track data serialized from the
-/// new [TrackDB] schema. Old `MediaItemDB` format files are handled via
-/// a backward-compatible import path.
 class ImportExportService {
   static PlaylistDAO get _playlistDao =>
       PlaylistDAO(DBProvider.db, TrackDAO(DBProvider.db));
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-
-  /// Checks if a playlist with the given name already exists in the library.
   static Future<bool> isPlaylistExists(String playlistName) async {
     final existing = await _playlistDao.getPlaylistByName(playlistName);
     return existing != null;
   }
 
-  /// Serialize a [TrackDB] into a portable JSON map.
   static Map<String, dynamic> _trackDBToMap(TrackDB t) {
     return {
       'mediaId': t.mediaId,
@@ -68,12 +59,7 @@ class ImportExportService {
     };
   }
 
-  /// Deserialize a JSON map into a domain [Track].
-  ///
-  /// Handles both new format (artists list, thumbnail map) and legacy
-  /// `MediaItemDB` format (artist string, artURL, etc.).
   static Track _trackFromMap(Map<String, dynamic> m) {
-    // ── New format ───────────────────────────────────────────────────────────
     if (m.containsKey('mediaId') &&
         m.containsKey('artists') &&
         m['artists'] is List) {
@@ -120,7 +106,6 @@ class ImportExportService {
       );
     }
 
-    // ── Legacy MediaItemDB format ────────────────────────────────────────────
     final mappedId = buildPluginScopedMediaIdFromLegacyMap(m);
     final fallbackId = (m['mediaID'] as String?) ??
         (m['mediaId'] as String?) ??
@@ -155,9 +140,6 @@ class ImportExportService {
     );
   }
 
-  // ── Export ──────────────────────────────────────────────────────────────────
-
-  /// Exports a playlist to a JSON file.
   static Future<String?> exportPlaylist(String playlistName,
       {String? filePath}) async {
     final playlistDB = await _playlistDao.getPlaylistByName(playlistName);
@@ -195,7 +177,6 @@ class ImportExportService {
     }
   }
 
-  /// Exports a single track to a JSON file.
   static Future<String?> exportTrack(TrackDB trackDB) async {
     try {
       final Map<String, dynamic> trackMap = _trackDBToMap(trackDB);
@@ -218,15 +199,11 @@ class ImportExportService {
     }
   }
 
-  // ── Import ─────────────────────────────────────────────────────────────────
-
-  /// Imports a playlist from a JSON file.
   static Future<bool> importPlaylist(String filePath) async {
     try {
       final playlistMap = await readFromJSON(filePath);
       if (playlistMap == null || playlistMap.isEmpty) return false;
 
-      // Determine format
       final isV2 = playlistMap.containsKey('tracks');
       final isV1 = playlistMap.containsKey('mediaItems');
       if (!isV2 && !isV1) {
@@ -235,7 +212,6 @@ class ImportExportService {
 
       final String baseName = playlistMap['playlistName'] ?? 'Imported';
 
-      // Deduplicate playlist name.
       String playlistName = baseName;
       int i = 1;
       while (await isPlaylistExists(playlistName)) {
@@ -266,7 +242,6 @@ class ImportExportService {
     }
   }
 
-  /// Imports a single track from a JSON file.
   static Future<bool> importMediaItem(String filePath) async {
     try {
       final trackMap = await readFromJSON(filePath);
@@ -283,7 +258,6 @@ class ImportExportService {
     }
   }
 
-  /// Automatically determines the type of JSON file and imports it.
   static Future<bool> importJSON(String filePath) async {
     try {
       final data = await readFromJSON(filePath);
@@ -311,9 +285,6 @@ class ImportExportService {
     }
   }
 
-  // ── M3U Export ─────────────────────────────────────────────────────────────
-
-  /// Export playlist as M3U/M3U8.
   static Future<String?> exportM3UPlaylist(String playlistName) async {
     final playlistDB = await _playlistDao.getPlaylistByName(playlistName);
     if (playlistDB == null) {
@@ -325,7 +296,6 @@ class ImportExportService {
       final tracks = await _playlistDao.getPlaylistTracks(playlistDB.id);
       final packageInfo = await PackageInfo.fromPlatform();
 
-      // Build a legacy-shaped JSON map for the M3U converter.
       final Map<String, dynamic> playlistMap = {
         '_meta': {
           'generated_by': 'StreamBeats - Open Source Music Streaming Application',
@@ -360,7 +330,6 @@ class ImportExportService {
     }
   }
 
-  // ── File I/O ───────────────────────────────────────────────────────────────
   static Future<String?> writeToJSON(String fileName, Map<String, dynamic> data,
       {String? path}) async {
     try {
@@ -375,10 +344,6 @@ class ImportExportService {
     }
   }
 
-  /// Reads data from a JSON file and returns it as a map.
-  ///
-  /// [filePath] - The path of the file to read.
-  /// Returns the data as a map, or `null` if an error occurs.
   static Future<Map<String, dynamic>?> readFromJSON(String filePath) async {
     try {
       final file = File(filePath);
@@ -391,7 +356,6 @@ class ImportExportService {
     }
   }
 
-  /// Validates the structure of a playlist JSON file (supports both v1 and v2).
   static void validatePlaylistJson(Map<String, dynamic> playlistMap) {
     if (!playlistMap.containsKey('playlistName') ||
         playlistMap['playlistName'] == null) {
@@ -434,8 +398,6 @@ class ImportExportService {
     }
   }
 
-  /// Production-level entry point to handle any shared or picked import/restore file.
-  /// Handles: Isar snapshots (.isar/.db), legacy full JSON backups, and playlist/song JSON exports.
   static Future<void> handleImportOrRestore(BuildContext context, String filePath) async {
     final l10n = AppLocalizations.of(context)!;
     try {
@@ -483,7 +445,6 @@ class ImportExportService {
           if (confirm != true) return;
           if (!context.mounted) return;
 
-          // Show progress dialog
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -578,7 +539,6 @@ class ImportExportService {
           if (confirm != true) return;
           if (!context.mounted) return;
 
-          // Show progress dialog
           showDialog(
             context: context,
             barrierDismissible: false,

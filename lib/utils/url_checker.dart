@@ -39,7 +39,6 @@ UrlType getUrlType(String url) {
     final uri = Uri.parse(url);
     final host = uri.host.toLowerCase();
 
-    // YouTube
     if (host.contains('youtube.com') || host.contains('youtu.be') ||
         host.contains('music.youtube.com')) {
       return uri.queryParameters.containsKey('list')
@@ -47,7 +46,6 @@ UrlType getUrlType(String url) {
           : UrlType.youtubeVideo;
     }
 
-    // Spotify
     if (host == 'open.spotify.com' && uri.pathSegments.length >= 2) {
       return switch (uri.pathSegments[0]) {
         'track' => UrlType.spotifyTrack,

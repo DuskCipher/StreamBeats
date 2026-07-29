@@ -1,13 +1,13 @@
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/screen/library_views/cubit/current_playlist_cubit.dart';
-import 'package:Bloomee/screens/widgets/bloomee_ui_kit/bloomee_dialog.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/meta_resolver/smart_track_replacement_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/screen/library_views/cubit/current_playlist_cubit.dart';
+import 'package:streambeats/screens/widgets/streambeats_ui_kit/streambeats_dialog.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/meta_resolver/smart_track_replacement_service.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 Future<void> showSmartReplaceDialog(BuildContext context, Track track) {
@@ -36,7 +36,7 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
   void initState() {
     super.initState();
     _service = SmartTrackReplacementService.create(
-      context.read<BloomeePlayerCubit>().bloomeePlayer.pluginService,
+      context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.pluginService,
     );
     _future = _service.searchCandidates(widget.track);
   }
@@ -44,12 +44,12 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return BloomeeDialogSurface(
+    return StreamBeatsDialogSurface(
       title: l10n.smartReplaceTitle,
       subtitle: l10n.smartReplaceSubtitle(widget.track.title),
       icon: MingCute.transfer_4_line,
       actions: [
-        BloomeeDialogAction.text(l10n.smartReplaceClose),
+        StreamBeatsDialogAction.text(l10n.smartReplaceClose),
       ],
       body: FutureBuilder<List<SmartTrackReplacementCandidate>>(
         future: _future,
@@ -102,7 +102,7 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
                 final thumbUrl = candidate.track.thumbnail.urlLow ??
                     candidate.track.thumbnail.url;
 
-                return BloomeeDialogTile(
+                return StreamBeatsDialogTile(
                   title: candidate.track.title,
                   subtitle: artistNames.isEmpty
                       ? candidate.pluginName
@@ -118,7 +118,7 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
                       if (index == 0)
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: BloomeeDialogBadge(l10n.smartReplaceBestMatch),
+                          child: StreamBeatsDialogBadge(l10n.smartReplaceBestMatch),
                         ),
                       isApplying
                           ? const SizedBox(
@@ -129,7 +129,7 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
                                 color: Default_Theme.accentColor2,
                               ),
                             )
-                          : BloomeeDialogBadge(
+                          : StreamBeatsDialogBadge(
                               '${(candidate.confidence * 100).round()}%'),
                     ],
                   ),
@@ -148,7 +148,7 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
   ) async {
     final l10n = AppLocalizations.of(context)!;
     setState(() => _applyingTrackId = candidate.track.id);
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
 
     try {
       final applyResult = await _service.applyReplacement(
@@ -173,8 +173,6 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
 
       if (!mounted) return;
 
-      // If the currently open playlist was affected, update it in-place so
-      // the playlist screen reflects the change without requiring a reload.
       try {
         final playlistCubit = context.read<CurrentPlaylistCubit>();
         if (applyResult.updatedPlaylists
@@ -182,7 +180,6 @@ class _SmartReplaceDialogState extends State<_SmartReplaceDialog> {
           playlistCubit.replaceTrack(widget.track, candidate.track);
         }
       } catch (_) {
-        // CurrentPlaylistCubit not in scope (not called from playlist screen).
       }
 
       final playlistCount = applyResult.updatedPlaylists.length;

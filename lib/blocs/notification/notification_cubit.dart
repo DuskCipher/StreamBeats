@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:Bloomee/core/models/app_notification.dart';
-import 'package:Bloomee/services/bloomee_updater_tools.dart';
-import 'package:Bloomee/services/db/dao/notification_dao.dart';
+import 'package:streambeats/core/models/app_notification.dart';
+import 'package:streambeats/services/streambeats_updater_tools.dart';
+import 'package:streambeats/services/db/dao/notification_dao.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +22,7 @@ class NotificationCubit extends Cubit<NotificationState> {
           _notificationDao.putNotification(
             title: "Update Available",
             body:
-                "New Version of Bloomee🌸 is now available!! Version: ${value["newVer"]} + ${value["newBuild"]}",
+                "New Version of StreamBeats🌸 is now available!! Version: ${value["newVer"]} + ${value["newBuild"]}",
             type: "app_update",
             unique: true,
           );

@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/plugins/utils/media_id.dart';
-import 'package:Bloomee/services/db/dao/download_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/src/rust/api/local_music.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
+import 'package:streambeats/services/db/dao/download_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/src/rust/api/local_music.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -21,8 +21,6 @@ class LocalMusicService {
   final PlaylistDAO _playlistDao;
   final SettingsDAO _settingsDao;
 
-  /// Android gets automatic full-library discovery via MediaStore.
-  /// All other platforms (iOS, Windows, Linux, macOS) use folder-based scanning.
   static bool get isMobile => Platform.isAndroid;
   static const PermissionRequestOption _audioPermissionRequest =
       PermissionRequestOption(
@@ -60,10 +58,6 @@ class LocalMusicService {
     );
   }
 
-  // ── Permissions ────────────────────────────────────────────────────────────
-
-  /// Request the permissions needed to access audio files on this platform.
-  /// Returns `true` if access is granted (desktop always returns true).
   Future<PermissionState> getPermissionState() async {
     if (!isMobile) return PermissionState.authorized;
     return PhotoManager.getPermissionState(
@@ -102,13 +96,10 @@ class LocalMusicService {
     return requestPermission();
   }
 
-  // ── Scanning ────────────────────────────────────────────────────────────────
-
   Future<List<Track>> scanAndPersist() async {
     return isMobile ? _scanMobile() : _scanDesktop();
   }
 
-  /// Android: MediaStore enumeration via photo_manager → Lofty metadata.
   Future<List<Track>> _scanMobile() async {
     final albums = await PhotoManager.getAssetPathList(
       type: RequestType.audio,
@@ -132,7 +123,6 @@ class LocalMusicService {
       final end = (start + pageSize).clamp(0, count);
       final assets = await album.getAssetListRange(start: start, end: end);
 
-      // Parallel platform-channel calls for file paths.
       final fileResults = await Future.wait(assets.map((a) => a.file));
 
       for (int i = 0; i < assets.length; i++) {
@@ -150,7 +140,6 @@ class LocalMusicService {
             coverCacheDir: coverCacheDir,
           );
 
-          // Fall back to MediaStore thumbnail when embedded art is absent.
           String? artPath = meta.coverArtPath;
           artPath ??= await _cacheMobileThumbnail(
             asset: asset,
@@ -182,8 +171,6 @@ class LocalMusicService {
     return tracks;
   }
 
-  /// Desktop: configured folders → Rust/Lofty metadata.
-  /// Seeds default Music/Downloads folders on first run (Windows/Linux/macOS).
   Future<List<Track>> _scanDesktop() async {
     var folders = await getFolders();
 
@@ -235,8 +222,6 @@ class LocalMusicService {
     return tracks;
   }
 
-  // ── Library access ──────────────────────────────────────────────────────────
-
   Future<List<Track>> getLocalTracks() async {
     final playlist =
         await _playlistDao.loadPlaylist(SettingKeys.localMusicPlaylist);
@@ -253,10 +238,6 @@ class LocalMusicService {
     return userPlaylists;
   }
 
-  // ── Deletion ───────────────────────────────────────────────────────────────
-
-  /// Delete a local track: remove the audio file, its artwork cache, and all
-  /// DB records (download record, playlist entry, orphan track row).
   Future<void> deleteTrack(Track track) async {
     final record = await _downloadDao.getDownloadRecord(track.id);
 
@@ -270,12 +251,10 @@ class LocalMusicService {
       );
     }
 
-    // Clean up cached artwork.
     await _deleteCachedArtwork(track);
 
     await _removeTrackFromAllPlaylists(track.id);
 
-    // Remove download record (without re-deleting the file).
     await _downloadDao.removeDownloadRecord(track.id);
 
     log('Deleted local track: ${track.title}', name: 'LocalMusicService');
@@ -312,7 +291,6 @@ class LocalMusicService {
     return _deleteFile(filePath);
   }
 
-  /// Delete the cached cover art file for a track.
   Future<void> _deleteCachedArtwork(Track track) async {
     final artUrl = track.thumbnail.url;
     if (artUrl.isEmpty) return;
@@ -336,7 +314,6 @@ class LocalMusicService {
     }
   }
 
-  /// Remove orphaned artwork files not referenced by any current local track.
   Future<void> cleanOrphanedArtwork() async {
     final coverDir = Directory(await _getCoverCacheDir());
     if (!coverDir.existsSync()) return;
@@ -366,7 +343,6 @@ class LocalMusicService {
     }
   }
 
-  /// Platform-appropriate file deletion.
   Future<bool> _deleteFile(String filePath) async {
     try {
       final file = File(filePath);
@@ -408,7 +384,6 @@ class LocalMusicService {
     }
   }
 
-  /// Get/set the user preference for whether to confirm before deleting.
   Future<bool> shouldConfirmDelete() async {
     final val = await _settingsDao.getSettingStr(
       SettingKeys.localMusicConfirmDelete,
@@ -443,7 +418,6 @@ class LocalMusicService {
         ) ??
         '';
   }
-  // ── Folder management (desktop only) ───────────────────────────────────────
 
   Future<List<String>> getFolders() async {
     if (isMobile) return [];
@@ -473,8 +447,6 @@ class LocalMusicService {
     folders.remove(path);
     await _saveFolders(folders);
   }
-
-  // ── Private ─────────────────────────────────────────────────────────────────
 
   Track _metaToTrack(LocalTrackMeta meta, String mediaId, [String? artPath]) {
     final artists =
@@ -507,8 +479,6 @@ class LocalMusicService {
     );
   }
 
-  /// Cache a MediaStore thumbnail for an audio asset into our cover-art dir.
-  /// Uses `asset.id` as the stable cache key.
   Future<String?> _cacheMobileThumbnail({
     required AssetEntity asset,
     required String coverCacheDir,

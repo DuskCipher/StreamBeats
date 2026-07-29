@@ -2,19 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/services/download/rust_download_service.dart';
-import 'package:Bloomee/src/rust/api/downloader/types.dart';
-import 'package:Bloomee/utils/download_types.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/services/download/rust_download_service.dart';
+import 'package:streambeats/src/rust/api/downloader/types.dart';
+import 'package:streambeats/utils/download_types.dart';
 import 'package:path/path.dart' as path;
-import 'package:Bloomee/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/repository/bloomee/download_repository.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
+import 'package:streambeats/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/repository/streambeats/download_repository.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:path_provider/path_provider.dart';
@@ -39,7 +39,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   bool _restoredSnapshots = false;
   Future<void>? _activeLoadFuture;
   bool _needsReload = false;
-  // Tracks completion of initial downloaded songs load (prevents playback race)
   final CancelableCompleter<void> _initialLoadCompleter =
       CancelableCompleter<void>();
 
@@ -58,14 +57,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     unawaited(_warmUpDownloadService());
   }
 
-  /// Waits for initial downloaded songs to be loaded from database.
-  /// Call this before using [isDownloaded] on first app startup to prevent
-  /// race conditions on Android where playback might start before DB load completes.
   Future<void> ensureDownloadsInitialized() async {
     try {
       await _initialLoadCompleter.operation.value;
     } catch (_) {
-      // Ignore cancellation; initialization will proceed normally
     }
   }
 
@@ -144,13 +139,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       _downloadedSongs = await _downloadRepo.getDownloadedTracks();
       _emitUpdatedState();
-      // Signal that initial load is complete
       if (!_initialLoadCompleter.isCompleted) {
         _initialLoadCompleter.complete();
       }
       completer.complete();
     } catch (error, stackTrace) {
-      // Even on error, mark as attempted to avoid hanging
       if (!_initialLoadCompleter.isCompleted) {
         _initialLoadCompleter.completeError(error, stackTrace);
       }
@@ -170,7 +163,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     ));
   }
 
-  /// Public method to refresh downloaded songs
   Future<void> refreshDownloadedSongs() async {
     await _loadDownloadedSongs();
   }
@@ -183,7 +175,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     await _downloadService.initialize(
       pluginManager: _pluginService.manager,
       stateDir: path.join(supportDirectory.path, 'download_manager'),
-      tempDir: path.join(tempDirectory.path, 'bloomee_downloads'),
+      tempDir: path.join(tempDirectory.path, 'streambeats_downloads'),
     );
 
     _downloadSubscription ??= _downloadService.events.listen(
@@ -380,7 +372,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return false;
   }
 
-  /// The main public method to initiate a new download.
   Future<void> downloadSong(Track song, {bool showSnackbar = true}) async {
     try {
       await _ensureDownloadServiceReady();
@@ -402,7 +393,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
-    // Pre-download checks
     final existingDownload = _findDownloadByMediaId(song.id);
     if (existingDownload != null) {
       if (existingDownload.status.state == DownloadState.paused ||
@@ -484,17 +474,14 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     await super.close();
   }
 
-  /// Check whether a song is downloaded.
   bool isDownloaded(String mediaId) {
     return _downloadedSongs.any((s) => s.id == mediaId);
   }
 
-  /// Get the download info for a song, if available.
   Future<DownloadDB?> getDownloadInfo(Track song) async {
     return _downloadRepo.getDownload(song.id);
   }
 
-  /// Remove a downloaded song and its file.
   Future<void> removeDownload(Track song) async {
     await _downloadRepo.removeDownload(song.id);
     await _loadDownloadedSongs();

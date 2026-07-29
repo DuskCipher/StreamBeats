@@ -1,21 +1,21 @@
 import 'dart:io' as io;
 import 'dart:async';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/screens/screen/home_views/timer_view.dart';
-import 'package:Bloomee/core/constants/sentinel_values.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/bloomee_player.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/shortcut_indicator_service.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/screens/screen/home_views/timer_view.dart';
+import 'package:streambeats/core/constants/sentinel_values.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/streambeats_player.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/shortcut_indicator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/services/player/player_engine.dart';
-import 'package:Bloomee/routes/app_router.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/services/player/player_engine.dart';
+import 'package:streambeats/routes/app_router.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 
 class KeyboardShortcutsHandler extends StatefulWidget {
   final Widget child;
@@ -112,7 +112,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
   }
 
   bool _handleMediaKey(LogicalKeyboardKey key) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
 
     if (key == LogicalKeyboardKey.mediaPlayPause) {
       _togglePlayPause(player);
@@ -132,7 +132,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
   }
 
   bool _handleAltShortcut(LogicalKeyboardKey key) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
 
     if (key == LogicalKeyboardKey.arrowRight) {
       player.seekNSecForward(const Duration(seconds: 5));
@@ -146,7 +146,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
   }
 
   bool _handleSimpleShortcut(LogicalKeyboardKey key) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
 
     if (key == LogicalKeyboardKey.space) {
       _togglePlayPause(player);
@@ -221,7 +221,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
   }
 
   void _startVolumeAdjust(
-      LogicalKeyboardKey key, double delta, BloomeeMusicPlayer player) {
+      LogicalKeyboardKey key, double delta, StreamBeatsMusicPlayer player) {
     if (_volumeAdjustKey == key && _volumeAdjustTimer != null) return;
 
     _stopVolumeAdjustForKey(_volumeAdjustKey);
@@ -244,7 +244,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
     }
   }
 
-  void _togglePlayPause(BloomeeMusicPlayer player) {
+  void _togglePlayPause(StreamBeatsMusicPlayer player) {
     if (player.engine.playing) {
       player.engine.pause();
     } else {
@@ -252,7 +252,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
     }
   }
 
-  double _changeVolume(BloomeeMusicPlayer player, double delta) {
+  double _changeVolume(StreamBeatsMusicPlayer player, double delta) {
     final currentVolume = player.engine.volume;
     final newVolume = (currentVolume + delta).clamp(0.0, 1.0);
     player.engine.setVolume(newVolume);
@@ -261,7 +261,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
 
   double _lastVolumeBeforeMute = 1.0;
 
-  (bool, double) _toggleMute(BloomeeMusicPlayer player) {
+  (bool, double) _toggleMute(StreamBeatsMusicPlayer player) {
     final currentVolume = player.engine.volume;
     if (currentVolume > 0) {
       _lastVolumeBeforeMute = currentVolume;
@@ -273,7 +273,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
     }
   }
 
-  LoopMode _cycleLoopMode(BloomeeMusicPlayer player) {
+  LoopMode _cycleLoopMode(StreamBeatsMusicPlayer player) {
     final currentMode = player.loopMode.value;
     LoopMode nextMode;
     switch (currentMode) {
@@ -291,7 +291,7 @@ class _KeyboardShortcutsHandlerState extends State<KeyboardShortcutsHandler> {
     return nextMode;
   }
 
-  Future<void> _toggleLike(BloomeeMusicPlayer player) async {
+  Future<void> _toggleLike(StreamBeatsMusicPlayer player) async {
     final currentMedia = player.currentMedia;
     if (isTrackNull(currentMedia)) return;
 

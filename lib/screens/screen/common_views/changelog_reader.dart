@@ -1,11 +1,10 @@
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/about.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/about.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
 
-// The final changelog string for testing all features
 const String changelogText = """
 ## [Unreleased]
 
@@ -63,8 +62,6 @@ class ChangeItem {
   ChangeItem(this.text, {List<ChangeItem>? subItems})
       : subItems = subItems ?? [];
 }
-
-// 2. --- PARSING LOGIC ---
 
 class _StackItem {
   final ChangeItem item;
@@ -161,12 +158,6 @@ String _normalizeVersionLabel(String v) {
   return v.trim().toLowerCase().replaceFirst(RegExp(r'^v'), '');
 }
 
-/// Return a filtered list of versions to display when 'showOlderVersions' is false.
-/// Rules:
-/// - Always include the latest version (index 0) if present.
-/// - If an 'Unreleased' entry exists, ensure it's placed in position 1.
-/// - Then include older versions down to and including the installedVersion (if found).
-/// - If installedVersion isn't found, only latest (+ Unreleased if present) are returned.
 List<Version> _filterToInstalledRange(
     List<Version> all, String? installedVersion) {
   if (all.isEmpty) return [];
@@ -175,8 +166,6 @@ List<Version> _filterToInstalledRange(
       ? null
       : _normalizeVersionLabel(installedVersion);
 
-  // Ensure Unreleased remains at index 1 if present (parseChangelog already does this,
-  // but defend defensively).
   final unreleasedIndex = all.indexWhere(
       (v) => _normalizeVersionLabel(v.versionNumber) == 'unreleased');
   if (unreleasedIndex > 0) {
@@ -185,38 +174,28 @@ List<Version> _filterToInstalledRange(
   }
 
   final List<Version> out = [];
-  // Always include the latest (first) entry.
   out.add(all[0]);
 
-  // If there's an unreleased at 1, include it as second element.
   final hasUnreleased = all.length > 1 &&
       _normalizeVersionLabel(all[1].versionNumber) == 'unreleased';
   if (hasUnreleased) out.add(all[1]);
 
-  // If no installed version provided, stop here.
   if (normalizedInstalled == null) return out;
 
-  // Find index of installed version in the remaining list (search full list for robustness).
   final installedIdx = all.indexWhere(
       (v) => _normalizeVersionLabel(v.versionNumber) == normalizedInstalled);
   if (installedIdx == -1) {
-    // Not found in changelog; return only latest (+ unreleased already added).
     return out;
   }
 
-  // Determine starting index to append older versions from `all`.
   int startIdx = hasUnreleased ? 2 : 1;
-  // Append versions from startIdx up to and including installedIdx, skipping duplicates.
   for (int i = startIdx; i <= installedIdx && i < all.length; i++) {
-    // Avoid adding latest/unreleased twice
     if (i == 0 || (hasUnreleased && i == 1)) continue;
     out.add(all[i]);
   }
 
   return out;
 }
-
-// 3. --- UI WIDGETS ---
 
 class ChangelogScreen extends StatelessWidget {
   final String? changelogText;
@@ -232,7 +211,6 @@ class ChangelogScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final changelog = parseChangelog(changelogText);
 
-    // We need to possibly consult the installed package info when showOlderVersions is false.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -263,7 +241,6 @@ class ChangelogScreen extends StatelessWidget {
             }),
       ),
       body: FutureBuilder<PackageInfo?>(
-        // Always attempt to load PackageInfo so badges & expansion ranges work in both modes.
         future: PackageInfo.fromPlatform(),
         builder: (context, AsyncSnapshot<PackageInfo?> snapshot) {
           final installedLabel = snapshot.hasData && snapshot.data != null
@@ -275,7 +252,6 @@ class ChangelogScreen extends StatelessWidget {
               : _filterToInstalledRange(
                   List<Version>.from(changelog.versions), installedLabel);
 
-          // Compute which indices to expand by default: range from installed -> latestStable (inclusive)
           final String? installedNorm = installedLabel != null
               ? _normalizeVersionLabel(installedLabel)
               : null;
@@ -315,12 +291,9 @@ class ChangelogScreen extends StatelessWidget {
             }
           }
 
-          // Persist the fact that user viewed the changelog for the installed version.
-          // Schedule as a post-frame callback to avoid performing IO during build.
           if (snapshot.connectionState == ConnectionState.done &&
               installedLabel != null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              // Saved value must be in the format "vX.Y.Z"
               context
                   .read<SettingsCubit>()
                   .putSettingStr(SettingKeys.readChangelogs, installedLabel);
@@ -363,7 +336,6 @@ class ChangelogScreen extends StatelessWidget {
                 );
               }
               final versionIndex = index - 1;
-              // Determine the latest stable version (first non-unreleased in original changelog)
               String? latestStable;
               try {
                 latestStable = changelog.versions
@@ -378,7 +350,6 @@ class ChangelogScreen extends StatelessWidget {
 
               return VersionCard(
                 version: versionsToShow[versionIndex], // Use the filtered list
-                // The list index is now based on the filtered list's index
                 listIndex: versionIndex,
                 installedVersion: installedLabel,
                 latestStableVersion: latestStable,
@@ -450,7 +421,6 @@ class _VersionCardState extends State<VersionCard> {
   Widget build(BuildContext context) {
     final bool isUnreleased =
         widget.version.versionNumber.toLowerCase() == 'unreleased';
-    // Determine installed/current vs latest stable vs update, and ensure only one badge is visible.
     final installedNorm = widget.installedVersion != null
         ? _normalizeVersionLabel(widget.installedVersion!)
         : null;
@@ -459,26 +429,21 @@ class _VersionCardState extends State<VersionCard> {
         ? _normalizeVersionLabel(widget.latestStableVersion!)
         : null;
 
-    // Whether this version entry corresponds to the project's latest stable
     final bool isThisLatestStable =
         latestStableNorm != null && latestStableNorm == thisNorm;
 
-    // Show LATEST badge only when installed version equals latest stable.
     final bool showLatestBadge = isThisLatestStable &&
         installedNorm != null &&
         installedNorm == latestStableNorm;
 
-    // Show UPDATE badge on the latest stable when installed is different or unknown.
     final bool showUpdateBadge = isThisLatestStable && !showLatestBadge;
 
-    // Show CURRENT badge on the installed version if it's present in changelog and not the latest (to avoid duplicate with LATEST).
     final bool showCurrentBadge =
         installedNorm != null && installedNorm == thisNorm && !showLatestBadge;
 
     const normalColor = Color(0xFF1C1C1E);
     const highlightedColor = Color(0xFF2C2C2E);
 
-    // Keep the existing 'LATEST' styling but only render when showLatestBadge is true
     final Widget latestMarker = showLatestBadge
         ? Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -500,7 +465,6 @@ class _VersionCardState extends State<VersionCard> {
           )
         : const SizedBox.shrink();
 
-    // New badges: CURRENT and UPDATE (if applicable)
     Widget _badge(String text, Color bg, Color textColor) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         margin: const EdgeInsets.only(left: 6),
@@ -577,7 +541,6 @@ class _VersionCardState extends State<VersionCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   latestMarker,
-                  // current and update badges (may be SizedBox.shrink)
                   currentBadge,
                   updateBadge,
                 ],

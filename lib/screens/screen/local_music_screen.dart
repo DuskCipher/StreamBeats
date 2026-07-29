@@ -1,17 +1,17 @@
 import 'dart:developer';
 
-import 'package:Bloomee/blocs/local_music/cubit/local_music_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/widgets/bloomee_ui_kit/bloomee_dialog.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/services/local_music_service.dart';
+import 'package:streambeats/blocs/local_music/cubit/local_music_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/widgets/streambeats_ui_kit/streambeats_dialog.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/services/local_music_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -257,7 +257,6 @@ class _LocalMusicScreenState extends State<LocalMusicScreen> {
 
   List<Widget> _buildLoadedSlivers(
       BuildContext context, LocalMusicLoaded state) {
-    // Resolve exactly which tracks to show to prevent logical mismatched plays.
     final displayedTracks =
         _isSearch && _searchController.text.trim().isNotEmpty
             ? _filteredTracks
@@ -287,8 +286,8 @@ class _LocalMusicScreenState extends State<LocalMusicScreen> {
                   icon: MingCute.shuffle_line,
                   label: AppLocalizations.of(context)!.localMusicShuffle,
                   onTap: () => context
-                      .read<BloomeePlayerCubit>()
-                      .bloomeePlayer
+                      .read<StreamBeatsPlayerCubit>()
+                      .streambeatsPlayer
                       .loadPlaylist(
                         Playlist(tracks: displayedTracks, title: 'Local Music'),
                         doPlay: true,
@@ -300,8 +299,8 @@ class _LocalMusicScreenState extends State<LocalMusicScreen> {
                   icon: MingCute.play_fill,
                   label: AppLocalizations.of(context)!.localMusicPlayAll,
                   onTap: () => context
-                      .read<BloomeePlayerCubit>()
-                      .bloomeePlayer
+                      .read<StreamBeatsPlayerCubit>()
+                      .streambeatsPlayer
                       .loadPlaylist(
                         Playlist(tracks: displayedTracks, title: 'Local Music'),
                         doPlay: true,
@@ -383,7 +382,7 @@ class _LocalMusicScreenState extends State<LocalMusicScreen> {
                 song: track,
                 showOptions: true,
                 onTap: () {
-                  context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+                  context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
                         Playlist(tracks: displayedTracks, title: 'Local Music'),
                         idx: index,
                         doPlay: true,
@@ -639,7 +638,7 @@ class _DeleteConfirmDialogState extends State<_DeleteConfirmDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return BloomeeDialogSurface(
+    return StreamBeatsDialogSurface(
       title: AppLocalizations.of(context)!.dialogDeleteTrack,
       subtitle: AppLocalizations.of(context)!
           .dialogDeleteTrackMessage(widget.trackTitle),

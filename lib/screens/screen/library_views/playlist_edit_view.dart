@@ -1,10 +1,9 @@
-// Page for editing and reordering playlist items.
 import 'dart:ui';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/screen/library_views/cubit/current_playlist_cubit.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/screen/library_views/cubit/current_playlist_cubit.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -17,9 +16,7 @@ class PlaylistEditView extends StatefulWidget {
 }
 
 class _PlaylistEditViewState extends State<PlaylistEditView> {
-  // Working copy of the track list. Updated by the child on every drag.
   List<Track> _localTracks = [];
-  // Seeded once from the cubit state on first loaded data.
   bool _initialized = false;
 
   void _onTracksReordered(List<Track> newOrder) {
@@ -30,7 +27,6 @@ class _PlaylistEditViewState extends State<PlaylistEditView> {
   Widget build(BuildContext context) {
     return BlocBuilder<CurrentPlaylistCubit, CurrentPlaylistState>(
       builder: (context, state) {
-        // Seed local list once from cubit state.
         if (!_initialized && state.playlist.tracks.isNotEmpty) {
           _localTracks = List<Track>.from(state.playlist.tracks);
           _initialized = true;
@@ -97,7 +93,6 @@ class _PlaylistEditViewState extends State<PlaylistEditView> {
                   ),
                 ],
               ),
-              // Hint bar
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(12, 6, 12, 10),
@@ -148,7 +143,6 @@ class _PlaylistEditViewState extends State<PlaylistEditView> {
                   ),
                 ),
               ),
-              // Reorderable list
               SliverPlaylistItems(
                 initialTracks: _localTracks,
                 onTracksReordered: _onTracksReordered,
@@ -165,8 +159,6 @@ class _PlaylistEditViewState extends State<PlaylistEditView> {
   }
 }
 
-/// Internal stateful list widget that manages the drag order locally
-/// and reports the new order to the parent via [onTracksReordered].
 class SliverPlaylistItems extends StatefulWidget {
   const SliverPlaylistItems({
     super.key,
@@ -193,7 +185,6 @@ class _SliverPlaylistItemsState extends State<SliverPlaylistItems> {
   @override
   void didUpdateWidget(SliverPlaylistItems oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Re-sync when the parent's list length changes (external add/remove).
     if (widget.initialTracks.length != _tracks.length) {
       setState(() => _tracks = List<Track>.from(widget.initialTracks));
     }

@@ -1,15 +1,15 @@
 import 'dart:developer';
 
-import 'package:Bloomee/blocs/lastdotfm/lastdotfm_cubit.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/repository/LastFM/lastfmapi.dart';
-import 'package:Bloomee/core/constants/cache_keys.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/blocs/lastdotfm/lastdotfm_cubit.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/repository/LastFM/lastfmapi.dart';
+import 'package:streambeats/core/constants/cache_keys.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class LastDotFM extends StatefulWidget {
@@ -102,7 +102,6 @@ class _LastDotFMState extends State<LastDotFM> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             children: [
-              // Scrobbling
               SettingSectionHeader(label: l10n.settingsScrobbling),
               SettingCard(
                 children: [
@@ -128,13 +127,11 @@ class _LastDotFMState extends State<LastDotFM> {
 
               const SizedBox(height: 28),
 
-              // Authentication
               SettingSectionHeader(label: l10n.settingsAuthentication),
               BlocBuilder<LastdotfmCubit, LastdotfmState>(
                 builder: (context, lfmState) {
                   return SettingCard(
                     children: [
-                      // Status indicator
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                         child: Row(
@@ -173,7 +170,6 @@ class _LastDotFMState extends State<LastDotFM> {
                         ),
                       ),
                       const SettingDivider(),
-                      // How-to instructions
                       SettingInfoText(text: l10n.lastfmSteps),
                       const SettingDivider(),
                       SettingTextFieldTile(
@@ -254,8 +250,6 @@ class _LastDotFMState extends State<LastDotFM> {
     );
   }
 }
-
-// --- Auth Button -------------------------------------------------------------
 
 class _AuthButton extends StatelessWidget {
   final String label;

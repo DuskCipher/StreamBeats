@@ -4,25 +4,18 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/plugins/blocs/content/content_event.dart';
-import 'package:Bloomee/plugins/blocs/content/content_state.dart';
-import 'package:Bloomee/plugins/errors/plugin_exceptions.dart';
-import 'package:Bloomee/services/cache/plugin_cache_repository.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/plugins/utils/media_id.dart';
-import 'package:Bloomee/services/plugin_cache_codec.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/plugins/blocs/content/content_event.dart';
+import 'package:streambeats/plugins/blocs/content/content_state.dart';
+import 'package:streambeats/plugins/errors/plugin_exceptions.dart';
+import 'package:streambeats/services/cache/plugin_cache_repository.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
+import 'package:streambeats/services/plugin_cache_codec.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
-/// Handles content resolution: search, album/artist/playlist details,
-/// stream URLs, home sections.
-///
-/// Uses Rust-generated model types directly — no converters.
-///
-/// Search uses debounce (300ms) + switchMap pattern via [transformer]
-/// to cancel in-flight requests when the user types a new query.
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final PluginService _pluginService;
   final PluginCacheRepository _cache = ServiceLocator.pluginCache;
@@ -50,17 +43,11 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     on<ClearHomeSections>(_onClearHomeSections);
   }
 
-  /// Debounce + switchMap for search events.
-  ///
-  /// - 300ms debounce: don't fire until user stops typing.
-  /// - switchMap: cancel previous search request when a new one arrives.
   EventTransformer<SearchContent> _debounceSearchTransformer() {
     return (events, mapper) => events
         .debounceTime(const Duration(milliseconds: 300))
         .switchMap(mapper);
   }
-
-  // ── Search ─────────────────────────────────────────────────────────────────
 
   Future<void> _onSearch(
     SearchContent event,
@@ -113,7 +100,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
             searchResults: results,
           ));
         },
-        // Handle unexpected response types gracefully.
         trackDetails: (_) => _unexpectedResponse(emit, 'search'),
         albumDetails: (_) => _unexpectedResponse(emit, 'search'),
         artistDetails: (_) => _unexpectedResponse(emit, 'search'),
@@ -225,16 +211,12 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     }
   }
 
-  // ── Set Active Plugin ──────────────────────────────────────────────────────
-
   void _onSetActivePlugin(
     SetActiveContentPlugin event,
     Emitter<ContentState> emit,
   ) {
     emit(ContentState(activePluginId: event.pluginId));
   }
-
-  // ── Album Details ──────────────────────────────────────────────────────────
 
   Future<void> _onLoadAlbumDetails(
     LoadAlbumDetails event,
@@ -359,8 +341,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       ));
     }
   }
-
-  // ── Artist Details ─────────────────────────────────────────────────────────
 
   Future<void> _onLoadArtistDetails(
     LoadArtistDetails event,
@@ -489,8 +469,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       ));
     }
   }
-
-  // ── Playlist Details ───────────────────────────────────────────────────────
 
   Future<void> _onLoadPlaylistDetails(
     LoadPlaylistDetails event,
@@ -621,8 +599,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     }
   }
 
-  // ── Streams ────────────────────────────────────────────────────────────────
-
   Future<void> _onGetStreams(
     GetStreams event,
     Emitter<ContentState> emit,
@@ -681,8 +657,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     }
   }
 
-  // ── Home Sections (stale-while-revalidate) ─────────────────────────────────
-
   Future<void> _onGetHomeSections(
     GetHomeSections event,
     Emitter<ContentState> emit,
@@ -720,7 +694,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           activePluginId: pluginId,
         ));
         if (!cached.isStale) return;
-        // Stale — continue to background network refresh.
       }
     }
 
@@ -819,7 +792,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
 
       response.when(
         loadMoreItems: (items) {
-          // Append items to the matching section.
           final currentSections = state.homeSections;
           if (currentSections != null) {
             final updated = currentSections.map((section) {
@@ -881,8 +853,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     }
   }
 
-  // ── Radio Tracks ───────────────────────────────────────────────────────────
-
   Future<void> _onGetRadioTracks(
     GetRadioTracks event,
     Emitter<ContentState> emit,
@@ -934,8 +904,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     }
   }
 
-  // ── Clear ──────────────────────────────────────────────────────────────────
-
   void _onClearSearch(ClearSearch event, Emitter<ContentState> emit) {
     emit(state.copyWith(
       searchStatus: SearchStatus.initial,
@@ -971,12 +939,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     ));
   }
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-
   void _unexpectedResponse(Emitter<ContentState> emit, String context) {
     log('Unexpected response type for $context', name: 'ContentBloc');
-    // Transition any currently-loading status to error so the UI
-    // never gets stuck in a permanent loading state.
     emit(state.copyWith(
       error: 'Unexpected response from plugin',
       searchStatus: state.searchStatus == SearchStatus.loading

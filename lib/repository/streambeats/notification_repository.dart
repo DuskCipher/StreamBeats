@@ -1,10 +1,6 @@
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/dao/notification_dao.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/dao/notification_dao.dart';
 
-/// Repository for in-app notifications.
-///
-/// Wraps [NotificationDAO] and provides a clean interface
-/// for creating, querying, and observing notifications.
 class NotificationRepository {
   final NotificationDAO _notificationDao;
 
@@ -27,7 +23,6 @@ class NotificationRepository {
         unique: unique,
       );
 
-  /// Returns all notifications sorted by time (newest first).
   Future<List<NotificationsDB>> getNotifications() =>
       _notificationDao.getNotifications();
 

@@ -1,35 +1,35 @@
 import 'dart:ui';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_cubit.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_state.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/screens/screen/library_views/more_opts_sheet.dart';
-import 'package:Bloomee/screens/screen/common_views/album_view.dart';
-import 'package:Bloomee/screens/screen/common_views/artist_view.dart';
-import 'package:Bloomee/screens/screen/common_views/playlist_view.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/join_shared_playlist_bottomsheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_cubit.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_state.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/screens/screen/library_views/more_opts_sheet.dart';
+import 'package:streambeats/screens/screen/common_views/album_view.dart';
+import 'package:streambeats/screens/screen/common_views/artist_view.dart';
+import 'package:streambeats/screens/screen/common_views/playlist_view.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/join_shared_playlist_bottomsheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
 import 'dart:async';
-import 'package:Bloomee/plugins/utils/media_id.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/services/supabase_playlist_service.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/screens/widgets/create_playlist_bottomsheet.dart';
-import 'package:Bloomee/screens/widgets/libitem_tile.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/services/supabase_playlist_service.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/screens/widgets/create_playlist_bottomsheet.dart';
+import 'package:streambeats/screens/widgets/libitem_tile.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/blocs/library/search_cubit/library_search_cubit.dart';
-import 'package:Bloomee/core/models/library_search_result.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/blocs/library/search_cubit/library_search_cubit.dart';
+import 'package:streambeats/core/models/library_search_result.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
 
 class LibraryScreen extends StatelessWidget {
   const LibraryScreen({super.key});
@@ -157,7 +157,6 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
     });
   }
 
-  /// Dismiss keyboard when interacting with search results
   void _dismissKeyboard() {
     _searchFocusNode.unfocus();
   }
@@ -337,7 +336,6 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
                         ),
                       ],
                     ],
-                    // ── Shared Playlists (Bersama) Section ──────────────
                     if (_sharedPlaylists.isNotEmpty && !isSearching) ...[
                       SliverToBoxAdapter(
                         child: Padding(
@@ -499,7 +497,7 @@ class _LibraryScreenViewState extends State<_LibraryScreenView> {
                 if (playlist != null && context.mounted) {
                   final songIdx =
                       playlist.tracks.indexWhere((s) => s.id == result.song.id);
-                  context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+                  context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
                         playlist,
                         idx: songIdx >= 0 ? songIdx : 0,
                         doPlay: true,
@@ -624,7 +622,6 @@ class _ListOfPlaylists extends StatelessWidget {
       return;
     }
 
-    // For remote collections, resolve via the cubit (domain-level, no DB types).
     final playlist = await context
         .read<LibraryItemsCubit>()
         .resolveLibraryItem(item.storageKey);

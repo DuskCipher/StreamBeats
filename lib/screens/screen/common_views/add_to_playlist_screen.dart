@@ -1,20 +1,20 @@
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/constants/sentinel_values.dart';
-import 'package:Bloomee/screens/widgets/create_playlist_bottomsheet.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/utils/load_image.dart';
-import 'package:Bloomee/services/supabase_playlist_service.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/constants/sentinel_values.dart';
+import 'package:streambeats/screens/widgets/create_playlist_bottomsheet.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/utils/load_image.dart';
+import 'package:streambeats/services/supabase_playlist_service.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class AddToPlaylistScreen extends StatefulWidget {
@@ -113,7 +113,6 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                 .contains(query.toLowerCase());
           }).toList();
 
-    // Deterministic alphabetical order to prevent shuffling on rebuild.
     filtered.sort((a, b) =>
         a.playlistName.toLowerCase().compareTo(b.playlistName.toLowerCase()));
     return filtered;
@@ -308,7 +307,6 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                                         );
                                       }
 
-                                      // Local playlists
                                       if (index <= filteredPlaylists.length) {
                                         final playlist =
                                             filteredPlaylists[index - 1];
@@ -334,7 +332,6 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                                         );
                                       }
 
-                                      // Shared playlists header
                                       final sharedStartIndex = filteredPlaylists.length + 1;
                                       if (index == sharedStartIndex) {
                                         return Padding(
@@ -351,7 +348,6 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
                                         );
                                       }
 
-                                      // Shared playlist tiles
                                       final spIndex = index - sharedStartIndex - 1;
                                       if (spIndex >= 0 && spIndex < _sharedPlaylists.length) {
                                         final sp = _sharedPlaylists[spIndex];
@@ -425,14 +421,10 @@ class _AddToPlaylistScreenState extends State<AddToPlaylistScreen> {
           },
         ),
       ),
-      // FAB removed — Create New Playlist is now inline in the list
     );
   }
 }
 
-// ─────────────────────────────────────────────
-// Inline Create New Playlist tile
-// ─────────────────────────────────────────────
 class _CreatePlaylistTile extends StatelessWidget {
   final VoidCallback onTap;
 

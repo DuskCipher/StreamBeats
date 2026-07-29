@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/supabase_playlist_service.dart';
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/supabase_playlist_service.dart';
+import 'package:streambeats/core/models/exported.dart' hide MediaItem;
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class SharedPlaylistScreen extends StatelessWidget {
@@ -19,10 +19,9 @@ class SharedPlaylistScreen extends StatelessWidget {
     this.playlistTitle = 'Playlist Bersama',
   }) : super(key: key);
 
-  /// Show a bottom sheet to add the currently playing song to this shared playlist.
   void _showAddSongSheet(BuildContext context) {
-    final playerCubit = context.read<BloomeePlayerCubit>();
-    final currentTrack = playerCubit.bloomeePlayer.currentMedia;
+    final playerCubit = context.read<StreamBeatsPlayerCubit>();
+    final currentTrack = playerCubit.streambeatsPlayer.currentMedia;
 
     showModalBottomSheet(
       context: context,
@@ -138,7 +137,6 @@ class SharedPlaylistScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(MingCute.play_fill, color: Default_Theme.accentColor2),
             onPressed: () {
-              // Play all songs in the playlist
             },
           ),
         ],
@@ -194,7 +192,7 @@ class SharedPlaylistScreen extends StatelessWidget {
               return SongCardWidget(
                 song: track,
                 onTap: () {
-                  context.read<BloomeePlayerCubit>().bloomeePlayer.updateQueueTracks(tracks, doPlay: true, startIndex: index);
+                  context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.updateQueueTracks(tracks, doPlay: true, startIndex: index);
                 },
               );
             },

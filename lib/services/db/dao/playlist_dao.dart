@@ -1,33 +1,18 @@
 import 'dart:developer';
 
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/mappers/media_item_mapper.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/mappers/media_item_mapper.dart';
 import 'package:isar_community/isar.dart';
 
-/// DAO for playlist CRUD and position-based track ordering.
-///
-/// Ordering strategy: each [PlaylistEntryDB] carries an integer [position].
-/// The compound index `(playlistId, position)` lets Isar serve sorted reads
-/// without any Dart-side sorting. Gaps in positions are fine — the relative
-/// order is all that matters.
-///
-/// All write operations that mutate order run inside a single [writeTxn] to
-/// prevent races.
 class PlaylistDAO {
   final Future<Isar> _db;
   final TrackDAO _trackDAO;
 
   const PlaylistDAO(this._db, this._trackDAO);
 
-  // ── Playlist CRUD ──────────────────────────────────────────────────────────
-
-  /// Create a user playlist by [name].
-  ///
-  /// Returns the new playlist's Isar id, or null if [name] is empty or a
-  /// playlist with that name already exists.
   Future<int?> createPlaylist(
     String name, {
     ArtworkDB? thumbnail,
@@ -57,30 +42,25 @@ class PlaylistDAO {
     return id;
   }
 
-  /// Insert or replace any [PlaylistDB] row (upsert by id).
   Future<int> putPlaylist(PlaylistDB playlist) async {
     final isar = await _db;
     playlist.updatedAt = DateTime.now();
     return isar.writeTxn(() => isar.playlistDBs.put(playlist));
   }
 
-  /// Find a playlist by its case-insensitive [name] (unique index).
   Future<PlaylistDB?> getPlaylistByName(String name) async {
     final isar = await _db;
     return isar.playlistDBs.filter().nameEqualTo(name).findFirst();
   }
 
-  /// Find a playlist by Isar internal [id].
   Future<PlaylistDB?> getPlaylistById(int id) async {
     final isar = await _db;
     return isar.playlistDBs.get(id);
   }
 
-  /// Return all playlists, pinned first, then by sort order.
   Future<List<PlaylistDB>> getAllPlaylists() async {
     final isar = await _db;
     final all = await isar.playlistDBs.where().findAll();
-    // Pinned playlists first (by sortOrder), then unpinned (by sortOrder).
     all.sort((a, b) {
       if (a.isPinned != b.isPinned) return a.isPinned ? -1 : 1;
       return a.sortOrder.compareTo(b.sortOrder);
@@ -88,7 +68,6 @@ class PlaylistDAO {
     return all;
   }
 
-  /// Return playlists filtered by [type].
   Future<List<PlaylistDB>> getPlaylistsByType(PlaylistTypeDB type) async {
     final isar = await _db;
     return isar.playlistDBs
@@ -98,7 +77,6 @@ class PlaylistDAO {
         .findAll();
   }
 
-  /// Delete a playlist by id, cascading to all its [PlaylistEntryDB] rows.
   Future<void> deletePlaylist(int playlistId) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -112,13 +90,11 @@ class PlaylistDAO {
     log('Deleted playlist id=$playlistId', name: 'PlaylistDAO');
   }
 
-  /// Delete a playlist by [name].
   Future<void> deletePlaylistByName(String name) async {
     final playlist = await getPlaylistByName(name);
     if (playlist != null) await deletePlaylist(playlist.id);
   }
 
-  /// Update only metadata fields of an existing playlist.
   Future<void> updatePlaylistMeta(
     int playlistId, {
     String? name,
@@ -137,12 +113,6 @@ class PlaylistDAO {
     await isar.writeTxn(() => isar.playlistDBs.put(playlist));
   }
 
-  // ── Track management ───────────────────────────────────────────────────────
-
-  /// Append [track] to the end of playlist [playlistId].
-  ///
-  /// Accepts a domain [Track] model. Upserts it into [TrackDB] first
-  /// (deduplication). Returns the new entry id, or null if already present.
   Future<int?> addTrackToPlaylist(int playlistId, Track track) async {
     final isar = await _db;
     final trackId = await _trackDAO.upsertTrack(track);
@@ -155,7 +125,6 @@ class PlaylistDAO {
         return null;
       }
 
-      // Dedup check.
       final existingEntry = await isar.playlistEntryDBs
           .filter()
           .playlistIdEqualTo(playlistId)
@@ -168,7 +137,6 @@ class PlaylistDAO {
         return null;
       }
 
-      // Compute next position.
       final maxPosEntry = await isar.playlistEntryDBs
           .filter()
           .playlistIdEqualTo(playlistId)
@@ -197,7 +165,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Convenience: Add track to playlist by name instead of ID.
   Future<int?> addTrackToPlaylistByName(
       String playlistName, Track track) async {
     final playlist = await getPlaylistByName(playlistName);
@@ -208,9 +175,6 @@ class PlaylistDAO {
     return addTrackToPlaylist(playlist.id, track);
   }
 
-  /// Append multiple tracks in a single transaction.
-  ///
-  /// Accepts domain [Track] models. Deduplicates automatically.
   Future<void> addTracksToPlaylist(int playlistId, List<Track> tracks) async {
     if (tracks.isEmpty) return;
     final isar = await _db;
@@ -259,7 +223,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Replace the full ordered contents of [playlistId] with [tracks].
   Future<void> setPlaylistTracks(int playlistId, List<Track> tracks) async {
     final isar = await _db;
     final seenIds = <String>{};
@@ -306,7 +269,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Remove a specific entry by its [entryId].
   Future<void> removeEntry(int entryId) async {
     final isar = await _db;
     final entry = await isar.playlistEntryDBs.get(entryId);
@@ -331,7 +293,6 @@ class PlaylistDAO {
     }
   }
 
-  /// Remove a track identified by [mediaId] from a playlist.
   Future<void> removeTrackFromPlaylist(int playlistId, String mediaId) async {
     final isar = await _db;
     final track =
@@ -348,9 +309,6 @@ class PlaylistDAO {
     if (entry != null) await removeEntry(entry.id);
   }
 
-  // ── Ordered track retrieval ────────────────────────────────────────────────
-
-  /// Return all tracks of [playlistId] in position order.
   Future<List<TrackDB>> getPlaylistTracks(int playlistId) async {
     final isar = await _db;
     final entries = await isar.playlistEntryDBs
@@ -375,15 +333,11 @@ class PlaylistDAO {
     return entries.map((e) => e.track.value).whereType<TrackDB>().toList();
   }
 
-  /// Return total number of tracks in [playlistId].
   Future<int> getPlaylistTrackCount(int playlistId) async {
     final isar = await _db;
     return isar.playlistEntryDBs.filter().playlistIdEqualTo(playlistId).count();
   }
 
-  /// Return an ordered page of tracks for [playlistId].
-  ///
-  /// [offset] and [limit] are zero-based and bounded by Isar query paging.
   Future<List<TrackDB>> getPlaylistTracksPage(
     int playlistId, {
     required int offset,
@@ -418,10 +372,6 @@ class PlaylistDAO {
     return entries.map((e) => e.track.value).whereType<TrackDB>().toList();
   }
 
-  /// Remove broken playlist-entry rows (missing track link or playlistId).
-  /// Also deletes user playlists with an empty name (no tracks, no identity).
-  ///
-  /// Returns number of deleted rows.
   Future<int> purgeBrokenPlaylistEntries() async {
     final isar = await _db;
     final entries = await isar.playlistEntryDBs.where().findAll();
@@ -440,7 +390,6 @@ class PlaylistDAO {
       log('Purged $deleted broken playlist entries', name: 'PlaylistDAO');
     }
 
-    // Also remove user playlists with an empty name (cleanliness guard).
     final emptyNamedPlaylists = await isar.playlistDBs
         .filter()
         .nameEqualTo('')
@@ -448,7 +397,6 @@ class PlaylistDAO {
         .findAll();
     if (emptyNamedPlaylists.isNotEmpty) {
       final ids = emptyNamedPlaylists.map((p) => p.id).toList();
-      // Remove their entries first, then the playlist rows.
       await isar.writeTxn(() async {
         for (final id in ids) {
           await isar.playlistEntryDBs
@@ -464,7 +412,6 @@ class PlaylistDAO {
     return deleted;
   }
 
-  /// Return all entries of [playlistId] in position order (with links loaded).
   Future<List<PlaylistEntryDB>> getPlaylistEntries(int playlistId) async {
     final isar = await _db;
     final entries = await isar.playlistEntryDBs
@@ -478,12 +425,6 @@ class PlaylistDAO {
     return entries;
   }
 
-  // ── Position / ordering ────────────────────────────────────────────────────
-
-  /// Atomically move a track from [oldPosition] to [newPosition].
-  ///
-  /// Moving down (old < new): entries in ]old..new] shift up by -1.
-  /// Moving up   (old > new): entries in [new..old[ shift down by +1.
   Future<void> reorderTrack(
       int playlistId, int oldPosition, int newPosition) async {
     if (oldPosition == newPosition) return;
@@ -531,7 +472,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Re-number positions to contiguous 0..N-1 (defragmentation).
   Future<void> normalizePositions(int playlistId) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -546,10 +486,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Bulk-set track order. [newOrder] maps new-position → old-position.
-  ///
-  /// Example: `[2, 0, 1]` means the track originally at position 2
-  /// should now be at position 0, etc.
   Future<void> setTrackOrder(int playlistId, List<int> newOrder) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -561,7 +497,6 @@ class PlaylistDAO {
 
       if (entries.length != newOrder.length) return;
 
-      // Index entries by their current position for O(1) lookup.
       final byPos = {for (final e in entries) e.position: e};
 
       for (int newPos = 0; newPos < newOrder.length; newPos++) {
@@ -578,13 +513,8 @@ class PlaylistDAO {
     });
   }
 
-  // ── Like helpers ───────────────────────────────────────────────────────────
-
   static const likedPlaylist = 'Liked';
 
-  /// Add or remove [track] from the "Liked" playlist.
-  ///
-  /// Accepts a domain [Track] model.
   Future<void> setTrackLiked(Track track, bool liked) async {
     final likedId = await ensurePlaylist(likedPlaylist);
     if (liked) {
@@ -594,7 +524,6 @@ class PlaylistDAO {
     }
   }
 
-  /// Returns true if [mediaId] is in the "Liked" playlist.
   Future<bool> isTrackLiked(String mediaId) async {
     final isar = await _db;
     final liked =
@@ -612,7 +541,6 @@ class PlaylistDAO {
     return entry != null;
   }
 
-  /// Return the names of all playlists containing [mediaId].
   Future<List<String>> getPlaylistsContainingTrack(String mediaId) async {
     final isar = await _db;
     final track =
@@ -630,11 +558,6 @@ class PlaylistDAO {
     return playlists.whereType<PlaylistDB>().map((p) => p.name).toList();
   }
 
-  // ── Library search ─────────────────────────────────────────────────────────
-
-  /// Search track titles across all playlists.
-  ///
-  /// Returns `(TrackDB, playlistName)` pairs, excluding system playlists.
   Future<List<(TrackDB, String)>> searchLibrary(String query) async {
     if (query.trim().isEmpty) return [];
     final isar = await _db;
@@ -664,9 +587,6 @@ class PlaylistDAO {
     return results;
   }
 
-  // ── Full domain model loader ───────────────────────────────────────────────
-
-  /// Load a fully hydrated [Playlist] domain model from the database.
   Future<Playlist> loadPlaylist(String name) async {
     final playlistDB = await getPlaylistByName(name);
     if (playlistDB == null) return Playlist(tracks: [], title: name);
@@ -676,8 +596,6 @@ class PlaylistDAO {
       tracks: tracks.map((t) => trackDBToTrack(t)).toList(),
     );
   }
-
-  // ── Watchers ──────────────────────────────────────────────────────────────
 
   Future<Stream<void>> watchAllPlaylists() async {
     final isar = await _db;
@@ -697,9 +615,6 @@ class PlaylistDAO {
     return isar.playlistDBs.watchObject(playlistId, fireImmediately: true);
   }
 
-  // ── Standard-playlist helpers ─────────────────────────────────────────────
-
-  /// Ensure a named playlist exists; return its id (creating it if needed).
   Future<int> ensurePlaylist(String name,
       {PlaylistTypeDB type = PlaylistTypeDB.userPlaylist}) async {
     final isar = await _db;
@@ -710,7 +625,6 @@ class PlaylistDAO {
     return isar.writeTxn(() => isar.playlistDBs.put(playlist));
   }
 
-  /// Update (or set) the thumbnail URL for a playlist.
   Future<void> updatePlaylistThumbnail(int playlistId, String thumbUrl) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -720,9 +634,7 @@ class PlaylistDAO {
       await isar.playlistDBs.put(playlist);
     });
   }
-  // ── Library Ordering ─────────────────────────────────────────────────────
 
-  /// Toggle the pinned state of a playlist.
   Future<void> setPinned(int playlistId, bool pinned) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -733,10 +645,6 @@ class PlaylistDAO {
     });
   }
 
-  /// Reorder playlists in the library.
-  ///
-  /// [orderedIds] is the full list of playlist IDs in their new order.
-  /// Each playlist's `sortOrder` is set to its index in the list.
   Future<void> reorderPlaylists(List<int> orderedIds) async {
     final isar = await _db;
     await isar.writeTxn(() async {

@@ -1,23 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:Bloomee/services/db/dao/plugin_storage_dao.dart';
-import 'package:Bloomee/services/plugin/plugin_event_bus.dart';
-import 'package:Bloomee/src/rust/api/plugin/events.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin.dart';
-import 'package:Bloomee/src/rust/api/bridge.dart' as bridge;
+import 'package:streambeats/services/db/dao/plugin_storage_dao.dart';
+import 'package:streambeats/services/plugin/plugin_event_bus.dart';
+import 'package:streambeats/src/rust/api/plugin/events.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin.dart';
+import 'package:streambeats/src/rust/api/bridge.dart' as bridge;
 
-/// Handles plugin storage persistence.
-///
-/// Two-layer architecture:
-///   Layer 1 (Rust): In-memory HashMap — instant sync reads for WASM plugins.
-///   Layer 2 (Dart): Isar DB — async persistence for app restarts.
-///
-/// This service:
-///   - On startup: preloads all Isar entries into Rust in-memory storage.
-///   - Listens to [PluginEventBus] for `StorageSet`, `StorageDeleted`,
-///     `StorageCleared` events and persists changes to Isar asynchronously.
-///   - Never blocks the plugin; Isar writes happen in the background.
 class PluginStorageService {
   final PluginStorageDao _dao;
   final PluginEventBus _eventBus;
@@ -31,11 +20,6 @@ class PluginStorageService {
   })  : _dao = dao,
         _eventBus = eventBus;
 
-  /// Preload all stored entries from Isar into Rust in-memory storage.
-  ///
-  /// Call this during app startup AFTER [PluginManager] is created but
-  /// BEFORE any plugins are loaded. This ensures plugins see their
-  /// persisted state immediately.
   Future<void> preloadAll(PluginManager manager) async {
     final entries = await _dao.getAll();
     log('Preloading ${entries.length} storage entries into Rust',
@@ -53,10 +37,6 @@ class PluginStorageService {
     log('Preload complete', name: 'PluginStorageService');
   }
 
-  /// Start listening to storage events from the plugin event bus.
-  ///
-  /// Each storage mutation event from Rust is persisted to Isar asynchronously.
-  /// This is fire-and-forget — we don't block the event stream on DB writes.
   void startListening() {
     _eventSubscription?.cancel();
     _eventSubscription = _eventBus.events.listen(_handleEvent);
@@ -75,7 +55,6 @@ class PluginStorageService {
       storageCleared: (pluginId) {
         _enqueueWrite(() => _persistClear(pluginId));
       },
-      // All other events are not our concern.
       pluginLoading: (_) {},
       pluginLoaded: (_, __) {},
       pluginLoadFailed: (_, __) {},
@@ -125,7 +104,6 @@ class PluginStorageService {
     }
   }
 
-  /// Stop listening and clean up.
   void dispose() {
     _eventSubscription?.cancel();
     _eventSubscription = null;

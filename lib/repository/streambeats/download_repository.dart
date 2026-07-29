@@ -1,8 +1,7 @@
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/dao/download_dao.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/dao/download_dao.dart';
 
-/// Repository for download operations — wraps [DownloadDAO].
 class DownloadRepository {
   final DownloadDAO _downloadDao;
 

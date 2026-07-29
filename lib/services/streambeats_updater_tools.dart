@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 
 bool isUpdateAvailable(
     String currentVer, String currentBuild, String newVer, String newBuild,
     {bool checkBuild = true}) {
-  // Normalize versions and builds and compare component-wise.
   List<int> parseVersion(String v) {
     v = v.replaceFirst(RegExp(r'^v'), '');
     final parts = v.split('.');
@@ -57,10 +56,9 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
     {Duration timeout = const Duration(seconds: 6)}) async {
   String platform = Platform.operatingSystem;
   if (platform != 'linux' && platform != 'android' && platform != 'win') {
-    // normalize unknowns to win for SourceForge naming
     platform = 'win';
   }
-  const url = 'https://sourceforge.net/projects/bloomee/best_release.json';
+  const url = 'https://sourceforge.net/projects/streambeats/best_release.json';
   final userAgent = {
     'win':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
@@ -70,7 +68,6 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
         'Mozilla/5.0 (Linux; Android 13;) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36',
   };
 
-  // Use a single known-working header set (desktop UA + accept + referer).
   final headers = {
     'user-agent': userAgent['win']!,
     'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -94,7 +91,6 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      // Prefer platform-specific release entry when available
       String platformKey = 'windows';
       if (Platform.isLinux) {
         platformKey = 'linux';
@@ -109,7 +105,6 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
           : null;
       entry ??= data['release'];
 
-      // extract url/filename from the chosen entry first, fall back to release
       final releaseUrl = (entry != null && entry['url'] != null)
           ? entry['url'] as String
           : (data['release']?['url'] ?? '');
@@ -117,7 +112,6 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
           ? entry['filename'] as String
           : (data['release']?['filename'] ?? '');
 
-      // decode percent-encoding and normalize
       try {
         filename = Uri.decodeFull(filename);
       } catch (_) {}
@@ -126,7 +120,6 @@ Future<Map<String, dynamic>> sourceforgeUpdate(
         decodedUrl = Uri.decodeFull(releaseUrl);
       } catch (_) {}
 
-      // try to find version/build in filename, then url
       final versionRegex = RegExp(r'v(\d+(?:\.\d+)*)');
       final buildRegex = RegExp(r'\+(\d+)');
 
@@ -176,13 +169,11 @@ Future<Map<String, dynamic>> githubUpdate(
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       final tag = (data['tag_name'] as String?) ?? '';
-      // tag might be like v2.7.11+12 or v2.7.11
       final tagParts = tag.split('+');
       final versionPart =
           tagParts.isNotEmpty ? tagParts[0].replaceFirst('v', '') : '';
       final buildPart = tagParts.length > 1 ? tagParts[1] : '';
 
-      // Attempt to extract download url from assets if possible
       String? download = extractUpUrl(data);
       download ??= data['html_url'] ?? '';
 
@@ -212,9 +203,7 @@ Future<Map<String, dynamic>> githubUpdate(
   }
 }
 
-/// New public API: try GitHub first, then SourceForge; return a consistent map.
 Future<Map<String, dynamic>> getAppUpdates() async {
-  // Try GitHub first, then SourceForge, produce an `updates` map and attach changelogs.
   Map<String, dynamic> updates;
   try {
     updates = await githubUpdate();
@@ -224,7 +213,6 @@ Future<Map<String, dynamic>> getAppUpdates() async {
       updates = await sourceforgeUpdate();
     } catch (e2) {
       log('SourceForge check failed: $e2', name: 'UpdaterTools');
-      // Final fallback: return structured failure map with current info
       try {
         final packageInfo = await PackageInfo.fromPlatform();
         updates = {
@@ -246,7 +234,6 @@ Future<Map<String, dynamic>> getAppUpdates() async {
   }
 
   try {
-    // Contains the latest changelog read by the user. [eg. v2.11.6+171] (can be null)
     final readChangelogs = await SettingsDAO(DBProvider.db)
         .getSettingStr(SettingKeys.readChangelogs);
     final currVer = "v${updates['currVer']}";
@@ -267,13 +254,9 @@ Future<Map<String, dynamic>> getAppUpdates() async {
     updates['changelogs'] = null;
   }
 
-  // log('Update check completed: $updates', name: 'UpdaterTools');
-
   return updates;
 }
 
-/// Fetch the project's CHANGELOG.md from the hosted GitHub Pages site.
-/// Returns the changelog text on success, or null on any failure.
 Future<String?> fetchChangelog(
     {Duration timeout = const Duration(seconds: 6)}) async {
   const changelogUrl =
@@ -293,14 +276,11 @@ Future<String?> fetchChangelog(
   }
 }
 
-/// Backwards-compatible wrapper for existing callers
 Future<Map<String, dynamic>> getLatestVersion() async => await getAppUpdates();
 
 String? extractUpUrl(Map<String, dynamic> data) {
-  // List<String> urls = [];
 
   for (var element in (data["assets"] as List)) {
-    // urls.add(element["browser_download_url"]);
     if (element["browser_download_url"].toString().contains("windows")) {
       if (Platform.isWindows) {
         return element["browser_download_url"].toString();

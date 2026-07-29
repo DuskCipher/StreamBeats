@@ -2,16 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-/// Public method to verify backup file in a background isolate.
 Future<Map<String, dynamic>> verifyBackupFile(String filePath) async {
   return await Isolate.run(() => _verifyBackup(filePath));
 }
 
-/// Core verification logic (runs inside isolate)
 Map<String, dynamic> _verifyBackup(String filePath) {
   final errors = <String>[];
 
-  // 1️⃣ Check if file exists
   final file = File(filePath);
   if (!file.existsSync()) {
     return {
@@ -20,7 +17,6 @@ Map<String, dynamic> _verifyBackup(String filePath) {
     };
   }
 
-  // 2️⃣ Read and parse JSON
   Map<String, dynamic>? jsonData;
   try {
     final content = file.readAsStringSync();
@@ -40,10 +36,8 @@ Map<String, dynamic> _verifyBackup(String filePath) {
     };
   }
 
-  // 3️⃣ Check for _meta section
   final meta = jsonData["_meta"];
   if (meta != null && meta is Map<String, dynamic>) {
-    // Required meta fields
     const requiredMetaKeys = ["generated_by", "version"];
     for (var key in requiredMetaKeys) {
       final val = meta[key];
@@ -55,7 +49,6 @@ Map<String, dynamic> _verifyBackup(String filePath) {
     errors.add("'_meta' is present but not a JSON object.");
   }
 
-  // 4️⃣ Validate each section dynamically (except _meta)
   jsonData.forEach((key, value) {
     if (key == "_meta") return;
 
@@ -78,7 +71,6 @@ Map<String, dynamic> _verifyBackup(String filePath) {
     }
   });
 
-  // 5️⃣ Version format sanity check
   if (meta is Map<String, dynamic>) {
     final versionStr = meta["version"]?.toString();
     if (versionStr == null ||

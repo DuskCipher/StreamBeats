@@ -7,18 +7,18 @@ import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:Bloomee/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/smart_replace_dialog.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/services/song_metadata_refresh_service.dart';
+import 'package:streambeats/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/smart_replace_dialog.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/services/song_metadata_refresh_service.dart';
 
 void showMoreBottomSheet(
   BuildContext context,
@@ -29,7 +29,7 @@ void showMoreBottomSheet(
   bool showPlayNext = true,
   VoidCallback? onDelete,
 }) {
-  final playerCubit = context.read<BloomeePlayerCubit>();
+  final playerCubit = context.read<StreamBeatsPlayerCubit>();
   final libraryCubit = context.read<LibraryItemsCubit>();
   final playlistCubit = context.read<AddToPlaylistCubit>();
   final downloaderCubit = context.read<DownloaderCubit>();
@@ -43,8 +43,6 @@ void showMoreBottomSheet(
     backgroundColor: Colors.transparent,
     barrierColor: Colors.black.withValues(alpha: 0.72),
     elevation: 0,
-    // FIX: Apply max width constraint directly to the bottom sheet
-    // so outside tap gestures aren't swallowed by an invisible wide container.
     constraints: const BoxConstraints(maxWidth: 520),
     builder: (sheetContext) {
       return MultiBlocProvider(
@@ -93,7 +91,6 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
     final maxHeight = MediaQuery.of(context).size.height * 0.85;
 
     return Padding(
-      // Keep bottom padding so it floats cleanly above the screen edge
       padding: EdgeInsets.fromLTRB(
         10,
         0,
@@ -123,7 +120,6 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
                 ],
               ),
               child: Column(
-                // FIX: Ensure it only takes needed height so top taps can dismiss
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _Header(
@@ -158,8 +154,8 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
                                         Theme.of(context).colorScheme.primary,
                                     onTap: (ctx) {
                                       ctx
-                                          .read<BloomeePlayerCubit>()
-                                          .bloomeePlayer
+                                          .read<StreamBeatsPlayerCubit>()
+                                          .streambeatsPlayer
                                           .updateQueueTracks([song],
                                               doPlay: true);
                                       Navigator.pop(ctx);
@@ -175,8 +171,8 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
                                         Theme.of(context).colorScheme.tertiary,
                                     onTap: (ctx) {
                                       ctx
-                                          .read<BloomeePlayerCubit>()
-                                          .bloomeePlayer
+                                          .read<StreamBeatsPlayerCubit>()
+                                          .streambeatsPlayer
                                           .addPlayNextTrack(song);
                                       Navigator.pop(ctx);
                                       SnackbarService.showMessage(
@@ -191,8 +187,8 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
                                         Theme.of(context).colorScheme.secondary,
                                     onTap: (ctx) {
                                       ctx
-                                          .read<BloomeePlayerCubit>()
-                                          .bloomeePlayer
+                                          .read<StreamBeatsPlayerCubit>()
+                                          .streambeatsPlayer
                                           .addQueueTracks([song]);
                                       Navigator.pop(ctx);
                                       SnackbarService.showMessage(
@@ -234,13 +230,12 @@ class _TrackOptionsBottomSheet extends StatelessWidget {
                             },
                           ),
 
-                          // FIX: Moved Metadata Refresh here to blend flawlessly into the UI
                           _CompactTile(
                             icon: MingCute.refresh_3_line,
                             title: l10n.songInfoUpdateMetadata,
                             onTap: (ctx) async {
                               final player =
-                                  ctx.read<BloomeePlayerCubit>().bloomeePlayer;
+                                  ctx.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
                               Navigator.pop(ctx);
 
                               final result =

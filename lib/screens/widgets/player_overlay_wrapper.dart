@@ -1,11 +1,8 @@
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/screens/screen/player_screen.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/screens/screen/player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// A persistent player overlay that stays mounted in the widget tree.
-/// This widget wraps the main content and overlays the full player on top
-/// with a slide-up animation when visible, similar to modern media apps.
 class PlayerOverlayWrapper extends StatefulWidget {
   final Widget child;
 
@@ -24,7 +21,6 @@ class _PlayerOverlayWrapperState extends State<PlayerOverlayWrapper>
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
 
-  /// Track if the player has ever been shown so we can keep it mounted
   bool _hasBeenShown = false;
 
   @override
@@ -62,7 +58,6 @@ class _PlayerOverlayWrapperState extends State<PlayerOverlayWrapper>
   void _onPlayerVisibilityChanged(bool isVisible) {
     if (isVisible) {
       _hasBeenShown = true;
-      // Dismiss keyboard by unfocusing any active text field
       FocusManager.instance.primaryFocus?.unfocus();
       _animationController.forward();
     } else {
@@ -78,14 +73,10 @@ class _PlayerOverlayWrapperState extends State<PlayerOverlayWrapper>
       },
       child: Stack(
         children: [
-          // Main content (always visible)
           widget.child,
 
-          // Player overlay - once shown, stays mounted for instant reopening
           BlocBuilder<PlayerOverlayCubit, bool>(
             buildWhen: (previous, current) {
-              // Only rebuild if we need to first mount the player
-              // Once mounted, it stays mounted
               return !_hasBeenShown && current;
             },
             builder: (context, isVisible) {
@@ -93,7 +84,6 @@ class _PlayerOverlayWrapperState extends State<PlayerOverlayWrapper>
                 return const SizedBox.shrink();
               }
 
-              // Mark that player has been shown
               if (isVisible && !_hasBeenShown) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (mounted) {
@@ -129,7 +119,6 @@ class _PlayerOverlayWrapperState extends State<PlayerOverlayWrapper>
   }
 }
 
-/// The persistent player view that stays mounted.
 class _PersistentPlayerView extends StatelessWidget {
   const _PersistentPlayerView();
 

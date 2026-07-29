@@ -1,12 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
-import 'package:Bloomee/screens/screen/player_views/equalizer_view.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/screens/screen/player_views/equalizer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class PlayerSettings extends StatelessWidget {
@@ -59,7 +58,6 @@ class PlayerSettings extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             children: [
-              // ─── Streaming Quality ─────────────────────────────────────
               SettingSectionHeader(label: l10n.playerSettingStreamingHeader),
               SettingCard(
                 children: [
@@ -81,7 +79,6 @@ class PlayerSettings extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              // ─── Playback ──────────────────────────────────────────────
               SettingSectionHeader(label: l10n.playerSettingPlaybackHeader),
               SettingCard(
                 children: [
@@ -109,8 +106,8 @@ class PlayerSettings extends StatelessWidget {
                     onChanged: (v) {
                       context.read<SettingsCubit>().setCrossfadeDuration(v);
                       context
-                          .read<BloomeePlayerCubit>()
-                          .bloomeePlayer
+                          .read<StreamBeatsPlayerCubit>()
+                          .streambeatsPlayer
                           .setCrossfadeDuration(Duration(seconds: v));
                     },
                   ),
@@ -142,8 +139,6 @@ class PlayerSettings extends StatelessWidget {
     );
   }
 }
-
-// ─── Crossfade Slider ────────────────────────────────────────────────────────
 
 class _CrossfadeSlider extends StatefulWidget {
   final int value;

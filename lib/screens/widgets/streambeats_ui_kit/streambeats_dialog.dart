@@ -1,59 +1,41 @@
 import 'dart:ui';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 
-/// Bloomee-branded dialog surface.
-///
-/// Uses the app's dark palette with a subtle frosted-glass look.
-/// All app dialogs, alerts, confirmation sheets, and popups should use this
-/// as their root surface so the UI feels cohesive.
-///
-/// ```dart
-/// showBloomeeDialog(
-///   context: context,
-///   title: 'Delete track?',
-///   subtitle: 'This cannot be undone.',
-///   actions: [
-///     BloomeeDialogAction.text('Cancel'),
-///     BloomeeDialogAction.filled('Delete', isDestructive: true, onPressed: () {}),
-///   ],
-/// );
-/// ```
-class BloomeeDialogAction {
+class StreamBeatsDialogAction {
   final String label;
   final VoidCallback? onPressed;
   final bool isDestructive;
   final bool isFilled;
 
-  const BloomeeDialogAction.text(
+  const StreamBeatsDialogAction.text(
     this.label, {
     this.onPressed,
     this.isDestructive = false,
   }) : isFilled = false;
 
-  const BloomeeDialogAction.filled(
+  const StreamBeatsDialogAction.filled(
     this.label, {
     this.onPressed,
     this.isDestructive = false,
   }) : isFilled = true;
 }
 
-/// Display the standard Bloomee dialog.
-Future<T?> showBloomeeDialog<T>({
+Future<T?> showStreamBeatsDialog<T>({
   required BuildContext context,
   required String title,
   String? subtitle,
   Widget? body,
   IconData? icon,
-  List<BloomeeDialogAction>? actions,
+  List<StreamBeatsDialogAction>? actions,
   bool barrierDismissible = true,
 }) {
   return showDialog<T>(
     context: context,
     barrierDismissible: barrierDismissible,
     barrierColor: Colors.black54,
-    builder: (_) => BloomeeDialogSurface(
+    builder: (_) => StreamBeatsDialogSurface(
       title: title,
       subtitle: subtitle,
       body: body,
@@ -63,22 +45,18 @@ Future<T?> showBloomeeDialog<T>({
   );
 }
 
-// ── Surface Colors ──────────────────────────────────────────────────────────
-
 const _kDialogBg = Color(0xFF12101A);
 const _kDialogSurface = Color(0xFF1A1626);
 const _kDialogBorder = Color(0xFF2A2438);
 
-/// The dialog surface widget. Can be used directly as a dialog builder return
-/// value for dialogs that manage their own state (e.g., Smart Replace).
-class BloomeeDialogSurface extends StatelessWidget {
+class StreamBeatsDialogSurface extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? body;
   final IconData? icon;
-  final List<BloomeeDialogAction>? actions;
+  final List<StreamBeatsDialogAction>? actions;
 
-  const BloomeeDialogSurface({
+  const StreamBeatsDialogSurface({
     super.key,
     required this.title,
     this.subtitle,
@@ -200,7 +178,7 @@ class BloomeeDialogSurface extends StatelessWidget {
     );
   }
 
-  Widget _buildAction(BuildContext context, BloomeeDialogAction action) {
+  Widget _buildAction(BuildContext context, StreamBeatsDialogAction action) {
     final color = action.isDestructive
         ? const Color(0xFFFF4D6A)
         : Default_Theme.accentColor2;
@@ -244,11 +222,7 @@ class BloomeeDialogSurface extends StatelessWidget {
   }
 }
 
-/// A Bloomee-styled list-tile for use inside dialog bodies.
-///
-/// Shows a leading thumbnail/icon, title, subtitle, and an optional trailing
-/// widget. Used for candidate lists (Smart Replace, search picks, etc.).
-class BloomeeDialogTile extends StatelessWidget {
+class StreamBeatsDialogTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? imageUrl;
@@ -257,7 +231,7 @@ class BloomeeDialogTile extends StatelessWidget {
   final VoidCallback? onTap;
   final bool selected;
 
-  const BloomeeDialogTile({
+  const StreamBeatsDialogTile({
     super.key,
     required this.title,
     this.subtitle,
@@ -368,12 +342,11 @@ class BloomeeDialogTile extends StatelessWidget {
   }
 }
 
-/// A small pill badge (e.g., "Best match", "79%").
-class BloomeeDialogBadge extends StatelessWidget {
+class StreamBeatsDialogBadge extends StatelessWidget {
   final String label;
   final Color? color;
 
-  const BloomeeDialogBadge(this.label, {super.key, this.color});
+  const StreamBeatsDialogBadge(this.label, {super.key, this.color});
 
   @override
   Widget build(BuildContext context) {

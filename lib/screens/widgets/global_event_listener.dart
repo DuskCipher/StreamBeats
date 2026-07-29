@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:Bloomee/blocs/global_events/global_events_cubit.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/screen/common_views/changelog_reader.dart';
-import 'package:Bloomee/screens/widgets/bloomee_ui_kit/bloomee_dialog.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/plugin/plugin_event_bus.dart';
-import 'package:Bloomee/src/rust/api/plugin/events.dart';
+import 'package:streambeats/blocs/global_events/global_events_cubit.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/screen/common_views/changelog_reader.dart';
+import 'package:streambeats/screens/widgets/streambeats_ui_kit/streambeats_dialog.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/plugin/plugin_event_bus.dart';
+import 'package:streambeats/src/rust/api/plugin/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,12 +30,10 @@ class _GlobalEventListenerState extends State<GlobalEventListener> {
   StreamSubscription<PluginManagerEvent>? _pluginSub;
   StreamSubscription<AppError>? _appErrorSub;
 
-  /// Rate-limit snackbars: track last message + timestamp to avoid flooding.
   String? _lastSnackbarMessage;
   DateTime _lastSnackbarTime = DateTime(2000);
   static const _snackbarCooldown = Duration(seconds: 2);
 
-  /// Show a snackbar only if it's not a duplicate within the cooldown window.
   void _throttledSnackbar(String message) {
     final now = DateTime.now();
     if (message == _lastSnackbarMessage &&
@@ -119,14 +117,14 @@ class _GlobalEventListenerState extends State<GlobalEventListener> {
             final s = state as UpdateAvailable;
             final l10n = AppLocalizations.of(dialogContext)!;
             log("Update Available: ${s.newVersion}+${s.newBuild}");
-            showBloomeeDialog(
+            showStreamBeatsDialog(
               context: dialogContext,
               title: l10n.dialogUpdateAvailable,
               subtitle: l10n.updateAvailableBody(s.newVersion, s.newBuild),
               icon: Icons.system_update_rounded,
               actions: [
-                BloomeeDialogAction.text(l10n.buttonLater),
-                BloomeeDialogAction.filled(l10n.dialogUpdateNow, onPressed: () {
+                StreamBeatsDialogAction.text(l10n.buttonLater),
+                StreamBeatsDialogAction.filled(l10n.dialogUpdateNow, onPressed: () {
                   openURL(s.downloadUrl);
                 }),
               ],
@@ -135,12 +133,12 @@ class _GlobalEventListenerState extends State<GlobalEventListener> {
           case AlertDialogState:
             final s = state as AlertDialogState;
             final l10n = AppLocalizations.of(dialogContext)!;
-            showBloomeeDialog(
+            showStreamBeatsDialog(
               context: dialogContext,
               title: s.title,
               subtitle: s.content,
               actions: [
-                BloomeeDialogAction.filled(l10n.buttonOk),
+                StreamBeatsDialogAction.filled(l10n.buttonOk),
               ],
             );
             break;

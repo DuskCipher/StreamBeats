@@ -2,8 +2,8 @@ import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:async';
 import 'dart:math';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum PlayerErrorType {
@@ -57,7 +57,6 @@ class PlayerErrorHandler {
 
   Timer? _reconnectionTimer;
 
-  // --- Deterministic State Machine Tracking ---
   int _currentAttemptSequence = 0;
   int _handledFailureSequence = -1;
 
@@ -71,8 +70,6 @@ class PlayerErrorHandler {
   Function()? onStopPlayback;
   Function(String?)? onClearCachedSource;
 
-  /// Called strictly before the engine commands a play/open.
-  /// Generates a new sequence ID to deterministically isolate error bursts.
   void registerAttempt(String trackId) {
     _currentAttemptSequence++;
 
@@ -120,8 +117,6 @@ class PlayerErrorHandler {
       [dynamic originalError]) {
     if (track == null) return;
 
-    // STATE GATE: Guarantee we only process exactly ONE failure per attempt sequence.
-    // This perfectly eliminates race conditions from libmpv spamming 10 errors for one crash.
     if (_handledFailureSequence == _currentAttemptSequence) {
       dev.log(
           'Suppressed cascading error for attempt $_currentAttemptSequence: $message',

@@ -1,12 +1,6 @@
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/mappers/media_item_mapper.dart';
-
-/// Higher-level collection mappers: compose [ArtistSummary], [AlbumSummary],
-/// [PlaylistSummary] <-> [PlaylistDB].
-///
-/// Low-level artwork / artist / album helpers live in [media_item_mapper.dart].
-/// This file imports and uses them directly -- do not redefine them here.
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/mappers/media_item_mapper.dart';
 
 String playlistDBDisplayName(PlaylistDB playlistDB) {
   switch (playlistDB.type) {
@@ -27,9 +21,6 @@ String playlistDBDisplayName(PlaylistDB playlistDB) {
   }
 }
 
-// -- ArtistSummary <-> PlaylistDB -----------------------------------------
-
-/// Wrap an [ArtistSummary] as a [PlaylistDB] row (for library persistence).
 PlaylistDB artistSummaryToPlaylistDB(ArtistSummary artistSummary) {
   return PlaylistDB(
     name: artistSummary.id,
@@ -43,7 +34,6 @@ PlaylistDB artistSummaryToPlaylistDB(ArtistSummary artistSummary) {
   );
 }
 
-/// Extract the first [ArtistSummary] from an artist-type [PlaylistDB].
 ArtistSummary playlistDBToArtistSummary(PlaylistDB playlistDB) {
   final first = playlistDB.artists?.firstOrNull;
   return ArtistSummary(
@@ -56,9 +46,6 @@ ArtistSummary playlistDBToArtistSummary(PlaylistDB playlistDB) {
   );
 }
 
-// -- AlbumSummary <-> PlaylistDB ------------------------------------------
-
-/// Wrap an [AlbumSummary] as an album-type [PlaylistDB].
 PlaylistDB albumSummaryToPlaylistDB(AlbumSummary albumSummary) {
   return PlaylistDB(
     name: albumSummary.id,
@@ -74,7 +61,6 @@ PlaylistDB albumSummaryToPlaylistDB(AlbumSummary albumSummary) {
   );
 }
 
-/// Reconstruct an [AlbumSummary] from an album-type [PlaylistDB].
 AlbumSummary playlistDBToAlbumSummary(PlaylistDB playlistDB) {
   return AlbumSummary(
     id: playlistDB.album?.mediaId ?? '',
@@ -92,9 +78,6 @@ AlbumSummary playlistDBToAlbumSummary(PlaylistDB playlistDB) {
   );
 }
 
-// -- PlaylistSummary <-> PlaylistDB ----------------------------------------
-
-/// Build a [RemotePlaylistSummaryDB] embedded object from a [PlaylistSummary].
 RemotePlaylistSummaryDB playlistSummaryToRemotePlaylistSummaryDB(
     PlaylistSummary playlistSummary) {
   return RemotePlaylistSummaryDB()
@@ -114,7 +97,6 @@ RemotePlaylistSummaryDB playlistSummaryToRemotePlaylistSummaryDB(
     ..url = playlistSummary.url;
 }
 
-/// Wrap a remote [PlaylistSummary] as a remotePlaylist-type [PlaylistDB].
 PlaylistDB playlistSummaryToPlaylistDB(PlaylistSummary playlistSummary) {
   return PlaylistDB(
     name: playlistSummary.id,
@@ -130,7 +112,6 @@ PlaylistDB playlistSummaryToPlaylistDB(PlaylistSummary playlistSummary) {
   );
 }
 
-/// Reconstruct a [PlaylistSummary] from a remotePlaylist-type [PlaylistDB].
 PlaylistSummary playlistDBToPlaylistSummary(PlaylistDB playlistDB) {
   return PlaylistSummary(
     id: playlistDB.remotePlaylist?.mediaId ?? '',
@@ -145,7 +126,6 @@ PlaylistSummary playlistDBToPlaylistSummary(PlaylistDB playlistDB) {
   );
 }
 
-/// Convert a [RemotePlaylistSummaryDB] embedded object to [PlaylistSummary].
 PlaylistSummary remotePlaylistSummaryDBToPlaylistSummary(
     RemotePlaylistSummaryDB r) {
   return PlaylistSummary(

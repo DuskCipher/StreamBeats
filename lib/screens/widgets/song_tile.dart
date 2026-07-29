@@ -1,19 +1,18 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 
-import 'package:Bloomee/screens/screen/common_views/song_info_screen.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/screens/screen/common_views/song_info_screen.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/exported.dart' hide MediaItem;
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/utils/load_image.dart';
 
 class SongCardWidget extends StatelessWidget {
   final Track song;
@@ -53,10 +52,10 @@ class SongCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerCubit = context.read<BloomeePlayerCubit>();
+    final playerCubit = context.read<StreamBeatsPlayerCubit>();
 
     return StreamBuilder<MediaItem?>(
-      stream: playerCubit.bloomeePlayer.mediaItem,
+      stream: playerCubit.streambeatsPlayer.mediaItem,
       builder: (context, snapshot) {
         final isPlaying = snapshot.data?.id == song.id;
         final l10n = AppLocalizations.of(context)!;
@@ -121,7 +120,6 @@ class SongCardWidget extends StatelessWidget {
                         ),
                       ),
 
-                    // ── Thumbnail ──
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
@@ -137,7 +135,6 @@ class SongCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 14),
 
-                    // ── Animated Title & Subtitle ──
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +187,6 @@ class SongCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
 
-                    // ── Actions ──
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -234,7 +230,7 @@ class SongCardWidget extends StatelessWidget {
                             iconColor: Colors.redAccent.withValues(alpha: 0.9),
                             onTap: () {
                               try {
-                                if (playerCubit.bloomeePlayer.currentMedia.id !=
+                                if (playerCubit.streambeatsPlayer.currentMedia.id !=
                                     song.id) {
                                   context
                                       .read<DownloaderCubit>()

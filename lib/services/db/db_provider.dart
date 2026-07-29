@@ -6,20 +6,16 @@ import 'package:isar_community/isar.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:Bloomee/core/models/exported.dart' as models;
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/dao/cache_dao.dart';
-import 'package:Bloomee/services/db/dao/history_dao.dart';
-import 'package:Bloomee/services/db/legacy/legacy_media_id_mapper.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/search_history_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
+import 'package:streambeats/core/models/exported.dart' as models;
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/dao/cache_dao.dart';
+import 'package:streambeats/services/db/dao/history_dao.dart';
+import 'package:streambeats/services/db/legacy/legacy_media_id_mapper.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/search_history_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
 
-/// Centralised Isar lifecycle manager.
-///
-/// Owns database open / close / backup-restore responsibilities that were
-/// previously scattered across the legacy monolith.
 class DBProvider {
   static late String appSuppDir;
   static late String appDocDir;
@@ -40,7 +36,6 @@ class DBProvider {
     PluginStorageEntitySchema,
   ];
 
-  /// Initialise path state and open the database.
   static Future<Isar> init({
     required String appSupportPath,
     required String appDocumentsPath,
@@ -51,7 +46,6 @@ class DBProvider {
     return db;
   }
 
-  /// Check for DB backup file and restore when the primary DB is missing.
   static Future<void> checkAndRestoreDB(
       String dbPath, List<String> bPaths) async {
     try {
@@ -71,19 +65,17 @@ class DBProvider {
     }
   }
 
-  /// Open (or return existing) Isar instance.
   static Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       final File dbFile = File(p.join(appSuppDir, 'dbv3.isar'));
       if (!await dbFile.exists()) {
         await checkAndRestoreDB(dbFile.path, [
           p.join(appDocDir, 'dbv3.isar'),
-          p.join(appDocDir, 'bloomee_backup_dbv3.isar'),
-          p.join(appSuppDir, 'bloomee_backup_dbv3.isar'),
+          p.join(appDocDir, 'streambeats_backup_dbv3.isar'),
+          p.join(appSuppDir, 'streambeats_backup_dbv3.isar'),
         ]);
       }
 
-      // Migrate DB from documents dir to support dir if needed
       if (!await dbFile.exists() &&
           await File(p.join(appDocDir, 'dbv3.isar')).exists()) {
         final tempDb = Isar.openSync(_schemas, directory: appDocDir, name: 'dbv3');
@@ -98,11 +90,6 @@ class DBProvider {
     return Future.value(Isar.getInstance());
   }
 
-  /// Schedule periodic maintenance tasks (called once during bootstrap).
-  ///
-  /// - Ensures the "Liked" and "_DOWNLOADS" system playlists exist.
-  /// - After a 30-second delay: purges old history, orphan tracks, expired
-  ///   cache, and limits search history.
   static void scheduleMaintenance() {
     final trackDAO = TrackDAO(db);
     final playlistDAO = PlaylistDAO(db, trackDAO);
@@ -111,13 +98,11 @@ class DBProvider {
     final cacheDAO = CacheDAO(db);
     final searchHistoryDAO = SearchHistoryDAO(db);
 
-    // Ensure standard playlists exist during startup.
     playlistDAO.ensurePlaylist(likedPlaylist);
     playlistDAO.ensurePlaylist(downloadPlaylist);
     playlistDAO.ensurePlaylist(localMusicPlaylist);
 
     Future.delayed(const Duration(seconds: 30), () async {
-      // Read configured history retention days.
       final daysStr = await settingsDAO.getSettingStr(
             'historyClearTime',
             defaultValue: '7',
@@ -133,7 +118,6 @@ class DBProvider {
     });
   }
 
-  /// Reset (clear) all collections in the database.
   static Future<void> resetDB() async {
     Isar isarDB = await db;
     isarDB.writeTxn(() async {
@@ -151,7 +135,6 @@ class DBProvider {
     });
   }
 
-  // ── Standard playlists (excluded from backup restore) ─────────────────────
   static const downloadPlaylist = '_DOWNLOADS';
   static const recentlyPlayedPlaylist = 'recently_played';
   static const likedPlaylist = 'Liked';
@@ -163,15 +146,13 @@ class DBProvider {
     localMusicPlaylist,
   ];
 
-  /// Get the database backup file path.
   static Future<String> getDbBackupFilePath() async {
     String backupPath = (await getDownloadsDirectory())?.path ?? appDocDir;
     backupPath =
-        p.join(backupPath, 'bloomeeBackup', 'bloomee_backup_dbv3.json');
+        p.join(backupPath, 'streambeatsBackup', 'streambeats_backup_dbv3.json');
     return backupPath;
   }
 
-  /// Check whether a backup file exists.
   static Future<bool> backupExists() async {
     try {
       String backupFile =
@@ -186,14 +167,10 @@ class DBProvider {
     return false;
   }
 
-  /// Create a binary backup of the database using Isar's built-in copy.
-  ///
-  /// Returns the backup file path on success, or null on failure.
   static Future<String?> createBackUp() async {
     try {
       final isar = await db;
       String backupFilePath = await getDbBackupFilePath();
-      // Change extension — binary Isar backup, not JSON.
       backupFilePath = backupFilePath.replaceAll('.json', '.isar');
 
       final backupDir = File(backupFilePath).parent;
@@ -201,7 +178,6 @@ class DBProvider {
         await backupDir.create(recursive: true);
       }
 
-      // Isar's copyToFile creates a consistent snapshot without closing the DB.
       isar.copyToFile(backupFilePath);
       log('Backup created: $backupFilePath', name: 'DBProvider');
       return backupFilePath;
@@ -211,10 +187,6 @@ class DBProvider {
     return null;
   }
 
-  /// Create a legacy full JSON backup with playlists and media_items sections.
-  ///
-  /// This is intentionally shaped to be compatible with
-  /// [restoreLegacyJsonBackup].
   static Future<String?> createLegacyJsonBackup() async {
     try {
       final trackDao = TrackDAO(db);
@@ -287,7 +259,7 @@ class DBProvider {
         '_meta': {
           'format': 'legacy-v2-full',
           'exportedAt': DateTime.now().toIso8601String(),
-          'generatedBy': 'Bloomee DBProvider',
+          'generatedBy': 'StreamBeats DBProvider',
           'playlistsCount': playlistRows.length,
           'mediaItemsCount': mediaRows.length,
         },
@@ -307,12 +279,6 @@ class DBProvider {
     }
   }
 
-  /// Restore the database from a binary backup .isar file.
-  ///
-  /// Closes the live DB, replaces the primary file, and re-opens.
-  ///
-  /// A rollback copy is kept during restore so failed restores can recover
-  /// without leaving the app in a broken state.
   static Future<Map<String, dynamic>> restoreDB(String? path) async {
     final primaryFile = File(p.join(appSuppDir, 'dbv3.isar'));
     final rollbackFile = File(p.join(appSuppDir, 'dbv3.restore_rollback.isar'));
@@ -328,7 +294,6 @@ class DBProvider {
         };
       }
 
-      // Close live DB before overwriting the file.
       final isar = await db;
       await isar.close();
 
@@ -343,7 +308,6 @@ class DBProvider {
 
       backupFile.copySync(primaryFile.path);
 
-      // Re-open the DB and reassign the static future.
       db = openDB();
       await db;
 
@@ -388,9 +352,6 @@ class DBProvider {
     }
   }
 
-  /// Restore user playlists from a legacy v2 full JSON backup.
-  ///
-  /// By policy we restore playlists only from this format.
   static Future<Map<String, dynamic>> restoreLegacyJsonBackup(String? path,
       {bool restoreMediaItems = true}) async {
     try {

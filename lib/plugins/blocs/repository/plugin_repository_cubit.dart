@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/plugins/models/plugin_repository.dart';
-import 'package:Bloomee/plugins/services/plugin_repository_service.dart';
+import 'package:streambeats/plugins/models/plugin_repository.dart';
+import 'package:streambeats/plugins/services/plugin_repository_service.dart';
 
 abstract class PluginRepositoryState {}
 
@@ -40,7 +40,6 @@ class PluginRepositoryCubit extends Cubit<PluginRepositoryState> {
           results.add(repo);
         } catch (e) {
           log('Error fetching repo $url: $e');
-          // We can still add a "failed" placeholder or just skip
         }
       }
 
@@ -53,13 +52,11 @@ class PluginRepositoryCubit extends Cubit<PluginRepositoryState> {
   Future<void> addRepository(String url) async {
     try {
       emit(PluginRepositoryLoading());
-      // First verify it's valid
       await _service.fetchRepository(url);
       await _service.addRepositoryUrl(url);
       await loadRepositories();
     } catch (e) {
       emit(PluginRepositoryError('Invalid repository: $e'));
-      // try reloading to restore previous state
       await loadRepositories();
     }
   }

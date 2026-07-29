@@ -8,17 +8,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/screens/screen/library_views/cubit/current_playlist_cubit.dart';
-import 'package:Bloomee/screens/screen/library_views/playlist_edit_view.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/services/import_export_service.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/screens/screen/library_views/cubit/current_playlist_cubit.dart';
+import 'package:streambeats/screens/screen/library_views/playlist_edit_view.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/services/import_export_service.dart';
 
-/// Shows options for an internal/local playlist
 void showPlaylistOptsInrSheet(BuildContext context, Playlist playlist) {
   showModalBottomSheet(
     context: context,
@@ -147,11 +146,11 @@ class _PlaylistOptionsSheet extends StatelessWidget {
                                       final libraryCubit =
                                           ctx.read<LibraryItemsCubit>();
                                       final playerCubit =
-                                          ctx.read<BloomeePlayerCubit>();
+                                          ctx.read<StreamBeatsPlayerCubit>();
                                       final list = await libraryCubit
                                           .getPlaylistTracks(title);
                                       if (list != null && list.isNotEmpty) {
-                                        playerCubit.bloomeePlayer.loadPlaylist(
+                                        playerCubit.streambeatsPlayer.loadPlaylist(
                                             Playlist(
                                                 tracks: list, title: title),
                                             doPlay: true);
@@ -167,11 +166,11 @@ class _PlaylistOptionsSheet extends StatelessWidget {
                                       final libraryCubit =
                                           ctx.read<LibraryItemsCubit>();
                                       final playerCubit =
-                                          ctx.read<BloomeePlayerCubit>();
+                                          ctx.read<StreamBeatsPlayerCubit>();
                                       final list = await libraryCubit
                                           .getPlaylistTracks(title);
                                       if (list != null && list.isNotEmpty) {
-                                        playerCubit.bloomeePlayer
+                                        playerCubit.streambeatsPlayer
                                             .addQueueTracks(list);
                                         SnackbarService.showMessage(
                                             l10n.snackbarPlaylistAddedToQueue(
@@ -279,8 +278,6 @@ class _PlaylistOptionsSheet extends StatelessWidget {
   }
 }
 
-// ── Smart "Glass Shelf" Group Container ─────────────────────────────────────
-
 class _OptionGroup extends StatelessWidget {
   final List<Widget> children;
   const _OptionGroup({required this.children});
@@ -323,8 +320,6 @@ class _OptionGroup extends StatelessWidget {
     return result;
   }
 }
-
-// ── Highly Aesthetic Interactive Tile ────────────────────────────────────────
 
 class _BottomSheetTile extends StatelessWidget {
   final IconData icon;

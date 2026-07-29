@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/services/bloomee_updater_tools.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/services/streambeats_updater_tools.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

@@ -1,29 +1,29 @@
 import 'dart:developer';
-import 'package:Bloomee/blocs/explore/cubit/explore_cubits.dart';
-import 'package:Bloomee/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
-import 'package:Bloomee/blocs/lastdotfm/lastdotfm_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/notification/notification_cubit.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/plugins/blocs/content/content_bloc.dart';
-import 'package:Bloomee/plugins/blocs/content/content_event.dart';
-import 'package:Bloomee/plugins/blocs/content/content_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/screen/home_views/recents_view.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/about.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
+import 'package:streambeats/blocs/explore/cubit/explore_cubits.dart';
+import 'package:streambeats/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
+import 'package:streambeats/blocs/lastdotfm/lastdotfm_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/notification/notification_cubit.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/plugins/blocs/content/content_bloc.dart';
+import 'package:streambeats/plugins/blocs/content/content_event.dart';
+import 'package:streambeats/plugins/blocs/content/content_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/screen/home_views/recents_view.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/about.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/screens/screen/home_views/notification_view.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_view.dart';
-import 'package:Bloomee/screens/screen/home_views/timer_view.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/screens/screen/home_views/notification_view.dart';
+import 'package:streambeats/screens/screen/home_views/setting_view.dart';
+import 'package:streambeats/screens/screen/home_views/timer_view.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'chart/carousal_widget.dart';
@@ -49,7 +49,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     _tryLoadHomeSections();
   }
 
-  /// Only loads home sections when both settings are ready and plugins are loaded.
   void _tryLoadHomeSections() {
     final settingsState = context.read<SettingsCubit>().state;
     if (!settingsState.settingsReady) return;
@@ -59,8 +58,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     if (contentResolvers.isEmpty) return;
 
     final preferredId = settingsState.homePluginId;
-    // If the user's preferred plugin is installed but not yet loaded, wait for it.
-    // This prevents flashing the wrong plugin's home page on startup.
     if (preferredId.isNotEmpty) {
       final isAlreadyLoaded =
           contentResolvers.any((p) => p.manifest.id == preferredId);
@@ -73,7 +70,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     final pluginId = _effectiveHomePluginId(contentResolvers);
 
-    // Don't reload if we're already showing content from this plugin.
     if (_homeContentBloc.state.activePluginId == pluginId &&
         _homeContentBloc.state.homeSections != null) {
       return;
@@ -151,13 +147,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
               final activePluginId = _homeContentBloc.state.activePluginId;
               if (activePluginId != null &&
                   !state.loadedPluginIds.contains(activePluginId)) {
-                // Active plugin was unloaded — reload from preferred.
                 _homeContentBloc.add(const ClearHomeSections());
                 _tryLoadHomeSections();
                 return;
               }
 
-              // Plugin list changed — check if preferred plugin is different.
               _tryLoadHomeSections();
             },
           ),
@@ -214,8 +208,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                         song: e,
                                         onTap: () {
                                           context
-                                              .read<BloomeePlayerCubit>()
-                                              .bloomeePlayer
+                                              .read<StreamBeatsPlayerCubit>()
+                                              .streambeatsPlayer
                                               .loadPlaylist(
                                                 Playlist(
                                                   tracks: state.tracks,
@@ -259,8 +253,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                           song: e,
                                           onTap: () {
                                             context
-                                                .read<BloomeePlayerCubit>()
-                                                .bloomeePlayer
+                                                .read<StreamBeatsPlayerCubit>()
+                                                .streambeatsPlayer
                                                 .loadPlaylist(
                                                   Playlist(
                                                     tracks: snapshot.data!,
@@ -291,7 +285,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           return const SizedBox.shrink();
                         },
                       ),
-                      // Home sections from plugin
                       BlocBuilder<ContentBloc, ContentState>(
                         bloc: _homeContentBloc,
                         builder: (context, state) {

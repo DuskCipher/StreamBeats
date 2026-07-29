@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Bloomee/services/local_music_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/services/local_music_service.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -16,9 +16,6 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
       : _service = service ?? LocalMusicService.create(),
         super(const LocalMusicInitial());
 
-  /// Loads persisted tracks from DB, checks permission on Android, and
-  /// auto-triggers a background scan if no tracks are cached yet.
-  /// Always resolves to LocalMusicLoaded (or error/no-permission).
   Future<void> load() async {
     if (state is LocalMusicScanning) return;
     emit(const LocalMusicLoading());
@@ -65,7 +62,6 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
   }
 
   Future<void> addFolderViaPicker() async {
-    // Folder management only makes sense on desktop platforms.
     if (LocalMusicService.isMobile || Platform.isIOS) return;
     final result = await FilePicker.platform.getDirectoryPath();
     if (result == null) return;
@@ -78,12 +74,10 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
     await scan();
   }
 
-  /// Add a folder to the scan list (desktop only).
   Future<void> addFolder(String path) async {
     await _service.addFolder(path);
   }
 
-  /// Get the current list of scan folders.
   Future<List<String>> getFolders() => _service.getFolders();
 
   Future<void> resolvePermissionAction() async {
@@ -102,7 +96,6 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
     emit(const LocalMusicNoPermission());
   }
 
-  /// Delete a track and refresh the loaded list.
   Future<void> deleteTrack(Track track) async {
     await _service.deleteTrack(track);
     await _refreshLoadedTracks();
@@ -112,7 +105,6 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
     return _service.getUserPlaylistsContainingTrack(mediaId);
   }
 
-  /// Refresh without rescanning — just reload from DB.
   Future<void> _refreshLoadedTracks() async {
     final tracks = await _service.getLocalTracks();
     final folders = await _service.getFolders();
@@ -129,6 +121,5 @@ class LocalMusicCubit extends Cubit<LocalMusicState> {
 
   Future<String> getLastScan() => _service.getLastScan();
 
-  /// Clean up artwork files not referenced by any track.
   Future<void> cleanOrphanedArtwork() => _service.cleanOrphanedArtwork();
 }

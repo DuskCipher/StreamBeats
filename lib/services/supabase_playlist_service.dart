@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
+import 'package:streambeats/core/models/exported.dart' hide MediaItem;
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
 
 Map<String, dynamic> trackToMap(Track track) {
   return {
@@ -34,12 +34,10 @@ class SupabasePlaylistService {
   static final _refreshController = StreamController<void>.broadcast();
   static Stream<void> get refreshStream => _refreshController.stream;
 
-  /// Create a new shared playlist and get its unique code
   static Future<String?> createSharedPlaylist(String title, List<Track> initialSongs) async {
     final user = _supabase.auth.currentUser;
     if (user == null) throw Exception('Must be logged in');
 
-    // Generate a simple 6-character alphanumeric code
     final code = _generateCode();
     
     final songsJson = initialSongs.map((t) => trackToMap(t)).toList();
@@ -60,7 +58,6 @@ class SupabasePlaylistService {
     }
   }
 
-  /// Join an existing shared playlist by code
   static Future<bool> joinPlaylist(String code) async {
     final user = _supabase.auth.currentUser;
     if (user == null) throw Exception('Must be logged in');
@@ -83,7 +80,6 @@ class SupabasePlaylistService {
     }
   }
 
-  /// Stream a shared playlist (Realtime updates!)
   static Stream<List<Map<String, dynamic>>> streamPlaylist(String code) {
     return _supabase
         .from(_table)
@@ -97,14 +93,12 @@ class SupabasePlaylistService {
         });
   }
 
-  /// Add a song to the shared playlist
   static Future<void> addSongToPlaylist(String code, Track track) async {
     try {
       final response = await _supabase.from(_table).select().eq('code', code).maybeSingle();
       if (response == null) return;
 
       List<dynamic> currentSongs = response['songs'] ?? [];
-      // Prevent exact duplicates based on videoId or id
       if (!currentSongs.any((s) => s['id'] == track.id)) {
         currentSongs.add(trackToMap(track));
         

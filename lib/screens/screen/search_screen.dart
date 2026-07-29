@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,28 +5,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/search_suggestions/search_suggestion_bloc.dart';
-import 'package:Bloomee/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/plugins/blocs/content/content_bloc.dart';
-import 'package:Bloomee/plugins/blocs/content/content_event.dart';
-import 'package:Bloomee/plugins/blocs/content/content_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/widgets/album_card.dart';
-import 'package:Bloomee/screens/widgets/artist_card.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/playlist_card.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart' as plugin_models;
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/search_suggestions/search_suggestion_bloc.dart';
+import 'package:streambeats/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/plugins/blocs/content/content_bloc.dart';
+import 'package:streambeats/plugins/blocs/content/content_event.dart';
+import 'package:streambeats/plugins/blocs/content/content_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/widgets/album_card.dart';
+import 'package:streambeats/screens/widgets/artist_card.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/playlist_card.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart' as plugin_models;
 
 class SearchScreen extends StatefulWidget {
   final String searchQuery;
@@ -46,7 +45,6 @@ class _SearchScreenState extends State<SearchScreen> {
   final FocusNode _searchFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
-  // Highly optimized State Management using Notifiers (Eliminates Root setState)
   final ValueNotifier<ContentSearchFilter> _filterNotifier =
       ValueNotifier(ContentSearchFilter.all);
   final ValueNotifier<String?> _activePluginIdNotifier = ValueNotifier(null);
@@ -221,7 +219,6 @@ class _SearchScreenState extends State<SearchScreen> {
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              // Extracted Background Painter
               _NebulaBackground(contentBloc: _contentBloc),
 
               SafeArea(
@@ -285,7 +282,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                   .add(SearchSuggestionFetch(query));
                             },
                             onSuggestionsGenerated: (suggestions) {
-                              // We update this silently without triggering rebuilds for the KeyHandler
                               _currentCombinedSuggestions = suggestions;
                             },
                           )
@@ -306,8 +302,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-// ── OPTIMIZED MODULAR SLIVERS ──────────────────────────────────────────────────
 
 class _FloatingSearchBarSliver extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -1299,8 +1293,8 @@ class _SliverSearchResults extends StatelessWidget {
                     child: SongCardWidget(
                       song: track,
                       onTap: () => context
-                          .read<BloomeePlayerCubit>()
-                          .bloomeePlayer
+                          .read<StreamBeatsPlayerCubit>()
+                          .streambeatsPlayer
                           .updateQueueTracks([track], doPlay: true),
                       onOptionsTap: () => showMoreBottomSheet(context, track,
                           showSinglePlay: true),

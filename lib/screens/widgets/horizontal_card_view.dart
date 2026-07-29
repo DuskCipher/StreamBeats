@@ -1,19 +1,18 @@
 import 'dart:io';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/screens/screen/common_views/album_view.dart';
-import 'package:Bloomee/screens/screen/common_views/artist_view.dart';
-import 'package:Bloomee/screens/screen/common_views/playlist_view.dart';
-import 'package:Bloomee/screens/widgets/square_card.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/screens/screen/common_views/album_view.dart';
+import 'package:streambeats/screens/screen/common_views/artist_view.dart';
+import 'package:streambeats/screens/screen/common_views/playlist_view.dart';
+import 'package:streambeats/screens/widgets/square_card.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-/// Displays a horizontal scrollable card view for a home [Section].
 class HorizontalCardView extends StatefulWidget {
   final Section section;
   final String pluginId;
@@ -171,7 +170,6 @@ class _HorizontalCardViewState extends State<HorizontalCardView> {
 
     item.when(
       track: (track) {
-        // Collect all Track objects from the section for queue context.
         final tracks = <Track>[];
         for (final mediaItem in widget.section.items) {
           mediaItem.when(
@@ -183,7 +181,7 @@ class _HorizontalCardViewState extends State<HorizontalCardView> {
         }
         if (tracks.isEmpty) return;
         final idx = tracks.indexWhere((t) => t.id == track.id);
-        context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+        context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
               Playlist(tracks: tracks, title: widget.section.title),
               idx: idx >= 0 ? idx : 0,
               doPlay: true,

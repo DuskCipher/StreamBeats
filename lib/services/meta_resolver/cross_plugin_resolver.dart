@@ -1,32 +1,11 @@
-// cross_plugin_resolver.dart
-//
-// Single shared module that consolidates all cross-plugin resolution logic:
-//   - Text normalization & simplification
-//   - Fuzzy text similarity (blended, token-overlap)
-//   - Artist similarity (bidirectional best-match)
-//   - Duration similarity (absolute + relative)
-//   - Version-tag detection & penalty
-//   - Track scoring (full & fast-path)
-//   - Query building
-//   - Plugin search execution (parallel/sequential, timeout, early-exit)
-//
-// Consumed by:
-//   - ChartItemResolver          (chart resolution with multi-phase + corroboration)
-//   - SmartTrackReplacementService (track replacement + playlist mutation)
-//   - ContentImportCubit          (playlist import with concurrent resolution)
-
 import 'dart:async';
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 import 'package:fuzzywuzzy/fuzzywuzzy.dart' as fw;
-
-// ══════════════════════════════════════════════════════════════════════════════
-// Pre-compiled RegExp constants
-// ══════════════════════════════════════════════════════════════════════════════
 
 final RegExp _kBrackets = RegExp(r'[$$$$\(\){}]');
 final RegExp _kAsciiPunct = RegExp(r'[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]');
@@ -60,16 +39,9 @@ final Map<String, List<RegExp>> _kVersionTagPatterns = {
   'stripped': [RegExp(r'\bstripped\b')],
 };
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Public data types
-// ══════════════════════════════════════════════════════════════════════════════
-
-/// Unified representation of the track we want to match against.
-/// Decouples scoring from any specific source type (Track, ImportTrack, etc.).
 class TrackMatchTarget {
   final String title;
 
-  /// Artist *names* (not objects) — order matters: first = primary.
   final List<String> artistNames;
   final String? albumTitle;
   final BigInt? durationMs;
@@ -81,7 +53,6 @@ class TrackMatchTarget {
     this.durationMs,
   });
 
-  /// Construct from a plugin [Track] model.
   factory TrackMatchTarget.fromTrack(Track track) => TrackMatchTarget(
         title: track.title,
         artistNames: track.artists
@@ -92,7 +63,6 @@ class TrackMatchTarget {
         durationMs: track.durationMs,
       );
 
-  /// Construct from raw import data (title + list of artist name strings).
   factory TrackMatchTarget.fromImport({
     required String title,
     required List<String> artists,
@@ -110,12 +80,10 @@ class TrackMatchTarget {
   String get allArtists => artistNames.join(' ');
 }
 
-/// A candidate track returned by resolution, annotated with confidence.
 class ScoredTrackCandidate {
   final Track track;
   final String pluginId;
 
-  /// Confidence in range [0.0, 1.0].
   final double confidence;
 
   const ScoredTrackCandidate({
@@ -130,7 +98,6 @@ class ScoredTrackCandidate {
       'track="${track.title}")';
 }
 
-/// Raw search result from [CrossPluginResolver.searchMedia], before scoring.
 class MediaSearchResult {
   final MediaItem item;
   final String pluginId;
@@ -143,29 +110,11 @@ class MediaSearchResult {
   });
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// CrossPluginResolver
-// ══════════════════════════════════════════════════════════════════════════════
-
-/// Central cross-plugin resolution engine.
-///
-/// Provides:
-///  - **Scoring utilities** — [scoreTrack], [blendedTextSimilarity],
-///    [artistSimilarity], [durationSimilarity], [versionPenalty], etc.
-///  - **Query building** — [buildTrackQueries].
-///  - **Plugin search** — [resolveTrack] (high-level, returns scored
-///    candidates), [searchMedia] (low-level, returns raw results for
-///    custom scoring by callers like ChartItemResolver).
-///
-/// Thread-safety: all public methods are safe to call concurrently. The
-/// class holds no mutable state.
 class CrossPluginResolver {
   final PluginService _pluginService;
 
-  /// Per-plugin-call timeout.
   final Duration pluginTimeout;
 
-  /// Maximum search results inspected per query.
   final int maxResultsPerQuery;
 
   const CrossPluginResolver({
@@ -174,22 +123,6 @@ class CrossPluginResolver {
     this.maxResultsPerQuery = 12,
   }) : _pluginService = pluginService;
 
-  // ────────────────────────────────────────────────────────────────────────
-  // High-level: resolve a track
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Search [pluginIds] for tracks matching [target] and return up to
-  /// [limit] scored candidates sorted best-first.
-  ///
-  /// - [sequential]: if true, plugins are tried in order with early-exit
-  ///   when [earlyAcceptThreshold] is met (useful for priority-ordered
-  ///   lists). If false, all plugins are queried in parallel.
-  /// - [minConfidence]: candidates below this are discarded.
-  /// - [excludeTrackIds]: IDs to skip (e.g. the original track's own ID).
-  /// - [searchFilter]: defaults to [ContentSearchFilter.track]; pass
-  ///   [ContentSearchFilter.all] for broadened Phase-2 style searches.
-  /// - [queries]: if provided, overrides [buildTrackQueries]. Useful when
-  ///   the caller wants to supply a custom fallback query.
   Future<List<ScoredTrackCandidate>> resolveTrack({
     required TrackMatchTarget target,
     required List<String> pluginIds,
@@ -206,7 +139,6 @@ class CrossPluginResolver {
     final effectiveQueries = queries ?? buildTrackQueries(target);
     if (effectiveQueries.isEmpty) return const [];
 
-    // Collect candidates keyed by track ID (best confidence wins).
     final candidates = <String, ScoredTrackCandidate>{};
 
     if (sequential) {
@@ -222,7 +154,6 @@ class CrossPluginResolver {
         );
         _mergeCandidates(candidates, batch);
 
-        // Check early accept across all candidates so far.
         final best = _bestConfidence(candidates);
         if (best >= earlyAcceptThreshold) {
           log(
@@ -259,13 +190,6 @@ class CrossPluginResolver {
     return sorted.take(limit).toList(growable: false);
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Low-level: raw media search (for non-track types / custom scoring)
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Search a single plugin with [queries] and [filter], returning raw
-  /// [MediaSearchResult]s without any scoring. Callers (e.g. ChartItemResolver
-  /// for albums/artists/playlists) apply their own scoring.
   Future<List<MediaSearchResult>> searchMedia({
     required String pluginId,
     required List<String> queries,
@@ -312,18 +236,12 @@ class CrossPluginResolver {
     return results;
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Track scoring
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Score [candidate] against [target], returning confidence in [0.0, 1.0].
   double scoreTrack(TrackMatchTarget target, Track candidate) {
     final targetTitleNorm = normalized(target.title);
     final candTitleNorm = normalized(candidate.title);
     final targetArtKey = _artistKeyFromNames(target.artistNames);
     final candArtKey = artistKeyFromSummaries(candidate.artists);
 
-    // Fast path: exact normalized title + sorted artist key match.
     if (targetTitleNorm.isNotEmpty &&
         targetTitleNorm == candTitleNorm &&
         targetArtKey.isNotEmpty &&
@@ -360,7 +278,6 @@ class CrossPluginResolver {
       candidate.album?.title,
     );
 
-    // Adaptive weights.
     final wTitle = hasAlbum ? 0.32 : 0.36;
     final wSimplified = hasAlbum ? 0.12 : 0.14;
     final wArtist = hasAlbum ? 0.28 : 0.32;
@@ -373,7 +290,6 @@ class CrossPluginResolver {
         albumScore * wAlbum +
         dur * wDuration;
 
-    // Exact-match bonuses (guarded against empty strings).
     if (targetTitleNorm.isNotEmpty && targetTitleNorm == candTitleNorm) {
       score += 0.06;
     }
@@ -390,8 +306,6 @@ class CrossPluginResolver {
     return score.clamp(0.0, 1.0);
   }
 
-  /// Lightweight check: returns true when title and artist match exactly
-  /// or near-exactly (useful for ChartItemResolver.isStrongTrackMatch).
   bool isStrongMatch(TrackMatchTarget target, Track candidate) {
     final tNorm = normalized(target.title);
     final cNorm = normalized(candidate.title);
@@ -412,10 +326,6 @@ class CrossPluginResolver {
 
     return artistNamesSimilarity(target.artistNames, candNames) >= 0.7;
   }
-
-  // ────────────────────────────────────────────────────────────────────────
-  // Text similarity
-  // ────────────────────────────────────────────────────────────────────────
 
   double blendedTextSimilarity(String? left, String? right) {
     final l = normalized(left);
@@ -443,12 +353,6 @@ class CrossPluginResolver {
     return (2 * p * r) / (p + r);
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Artist similarity
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Compare two lists of artist *names* (strings). Bidirectional matching
-  /// prevents penalizing extra artists on either side unfairly.
   double artistNamesSimilarity(
     List<String> leftNames,
     List<String> rightNames,
@@ -492,7 +396,6 @@ class CrossPluginResolver {
         .clamp(0.0, 1.0);
   }
 
-  /// Convenience: compare two [ArtistSummary] lists.
   double artistSummarySimilarity(
     List<ArtistSummary> left,
     List<ArtistSummary> right,
@@ -503,11 +406,6 @@ class CrossPluginResolver {
     );
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Duration similarity
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Compare two durations using blended absolute + relative thresholds.
   double durationSimilarity(BigInt? left, BigInt? right) {
     if (left == null || right == null) return 0.35;
     final lMs = left.toDouble();
@@ -551,10 +449,6 @@ class CrossPluginResolver {
     return (absScore * 0.50 + relScore * 0.50).clamp(0.0, 1.0);
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Version tags & penalty
-  // ────────────────────────────────────────────────────────────────────────
-
   Set<String> versionTags(String value) {
     if (value.isEmpty) return const {};
     final norm = value
@@ -572,8 +466,6 @@ class CrossPluginResolver {
     return tags;
   }
 
-  /// Asymmetric version penalty: missing target tags hurt more than extra
-  /// candidate tags.
   double versionPenalty(
     String? targetTitle,
     String? targetAlbum,
@@ -588,13 +480,6 @@ class CrossPluginResolver {
     return (missing * 0.08 + extra * 0.04).clamp(0.0, 0.25);
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Text normalization
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Normalize for comparison: lowercase, strip brackets/ASCII punctuation,
-  /// collapse whitespace. Preserves non-ASCII characters so international
-  /// titles survive.
   String normalized(String? value) {
     if (value == null || value.trim().isEmpty) return '';
     return value
@@ -606,8 +491,6 @@ class CrossPluginResolver {
         .trim();
   }
 
-  /// Aggressive title simplification: strip parenthetical content *first*
-  /// (before lowercasing), then remove feat/version/edition markers.
   String simplifyTitle(String? value) {
     if (value == null || value.trim().isEmpty) return '';
     return value
@@ -623,10 +506,6 @@ class CrossPluginResolver {
         .trim();
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Artist helpers
-  // ────────────────────────────────────────────────────────────────────────
-
   String artistNamesJoined(List<ArtistSummary> artists) {
     return artists
         .map((a) => a.name.trim())
@@ -634,7 +513,6 @@ class CrossPluginResolver {
         .join(' ');
   }
 
-  /// Sorted, normalized key for exact artist-set comparison.
   String artistKeyFromSummaries(List<ArtistSummary> artists) {
     return _artistKeyFromNames(
       artists.map((a) => a.name).toList(growable: false),
@@ -650,12 +528,6 @@ class CrossPluginResolver {
     return norm.join('|');
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Query building
-  // ────────────────────────────────────────────────────────────────────────
-
-  /// Build a set of de-duplicated search queries for [target], ordered
-  /// from most specific to least specific.
   List<String> buildTrackQueries(TrackMatchTarget target) {
     final title = target.title.trim();
     final simplified = simplifyTitle(title);
@@ -686,10 +558,6 @@ class CrossPluginResolver {
     return queries;
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Generic helpers
-  // ────────────────────────────────────────────────────────────────────────
-
   String joinNonEmpty(List<String?> parts) {
     return parts
         .map((p) => p?.trim() ?? '')
@@ -710,10 +578,6 @@ class CrossPluginResolver {
     return queries;
   }
 
-  // ────────────────────────────────────────────────────────────────────────
-  // Internal: plugin search
-  // ────────────────────────────────────────────────────────────────────────
-
   Future<List<ScoredTrackCandidate>> _searchOnePlugin({
     required String pluginId,
     required TrackMatchTarget target,
@@ -727,7 +591,6 @@ class CrossPluginResolver {
     double bestThisPlugin = 0;
 
     for (final query in queries) {
-      // Early exit within this plugin.
       if (bestThisPlugin >= earlyAcceptThreshold) break;
 
       try {
@@ -802,11 +665,6 @@ class CrossPluginResolver {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Semaphore (used by ContentImportCubit for bounded concurrency)
-// ══════════════════════════════════════════════════════════════════════════════
-
-/// Simple counting semaphore to cap concurrent async tasks.
 class Semaphore {
   final int maxConcurrent;
   int _active = 0;

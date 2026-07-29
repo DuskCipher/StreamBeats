@@ -1,20 +1,19 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/services/song_metadata_refresh_service.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/services/song_metadata_refresh_service.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SongInfoScreen extends StatefulWidget {
@@ -67,7 +66,7 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
     try {
       final result = await SongMetadataRefreshService.refreshTrack(
         song,
-        player: context.read<BloomeePlayerCubit>().bloomeePlayer,
+        player: context.read<StreamBeatsPlayerCubit>().streambeatsPlayer,
       );
 
       if (!result.isSuccess || result.track == null) {
@@ -98,7 +97,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Applied your image logic
     final imageUrl = song.thumbnail.urlHigh ?? song.thumbnail.url;
 
     return Scaffold(
@@ -138,7 +136,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. Ambient Background
           Positioned.fill(
             child: LoadImageCached(
               imageUrl: imageUrl,
@@ -146,7 +143,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          // 2. Heavy Blur + Darkening Gradient Overlay
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90),
@@ -166,13 +162,10 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
             ),
           ),
 
-          // 3. True Constraint-Based Responsive Layout
           SafeArea(
             bottom: false,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                // Switch to mobile layout if available width is less than 750px.
-                // This completely fixes the squished sidebar issue.
                 final bool isMobileView = constraints.maxWidth < 750;
 
                 if (isMobileView) {
@@ -215,7 +208,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Left Pane: Sticky Album Art
           Expanded(
             flex: 4,
             child: Container(
@@ -225,7 +217,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
             ),
           ),
           const SizedBox(width: 48),
-          // Right Pane: Scrollable Details
           Expanded(
             flex: 6,
             child: SingleChildScrollView(
@@ -250,12 +241,10 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
   Widget _buildAlbumArt(BuildContext context, String imageUrl,
       {required bool isMobileView}) {
     return LayoutBuilder(builder: (context, constraints) {
-      // Calculate a beautiful size that never overblows
       double size = isMobileView
           ? constraints.maxWidth * 0.85 // 85% of available width on mobile
           : constraints.maxWidth * 0.9; // 90% of its pane on desktop
 
-      // Cap the maximum size so it never looks absurdly large on ultrawides
       size = size.clamp(200.0, 500.0);
 
       return Container(
@@ -269,7 +258,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
               blurRadius: 40,
               offset: const Offset(0, 20),
             ),
-            // Subtle top highlight for 3D feel
             BoxShadow(
               color: Default_Theme.primaryColor2.withValues(alpha: 0.02),
               blurRadius: 1,
@@ -333,7 +321,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
       crossAxisAlignment:
           isMobileView ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
-        // Song Details Section
         _SectionHeader(title: l10n.songInfoSectionDetails),
         const SizedBox(height: 16),
         _GlassCard(
@@ -420,7 +407,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
 
         const SizedBox(height: 28),
 
-        // Technical Info Section
         _SectionHeader(title: l10n.songInfoSectionTechnical),
         const SizedBox(height: 16),
         _GlassCard(
@@ -445,7 +431,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
 
         const SizedBox(height: 28),
 
-        // Actions Section
         _SectionHeader(title: l10n.songInfoSectionActions),
         const SizedBox(height: 16),
         _ActionButton(
@@ -514,10 +499,6 @@ class _SongInfoScreenState extends State<SongInfoScreen> {
     );
   }
 }
-
-// ============================================================================
-// BEAUTIFUL SUB-WIDGETS (Updated with your custom theme colors)
-// ============================================================================
 
 class _SectionHeader extends StatelessWidget {
   final String title;

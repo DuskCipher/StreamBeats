@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
 import 'package:country_codes/country_codes.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
 import 'package:http/http.dart' as http;
 
 class CountryInfoService {
@@ -90,8 +90,6 @@ class CountryInfoService {
       return cached;
     }
 
-    // Final fallback for first-run cold starts or provider outages.
-    // Keep setup non-blocking by persisting a sane default.
     const fallback = defaultCountryCode;
     await settingsDao.putSettingStr(SettingKeys.countryCode, fallback);
     log(
@@ -101,8 +99,6 @@ class CountryInfoService {
     return fallback;
   }
 
-  // Policy resolver for plugin allowlist checks.
-  // Uses selected cached country only and never performs network lookup.
   static Future<String> resolveCountryCodeForPolicyCheck({
     required SettingsDAO settingsDao,
     bool forceRefresh = false,

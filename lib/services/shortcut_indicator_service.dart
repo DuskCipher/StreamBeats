@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/services/player/player_engine.dart';
+import 'package:streambeats/services/player/player_engine.dart';
 
-/// Types of shortcut indicators that can be displayed
 enum ShortcutIndicatorType {
   volume,
   mute,
@@ -11,7 +10,6 @@ enum ShortcutIndicatorType {
   like,
 }
 
-/// State for a shortcut indicator
 class ShortcutIndicatorState {
   final bool isVisible;
   final ShortcutIndicatorType? type;
@@ -54,7 +52,6 @@ class ShortcutIndicatorState {
   static const hidden = ShortcutIndicatorState(isVisible: false);
 }
 
-/// Cubit that manages showing and hiding shortcut indicators
 class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
   Timer? _hideTimer;
   static const _displayDuration = Duration(milliseconds: 1200);
@@ -73,7 +70,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     });
   }
 
-  /// Show volume indicator
   void showVolume(double level) {
     emit(ShortcutIndicatorState(
       isVisible: true,
@@ -84,7 +80,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     _startHideTimer();
   }
 
-  /// Show mute indicator
   void showMute(bool isMuted, double volumeLevel) {
     emit(ShortcutIndicatorState(
       isVisible: true,
@@ -95,7 +90,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     _startHideTimer();
   }
 
-  /// Show shuffle indicator
   void showShuffle(bool isShuffleOn) {
     emit(ShortcutIndicatorState(
       isVisible: true,
@@ -105,7 +99,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     _startHideTimer();
   }
 
-  /// Show loop mode indicator
   void showLoopMode(LoopMode mode) {
     emit(ShortcutIndicatorState(
       isVisible: true,
@@ -115,7 +108,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     _startHideTimer();
   }
 
-  /// Show like indicator
   void showLike(bool isLiked) {
     emit(ShortcutIndicatorState(
       isVisible: true,
@@ -125,7 +117,6 @@ class ShortcutIndicatorCubit extends Cubit<ShortcutIndicatorState> {
     _startHideTimer();
   }
 
-  /// Immediately hide the indicator
   void hide() {
     _cancelTimer();
     emit(ShortcutIndicatorState.hidden);

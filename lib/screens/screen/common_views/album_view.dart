@@ -1,26 +1,25 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/plugins/blocs/content/content_bloc.dart';
-import 'package:Bloomee/plugins/blocs/content/content_event.dart';
-import 'package:Bloomee/plugins/blocs/content/content_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/plugins/blocs/content/content_bloc.dart';
+import 'package:streambeats/plugins/blocs/content/content_event.dart';
+import 'package:streambeats/plugins/blocs/content/content_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -185,7 +184,6 @@ class _AlbumViewState extends State<AlbumView> {
             return Stack(
               fit: StackFit.expand,
               children: [
-                // ImageFiltered avoids the extreme performance penalty of BackdropFilter
                 ImageFiltered(
                   imageFilter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                   child: LoadImageCached(
@@ -279,7 +277,6 @@ class _AlbumViewState extends State<AlbumView> {
                 ),
               ),
 
-              // Tracklist Generation
               if ((status == DetailStatus.loaded ||
                       status == DetailStatus.loadingMore) &&
                   tracks.isNotEmpty)
@@ -301,8 +298,8 @@ class _AlbumViewState extends State<AlbumView> {
                               showSinglePlay: true,
                             ),
                             onTap: () => context
-                                .read<BloomeePlayerCubit>()
-                                .bloomeePlayer
+                                .read<StreamBeatsPlayerCubit>()
+                                .streambeatsPlayer
                                 .loadPlaylist(
                                   Playlist(
                                       tracks: tracks,
@@ -446,7 +443,6 @@ class _AlbumHeaderContent extends StatelessWidget {
       isMobile ? 260.0 : 320.0,
     );
 
-    // Caching the massive BoxShadow to avoid GPU recalculations during list scroll
     final cover = RepaintBoundary(
       child: Container(
         width: coverSize,
@@ -535,7 +531,7 @@ class _AlbumHeaderContent extends StatelessWidget {
         _PremiumPlayButton(
           isEmpty: tracks.isEmpty,
           onTap: () =>
-              context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+              context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
                     Playlist(tracks: tracks, title: title),
                     doPlay: true,
                     idx: 0,
@@ -564,8 +560,6 @@ class _AlbumHeaderContent extends StatelessWidget {
     );
   }
 }
-
-// ─── REUSABLE CONST WIDGETS ────────────────────────────────────────
 
 class _PremiumPlayButton extends StatelessWidget {
   final bool isEmpty;

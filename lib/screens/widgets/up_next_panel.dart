@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 import 'dart:ui';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/adapters/track_adapter.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/adapters/track_adapter.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,12 +90,12 @@ class _UpNextPanelState extends State<UpNextPanel> {
   late bool _isExpanded;
   double _minSheetSize = 0.1;
   double _maxSheetSize = 0.9;
-  late final BloomeePlayerCubit _playerCubit;
+  late final StreamBeatsPlayerCubit _playerCubit;
 
   @override
   void initState() {
     super.initState();
-    _playerCubit = context.read<BloomeePlayerCubit>();
+    _playerCubit = context.read<StreamBeatsPlayerCubit>();
     _isExpanded = widget.startExpanded;
 
     widget.controller?._attach(
@@ -211,7 +211,7 @@ class _PanelContent extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback onHeaderTap;
   final ScrollController scrollController;
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   final DraggableScrollableController sheetController;
   final double minSize;
   final double maxSize;
@@ -333,7 +333,7 @@ class _CompactHeader extends StatelessWidget {
 }
 
 class _QueueInfoRow extends StatelessWidget {
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   const _QueueInfoRow({required this.playerCubit});
 
   @override
@@ -345,7 +345,7 @@ class _QueueInfoRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           StreamBuilder<List<MediaItem>>(
-            stream: playerCubit.bloomeePlayer.queue,
+            stream: playerCubit.streambeatsPlayer.queue,
             builder: (context, snapshot) {
               return Text(l10n.upNextItemsInQueue(snapshot.data?.length ?? 0),
                   style: _UpNextStyles.queueCountStyle);
@@ -358,16 +358,14 @@ class _QueueInfoRow extends StatelessWidget {
   }
 }
 
-/// Pill-styled "Clear Queue" button that keeps only the currently
-/// playing track and removes everything else from the queue.
 class _ClearQueueButton extends StatelessWidget {
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   const _ClearQueueButton({required this.playerCubit});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => playerCubit.bloomeePlayer.clearQueue(),
+      onTap: () => playerCubit.streambeatsPlayer.clearQueue(),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
@@ -403,7 +401,7 @@ class _ClearQueueButton extends StatelessWidget {
 }
 
 class _DesktopLayout extends StatelessWidget {
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   const _DesktopLayout({required this.playerCubit});
 
   @override
@@ -435,7 +433,7 @@ class _DesktopLayout extends StatelessWidget {
 }
 
 class _DesktopSongList extends StatefulWidget {
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   const _DesktopSongList({required this.playerCubit});
 
   @override
@@ -459,8 +457,6 @@ class _DesktopSongListState extends State<_DesktopSongList> {
       return;
     }
 
-    // FIX: Subtract 1.5 item heights so the current song sits cleanly
-    // in view with the previous song above it, instead of jamming into the top header.
     final targetOffset =
         math.max(0.0, (index * _itemHeight) - (_itemHeight * 1.5));
     final clampedOffset =
@@ -474,7 +470,7 @@ class _DesktopSongListState extends State<_DesktopSongList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<MediaItem>>(
-      stream: widget.playerCubit.bloomeePlayer.queue,
+      stream: widget.playerCubit.streambeatsPlayer.queue,
       builder: (context, queueSnapshot) {
         if (!queueSnapshot.hasData) {
           return const Center(
@@ -484,7 +480,7 @@ class _DesktopSongListState extends State<_DesktopSongList> {
         final queue = queueSnapshot.data!;
 
         return StreamBuilder<MediaItem?>(
-          stream: widget.playerCubit.bloomeePlayer.mediaItem,
+          stream: widget.playerCubit.streambeatsPlayer.mediaItem,
           builder: (context, mediaSnapshot) {
             final currentId = mediaSnapshot.data?.id;
             if (currentId != null && currentId != _lastPlayingId) {
@@ -496,9 +492,6 @@ class _DesktopSongListState extends State<_DesktopSongList> {
               });
             }
 
-            // Defensive deduplication: identical IDs would assign the same
-            // GlobalKey to two ReorderableListView items, causing Flutter's
-            // semantics traversal to recurse infinitely.
             final seenIds = <String>{};
             final uniqueQueue =
                 queue.where((m) => seenIds.add(m.id)).toList(growable: false);
@@ -507,7 +500,7 @@ class _DesktopSongListState extends State<_DesktopSongList> {
               scrollController: _scrollController,
               physics: const BouncingScrollPhysics(),
               itemCount: uniqueQueue.length,
-              onReorder: widget.playerCubit.bloomeePlayer.moveQueueItem,
+              onReorder: widget.playerCubit.streambeatsPlayer.moveQueueItem,
               buildDefaultDragHandles: false,
               itemBuilder: (context, index) {
                 return _QueueItem(
@@ -527,7 +520,7 @@ class _DesktopSongListState extends State<_DesktopSongList> {
 }
 
 class _SongListSliver extends StatefulWidget {
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   final ScrollController scrollController;
   const _SongListSliver(
       {required this.playerCubit, required this.scrollController});
@@ -550,8 +543,6 @@ class _SongListSliverState extends State<_SongListSliver> {
       return;
     }
 
-    // FIX: Subtract 1.5 item heights so the current song sits cleanly
-    // in view with the previous song above it, instead of jamming into the top header.
     final targetOffset = math.max(
         0.0, _headerOffset + (index * _itemHeight) - (_itemHeight * 1.5));
     final clampedOffset = targetOffset.clamp(
@@ -565,7 +556,7 @@ class _SongListSliverState extends State<_SongListSliver> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<MediaItem>>(
-      stream: widget.playerCubit.bloomeePlayer.queue,
+      stream: widget.playerCubit.streambeatsPlayer.queue,
       builder: (context, queueSnapshot) {
         if (!queueSnapshot.hasData) {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
@@ -573,7 +564,7 @@ class _SongListSliverState extends State<_SongListSliver> {
         final queue = queueSnapshot.data!;
 
         return StreamBuilder<MediaItem?>(
-          stream: widget.playerCubit.bloomeePlayer.mediaItem,
+          stream: widget.playerCubit.streambeatsPlayer.mediaItem,
           builder: (context, mediaSnapshot) {
             final currentId = mediaSnapshot.data?.id;
             if (currentId != null && currentId != _lastPlayingId) {
@@ -583,14 +574,13 @@ class _SongListSliverState extends State<_SongListSliver> {
               });
             }
 
-            // Defensive deduplication — same reason as the desktop list above.
             final seenIds = <String>{};
             final uniqueQueue =
                 queue.where((m) => seenIds.add(m.id)).toList(growable: false);
 
             return SliverReorderableList(
               itemCount: uniqueQueue.length,
-              onReorder: widget.playerCubit.bloomeePlayer.moveQueueItem,
+              onReorder: widget.playerCubit.streambeatsPlayer.moveQueueItem,
               itemBuilder: (context, index) {
                 return _QueueItem(
                   key: ValueKey('mobile_${uniqueQueue[index].id}'),
@@ -611,7 +601,7 @@ class _SongListSliverState extends State<_SongListSliver> {
 class _QueueItem extends StatelessWidget {
   final MediaItem mediaItem;
   final int index;
-  final BloomeePlayerCubit playerCubit;
+  final StreamBeatsPlayerCubit playerCubit;
   final bool isDesktop;
 
   const _QueueItem({
@@ -635,18 +625,17 @@ class _QueueItem extends StatelessWidget {
         color: Colors.red.withValues(alpha: 0.8),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
-      onDismissed: (_) => playerCubit.bloomeePlayer.removeQueueItemAt(index),
+      onDismissed: (_) => playerCubit.streambeatsPlayer.removeQueueItemAt(index),
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          // FIX: Removed the massive 24px Android padding gap. Just a slim 8px edge.
           padding: EdgeInsets.only(right: isDesktop ? 8.0 : 0.0),
           child: Row(
             children: [
               Expanded(
                 child: SongCardWidget(
                   showOptions: false,
-                  onTap: () => playerCubit.bloomeePlayer.skipToQueueItem(index),
+                  onTap: () => playerCubit.streambeatsPlayer.skipToQueueItem(index),
                   song: songModel,
                   trailing: IconButton(
                     tooltip: 'More options',
@@ -673,7 +662,6 @@ class _QueueItem extends StatelessWidget {
                 ReorderableDragStartListener(
                   index: index,
                   child: Padding(
-                    // FIX: Slimmer horizontal padding limits the width entirely while maintaining grabability
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                     child: Icon(Icons.drag_handle_rounded,

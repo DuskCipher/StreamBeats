@@ -1,14 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/screen/chart/chart_view.dart';
-import 'package:Bloomee/utils/load_image.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/screen/chart/chart_view.dart';
+import 'package:streambeats/utils/load_image.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-/// A rich list tile for chart items with rank, trend indicator, artwork,
-/// metadata, stats, and action buttons.
 class ChartListTile extends StatelessWidget {
   final ChartItem chartItem;
   final VoidCallback? onTap;
@@ -45,7 +42,6 @@ class ChartListTile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // ── Rank number ──
                 SizedBox(
                   width: isMobile ? 38 : 50,
                   child: FittedBox(
@@ -64,7 +60,6 @@ class ChartListTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 14),
 
-                // ── Trend tag ──
                 SizedBox(
                   width: 26,
                   height: isMobile ? 54 : 64,
@@ -72,7 +67,6 @@ class ChartListTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 14),
 
-                // ── Artwork ──
                 Container(
                   height: isMobile ? 54 : 64,
                   width: isMobile ? 54 : 64,
@@ -96,7 +90,6 @@ class ChartListTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
 
-                // ── Title + Artist ──
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +125,6 @@ class ChartListTile extends StatelessWidget {
                   ),
                 ),
 
-                // ── Stats (desktop only) ──
                 if (!isMobile) ...[
                   const SizedBox(width: 16),
                   _buildDataMatrix(),

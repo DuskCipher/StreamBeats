@@ -15,15 +15,12 @@ sealed class LibraryItemsState extends Equatable {
   }
 }
 
-/// Library is being loaded for the first time.
 final class LibraryItemsLoading extends LibraryItemsState {}
 
-/// Data successfully loaded.
 final class LibraryItemsLoaded extends LibraryItemsState {
   const LibraryItemsLoaded({required super.playlists});
 }
 
-/// Error during data fetch.
 final class LibraryItemsError extends LibraryItemsState {
   final String message;
   const LibraryItemsError(this.message);
@@ -32,9 +29,6 @@ final class LibraryItemsError extends LibraryItemsState {
   List<Object?> get props => [message];
 }
 
-/// View-model for a single playlist row in the library list.
-///
-/// Uses domain [PlaylistType] — never DB types.
 class PlaylistItemProperties extends Equatable {
   final String playlistName;
   final String storageKey;

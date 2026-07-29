@@ -1,16 +1,8 @@
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/mappers/collection_mapper.dart';
-import 'package:Bloomee/services/db/mappers/media_item_mapper.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/mappers/collection_mapper.dart';
+import 'package:streambeats/services/db/mappers/media_item_mapper.dart';
 
-/// Maps between [PlaylistDB] (Isar entity) and [Playlist] (domain model).
-
-// ── PlaylistDB → Playlist (domain) ───────────────────────────────────────────
-
-/// Convert [PlaylistDB] to the domain [Playlist].
-/// Does NOT populate [Playlist.tracks] — callers must call
-/// [PlaylistDAO.getPlaylistTracks] and then [trackDBToTrack] separately,
-/// because entries require a separate Isar query.
 Playlist playlistDBToPlaylist(PlaylistDB playlistDB) {
   return Playlist(
     tracks: List.empty(growable: true),
@@ -35,11 +27,6 @@ Playlist playlistDBToPlaylist(PlaylistDB playlistDB) {
   );
 }
 
-// ── Playlist (domain) → PlaylistDB ───────────────────────────────────────────
-
-/// Convert domain [Playlist] back to [PlaylistDB].
-/// Sets [id] to Isar.autoIncrement (0) by default — the DAO will resolve
-/// the correct id before saving.
 PlaylistDB playlistToPlaylistDB(Playlist playlist) {
   return PlaylistDB(
     name: playlist.title,
@@ -62,12 +49,6 @@ PlaylistDB playlistToPlaylistDB(Playlist playlist) {
   );
 }
 
-// ── PlaylistEntryDB helpers ───────────────────────────────────────────────────
-
-/// Return sorted [TrackDB] objects from already-loaded [PlaylistEntryDB] list.
-///
-/// Expects entries to be sorted by position ascending; call
-/// [trackDBToTrack] on each element to get domain [Track] objects.
 List<TrackDB> entriesToTracks(List<PlaylistEntryDB> entries) {
   final result = <TrackDB>[];
   for (final entry in entries) {
@@ -77,8 +58,6 @@ List<TrackDB> entriesToTracks(List<PlaylistEntryDB> entries) {
   }
   return result;
 }
-
-// ── Internal enum converters ──────────────────────────────────────────────────
 
 PlaylistType playlistTypeDBToPlaylistType(PlaylistTypeDB t) {
   switch (t) {

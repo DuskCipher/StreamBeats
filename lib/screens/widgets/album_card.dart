@@ -1,8 +1,8 @@
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/screen/common_views/album_view.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/screen/common_views/album_view.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
@@ -49,10 +49,8 @@ class _AlbumCardState extends State<AlbumCard> {
           onExit: (_) => setState(() => _isHovering = false),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            // --- CHANGED: center children horizontally ---
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // --- 1. SQUARE IMAGE CONTAINER ---
               AspectRatio(
                 aspectRatio: 1,
                 child: Container(
@@ -87,7 +85,6 @@ class _AlbumCardState extends State<AlbumCard> {
                           ),
                         ),
 
-                        // Hover/Tap Overlay
                         AnimatedOpacity(
                           duration: const Duration(milliseconds: 200),
                           opacity: _isHovering ? 1.0 : 0.0,
@@ -110,7 +107,6 @@ class _AlbumCardState extends State<AlbumCard> {
 
               const SizedBox(height: 8),
 
-              // --- 2. TEXT SECTION ---
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: SizedBox(

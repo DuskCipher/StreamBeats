@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/lyrics/lyrics_cubit.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/models/lyrics_models.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart' as plugin_models;
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/lyrics/lyrics_cubit.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/models/lyrics_models.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart' as plugin_models;
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -262,8 +262,6 @@ class LyricsSearchDelegate extends SearchDelegate {
   }
 }
 
-// ── Smart Interactive Card (Redesigned Layout) ───────────────────────────────
-
 class _LyricsResultCard extends StatefulWidget {
   final String pluginId;
   final plugin_models.LyricsMatch match;
@@ -286,7 +284,7 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
 
   String _targetMediaId() {
     final current =
-        context.read<BloomeePlayerCubit>().bloomeePlayer.currentTrackInfo.id;
+        context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.currentTrackInfo.id;
     return current.isNotEmpty ? current : widget.mediaID;
   }
 
@@ -368,7 +366,6 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
                 crossAxisAlignment:
                     CrossAxisAlignment.center, // Perfect vertical alignment
                 children: [
-                  // Icon Indicator
                   Container(
                     width: 48,
                     height: 48,
@@ -405,7 +402,6 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
                   ),
                   const SizedBox(width: 14),
 
-                  // Text Info + Inline Badge
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,7 +422,6 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            // INLINE BADGE: Looks natural and flows with the text
                             if (hasSynced) ...[
                               const SizedBox(width: 8),
                               Container(
@@ -469,7 +464,6 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
                   ),
                   const SizedBox(width: 12),
 
-                  // Compact Icon-Only Preview Button
                   Material(
                     color: Colors.transparent,
                     child: Tooltip(
@@ -512,8 +506,6 @@ class _LyricsResultCardState extends State<_LyricsResultCard> {
   }
 }
 
-// ── Premium Blur Modal ───────────────────────────────────────────────────────
-
 class _LyricsPreviewModal extends StatefulWidget {
   final String pluginId;
   final plugin_models.LyricsMatch match;
@@ -540,8 +532,8 @@ class _LyricsPreviewModalState extends State<_LyricsPreviewModal> {
 
   String _targetMediaId() {
     final current = widget.parentContext
-        .read<BloomeePlayerCubit>()
-        .bloomeePlayer
+        .read<StreamBeatsPlayerCubit>()
+        .streambeatsPlayer
         .currentTrackInfo
         .id;
     return current.isNotEmpty ? current : widget.mediaID;
@@ -590,7 +582,6 @@ class _LyricsPreviewModalState extends State<_LyricsPreviewModal> {
       ),
       child: Column(
         children: [
-          // Glassy Header
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: BackdropFilter(
@@ -663,7 +654,6 @@ class _LyricsPreviewModalState extends State<_LyricsPreviewModal> {
             ),
           ),
 
-          // Body (Lyrics)
           Expanded(
             child: _isLoading
                 ? const Center(
@@ -693,7 +683,6 @@ class _LyricsPreviewModalState extends State<_LyricsPreviewModal> {
                       ),
           ),
 
-          // Footer Action
           if (!_isLoading &&
               _fetchedLyrics != null &&
               _fetchedLyrics!.lyricsPlain.isNotEmpty)

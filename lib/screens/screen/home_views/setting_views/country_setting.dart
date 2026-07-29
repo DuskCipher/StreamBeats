@@ -1,10 +1,10 @@
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/l10n/language_options.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/l10n/language_options.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class CountrySettings extends StatelessWidget {
@@ -56,7 +56,6 @@ class CountrySettings extends StatelessWidget {
               )
               .label;
 
-          // Build country name from current code
           final currentCountryName = countries.entries
               .firstWhere(
                 (e) => e.value == state.countryCode,
@@ -316,5 +315,4 @@ final Map<String, String> countries = {
   'Yemen': 'YE',
   'Zambia': 'ZM',
   'Zimbabwe': 'ZW',
-  // Add more countries and their ISO alpha-2 codes here
 };

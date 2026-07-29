@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/plugins/utils/media_id.dart';
-import 'package:Bloomee/services/db/dao/lyrics_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
+import 'package:streambeats/services/db/dao/lyrics_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 
 class SmartTrackReplacementCandidate {
   final Track track;
@@ -78,8 +78,6 @@ class SmartTrackReplacementService {
 
   void invalidateCache() => _cachedResolvers = null;
 
-  // ── Search ───────────────────────────────────────────────────────────────
-
   Future<List<SmartTrackReplacementCandidate>> searchCandidates(
     Track originalTrack, {
     int limit = 8,
@@ -121,8 +119,6 @@ class SmartTrackReplacementService {
     if (candidates.isEmpty) return null;
     return candidates.first.confidence >= 0.45 ? candidates.first : null;
   }
-
-  // ── Apply ────────────────────────────────────────────────────────────────
 
   Future<SmartTrackReplacementApplyResult> applyReplacement({
     required Track originalTrack,
@@ -170,7 +166,6 @@ class SmartTrackReplacementService {
           name: 'SmartTrackReplacementService');
     }
 
-    // Replace ID in lyrics DB so existing lyrics (and offsets) map to the new track.
     try {
       await _lyricsDao.updateMediaId(originalTrack.id, replacement.id);
       log('Lyrics mediaID updated from ${originalTrack.id} to ${replacement.id}',
@@ -185,8 +180,6 @@ class SmartTrackReplacementService {
       skippedDuplicates: skipped,
     );
   }
-
-  // ── Plugin priority ──────────────────────────────────────────────────────
 
   Future<List<PluginInfo>> _getLoadedResolverPlugins() async {
     if (_cachedResolvers != null) return _cachedResolvers!;

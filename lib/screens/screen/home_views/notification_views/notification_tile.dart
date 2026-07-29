@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:Bloomee/core/models/app_notification.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/check_update_view.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/models/app_notification.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/check_update_view.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
@@ -18,7 +18,6 @@ class NotificationTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 5),
       child: ListTile(
-        // splashColor: Default_Theme.accentColor2.withValues(alpha: 0.1),
         onTap: () {
           if (notification.type == "app_update") {
             Navigator.push(

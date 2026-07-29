@@ -1,12 +1,12 @@
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/services/supabase_playlist_service.dart';
-import 'package:Bloomee/routes/app_router.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/services/supabase_playlist_service.dart';
+import 'package:streambeats/routes/app_router.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 
 void createPlaylistDialog(BuildContext context) {
   final l10n = AppLocalizations.of(context)!;
@@ -23,8 +23,6 @@ void createPlaylistDialog(BuildContext context) {
       final curve =
           CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
 
-      // FIX FOR WOBBLING: Using SlideTransition instead of ScaleTransition.
-      // This prevents the text engine from re-rasterizing and causing the "heatwave" effect.
       return SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0, 0.05), // Starts slightly lower and slides up
@@ -32,8 +30,6 @@ void createPlaylistDialog(BuildContext context) {
         ).animate(curve),
         child: FadeTransition(
           opacity: curve,
-          // RepaintBoundary caches the dialog as an image during animation,
-          // guaranteeing 0 jitter or wobbling.
           child: RepaintBoundary(child: child),
         ),
       );
@@ -132,14 +128,12 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // --- Main Content ---
                   Padding(
                     padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Title
                         Text(
                           l10n.playlistCreateNew,
                           style: Default_Theme.secondoryTextStyleMedium.merge(
@@ -152,7 +146,6 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                         ),
                         const SizedBox(height: 24),
 
-                        // Input Field Container
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                           decoration: BoxDecoration(
@@ -219,7 +212,6 @@ class _CreatePlaylistDialogState extends State<_CreatePlaylistDialog> {
                         ),
                         const SizedBox(height: 24),
 
-                        // --- Action Buttons ---
                         Row(
                           children: [
                             Expanded(

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Required for Clipboard
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/plugins/blocs/repository/plugin_repository_cubit.dart';
-import 'package:Bloomee/plugins/models/plugin_repository.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/screen/home_views/repository_detail_screen.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/plugins/blocs/repository/plugin_repository_cubit.dart';
+import 'package:streambeats/plugins/models/plugin_repository.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/screen/home_views/repository_detail_screen.dart';
 
 class PluginRepositoryView extends StatefulWidget {
   const PluginRepositoryView({super.key});
@@ -253,8 +253,6 @@ class _PluginRepositoryViewState extends State<PluginRepositoryView> {
   }
 }
 
-// ── Redesigned Modern Repository Card ──────────────────────────────────────
-
 class _RepoCard extends StatelessWidget {
   final PluginRepositoryModel repo;
   const _RepoCard({required this.repo});
@@ -290,7 +288,6 @@ class _RepoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Row 1: Header (Icon, Title, Desc, Chevron)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -339,7 +336,6 @@ class _RepoCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      // Explicit Navigation Chevron
                       Icon(MingCute.right_line,
                           color: Default_Theme.primaryColor2
                               .withValues(alpha: 0.4),
@@ -349,7 +345,6 @@ class _RepoCard extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
-                  // Row 2: Copiable URL Box
                   Material(
                     color: Default_Theme.primaryColor1.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(10),
@@ -400,7 +395,6 @@ class _RepoCard extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  // Row 3: Footer (Badges + Delete)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -420,7 +414,6 @@ class _RepoCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      // Muted Premium Delete Button
                       Material(
                         color: Colors.redAccent.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(10),
@@ -463,8 +456,6 @@ String _localizedRepositoryError(BuildContext context, String rawMessage) {
   }
   return rawMessage;
 }
-
-// ── Shared UI Helpers ────────────────────────────────────────────────────────
 
 class _Badge extends StatelessWidget {
   final IconData icon;

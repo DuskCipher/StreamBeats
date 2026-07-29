@@ -140,7 +140,6 @@ class MediaItemDB {
   String language;
   bool isLiked = false;
 
-  // @Backlink(to: "mediaItems")
   IsarLinks<MediaPlaylistDB> mediaInPlaylistsDB = IsarLinks<MediaPlaylistDB>();
 
   MediaItemDB({

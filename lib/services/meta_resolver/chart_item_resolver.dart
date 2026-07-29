@@ -1,16 +1,15 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
 class ChartResolveResult {
   final Track resolvedTrack;
   final String resolverPluginId;
 
-  /// Confidence in [0, 100] range (kept for backward compat with UI).
   final double confidence;
 
   const ChartResolveResult({
@@ -62,23 +61,18 @@ class ChartItemResolver {
     final pluginIds = resolverPluginIds.toList(growable: false);
     if (pluginIds.isEmpty) return null;
 
-    // Track-type items use the shared resolver directly.
     final target = _targetFromChartItem(chartItem);
     if (target != null) {
       return _resolveTrackItem(target, pluginIds);
     }
 
-    // Non-track types use searchMedia with custom scoring.
     return _resolveNonTrackItem(chartItem, pluginIds);
   }
-
-  // ── Track resolution (Phase 1 → 2 → 3) ─────────────────────────────────
 
   Future<ChartResolveResult?> _resolveTrackItem(
     TrackMatchTarget target,
     List<String> pluginIds,
   ) async {
-    // Phase 1: sequential, typed filter, high early-accept bar.
     var candidates = await _resolver.resolveTrack(
       target: target,
       pluginIds: pluginIds,
@@ -88,7 +82,6 @@ class ChartItemResolver {
       limit: 30,
     );
 
-    // Phase 2: if nothing viable, broaden with ContentSearchFilter.all.
     final best1 = candidates.isEmpty ? 0.0 : candidates.first.confidence;
     if (best1 < _kMinViable / 100) {
       log('Phase 1 best ${(best1 * 100).toStringAsFixed(1)}%. Broadening.',
@@ -110,7 +103,6 @@ class ChartItemResolver {
       }
     }
 
-    // Phase 3: cross-plugin corroboration.
     _applyCorroboration(candidates);
 
     candidates.sort((a, b) => b.confidence.compareTo(a.confidence));
@@ -132,8 +124,6 @@ class ChartItemResolver {
       confidence: conf100,
     );
   }
-
-  // ── Non-track resolution ────────────────────────────────────────────────
 
   Future<ChartResolveResult?> _resolveNonTrackItem(
     ChartItem chartItem,
@@ -175,7 +165,6 @@ class ChartItemResolver {
     final conf100 = best.confidence * 100;
     if (conf100 < _kMinViable) return null;
 
-    // Only return tracks from MediaItem_Track results.
     final track = switch (best.result.item) {
       MediaItem_Track(:final field0) => field0,
       _ => null,
@@ -188,8 +177,6 @@ class ChartItemResolver {
       confidence: conf100,
     );
   }
-
-  // ── Corroboration ───────────────────────────────────────────────────────
 
   void _applyCorroboration(List<ScoredTrackCandidate> candidates) {
     if (candidates.length < 2) return;
@@ -217,8 +204,6 @@ class ChartItemResolver {
   String _trackFingerprint(Track track) =>
       '${_resolver.normalized(track.title)}||'
       '${_resolver.artistKeyFromSummaries(track.artists)}';
-
-  // ── Non-track scoring ───────────────────────────────────────────────────
 
   double _scoreNonTrack(MediaItem target, MediaItem candidate, int rank) {
     final rankBonus = (0.08 - rank * 0.006).clamp(0.0, 0.08);
@@ -283,8 +268,6 @@ class ChartItemResolver {
     if (to.isNotEmpty && to == co) s += 0.06;
     return s.clamp(0.0, 1.0);
   }
-
-  // ── Helpers ─────────────────────────────────────────────────────────────
 
   TrackMatchTarget? _targetFromChartItem(ChartItem chartItem) {
     return switch (chartItem.item) {

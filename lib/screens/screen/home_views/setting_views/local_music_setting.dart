@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:Bloomee/blocs/local_music/cubit/local_music_cubit.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
-import 'package:Bloomee/services/local_music_service.dart';
+import 'package:streambeats/blocs/local_music/cubit/local_music_cubit.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/services/local_music_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -203,7 +203,6 @@ class _LocalMusicSettingsState extends State<LocalMusicSettings> {
             ],
           ),
 
-          // Folder management — desktop only
           if (!LocalMusicService.isMobile && !Platform.isIOS) ...[
             const SizedBox(height: 28),
             SettingSectionHeader(label: l10n.settingsMusicFolders),

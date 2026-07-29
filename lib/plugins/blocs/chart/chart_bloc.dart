@@ -2,22 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_event.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_state.dart';
-import 'package:Bloomee/plugins/errors/plugin_exceptions.dart';
-import 'package:Bloomee/plugins/utils/media_id.dart';
-import 'package:Bloomee/services/cache/plugin_cache_repository.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/services/plugin_cache_codec.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_event.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_state.dart';
+import 'package:streambeats/plugins/errors/plugin_exceptions.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
+import 'package:streambeats/services/cache/plugin_cache_repository.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/services/plugin_cache_codec.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
-/// Manages chart data: listing available charts and loading chart details.
-///
-/// Works with chart provider plugins via [PluginService].
-/// Uses Rust-generated types directly — no converter layer.
 class ChartBloc extends Bloc<ChartEvent, ChartState> {
   final PluginService _pluginService;
   final PluginCacheRepository _cache = ServiceLocator.pluginCache;
@@ -34,8 +30,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     on<SetActiveChartPlugin>(_onSetActivePlugin);
     on<ClearCharts>(_onClearCharts);
   }
-
-  // ── Load Charts (stale-while-revalidate) ──────────────────────────────────
 
   Future<void> _onLoadCharts(
     LoadCharts event,
@@ -62,7 +56,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
         charts: cached.value!,
       ));
       if (!cached.isStale) return;
-      // Stale — continue to background network refresh (no re-emit of loading).
     }
 
     try {
@@ -128,8 +121,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     }
   }
 
-  // ── Load Chart Details (stale-while-revalidate) ────────────────────────────
-
   Future<void> _onLoadChartDetails(
     LoadChartDetails event,
     Emitter<ChartState> emit,
@@ -155,7 +146,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
         chartItems: cached.value!,
       ));
       if (!cached.isStale) return;
-      // Stale — continue to background network refresh.
     }
 
     try {
@@ -222,8 +212,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
       }
     }
   }
-
-  // ── Force-Refresh Chart Details ────────────────────────────────────────────
 
   Future<void> _onForceRefreshChartDetails(
     ForceRefreshChartDetails event,
@@ -303,13 +291,10 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     }
   }
 
-  // ── Prefetch All Chart Details (silent background) ─────────────────────────
-
   Future<void> _onPrefetchAllChartDetails(
     PrefetchAllChartDetails event,
     Emitter<ChartState> emit,
   ) async {
-    // No state emissions — purely a cache-warming operation.
     for (final chartId in event.chartIds) {
       if (isClosed) break;
 
@@ -322,7 +307,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
           stalenessThreshold: const Duration(hours: 8),
         );
 
-        // Skip charts that are already fresh in cache.
         if (cached.value != null && !cached.isStale) continue;
 
         if (isClosed) break;
@@ -367,12 +351,9 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
         );
       } catch (e) {
         log('Prefetch failed for chart $chartId: $e', name: 'ChartBloc');
-        // Continue with next chart on failure.
       }
     }
   }
-
-  // ── Set Active Plugin ──────────────────────────────────────────────────────
 
   void _onSetActivePlugin(
     SetActiveChartPlugin event,
@@ -381,18 +362,12 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     emit(ChartState(activePluginId: event.pluginId));
   }
 
-  // ── Clear ──────────────────────────────────────────────────────────────────
-
   void _onClearCharts(ClearCharts event, Emitter<ChartState> emit) {
     emit(const ChartState.initial());
   }
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-
   void _unexpectedResponse(Emitter<ChartState> emit, String context) {
     log('Unexpected response type for $context', name: 'ChartBloc');
-    // Transition any currently-loading status to error so the UI
-    // never gets stuck in a permanent loading state.
     emit(state.copyWith(
       error: 'Unexpected response from plugin',
       chartsStatus:

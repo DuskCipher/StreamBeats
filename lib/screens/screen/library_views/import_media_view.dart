@@ -1,21 +1,21 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_cubit.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/import_export_service.dart';
-import 'package:Bloomee/services/m3u_processor.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_cubit.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/import_export_service.dart';
+import 'package:streambeats/services/m3u_processor.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 
 class ImportMediaFromPlatformsView extends StatefulWidget {
   const ImportMediaFromPlatformsView({super.key});
@@ -129,8 +129,6 @@ class _ImportMediaFromPlatformsViewState
     );
   }
 
-  // ─── Import Bloomee JSON/BLM files ────────────────────────────────────────
-
   void _importStreamBeatsFile(BuildContext context) {
     showDialog(
       context: context,
@@ -204,8 +202,6 @@ class _ImportMediaFromPlatformsViewState
     );
   }
 
-  // ─── Import M3U playlist ──────────────────────────────────────────────────
-
   Future<void> _importM3UFile(BuildContext context) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -232,7 +228,6 @@ class _ImportMediaFromPlatformsViewState
       return;
     }
 
-    // Use embedded playlist name or ask the user.
     final rawName = (parsed['playlistName'] as String?)?.trim() ?? '';
     final String playlistName;
     if (rawName.isNotEmpty) {
@@ -244,7 +239,6 @@ class _ImportMediaFromPlatformsViewState
       playlistName = asked;
     }
 
-    // Build ImportTrackItem list from parsed M3U entries.
     final rawItems = parsed['mediaItems'] as List<dynamic>? ?? [];
     final tracks = rawItems
         .whereType<Map<String, dynamic>>()
@@ -282,7 +276,6 @@ class _ImportMediaFromPlatformsViewState
     );
 
     if (!context.mounted) return;
-    // Start resolution immediately; navigate so the process screen is visible.
     context.read<ContentImportCubit>().loadFromM3U(tracks, summary);
     context.goNamed(
       RoutePaths.importProcess,
@@ -290,7 +283,6 @@ class _ImportMediaFromPlatformsViewState
     );
   }
 
-  /// Prompts the user to enter a playlist name. Returns null if cancelled.
   Future<String?> _askPlaylistName(BuildContext context) {
     final controller = TextEditingController();
     return showDialog<String>(
@@ -368,8 +360,6 @@ class _ImportMediaFromPlatformsViewState
     ).whenComplete(controller.dispose);
   }
 }
-
-// ─── Plugin importer tile ─────────────────────────────────────────────────────
 
 class _ImporterPluginTile extends StatelessWidget {
   final String pluginName;
@@ -465,8 +455,6 @@ class _ImporterPluginTile extends StatelessWidget {
     );
   }
 }
-
-// ─── Generic import button ────────────────────────────────────────────────────
 
 class _ImportFromBtn extends StatelessWidget {
   final String btnName;

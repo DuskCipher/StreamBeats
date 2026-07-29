@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'lyrics_cubit.dart';
 
 class LyricsState extends Equatable {
@@ -65,7 +64,6 @@ final class LyricsError extends LyricsState {
             track);
 }
 
-/// Emitted when no lyrics plugin is configured in the priority list.
 final class LyricsNoPlugin extends LyricsError {
   LyricsNoPlugin(Track track) : super(track);
 }

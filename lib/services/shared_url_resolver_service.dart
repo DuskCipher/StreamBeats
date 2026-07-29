@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
-import 'package:Bloomee/utils/url_checker.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
+import 'package:streambeats/utils/url_checker.dart';
 
 enum SharedUrlResolveStatus {
   success,
@@ -111,8 +111,6 @@ class SharedUrlResolverService {
     fallback.sort((a, b) => _resolverPriorityIndex(a, priority)
         .compareTo(_resolverPriorityIndex(b, priority)));
 
-    // Claimed host matches are authoritative. Fallback preserves compatibility
-    // with older/community plugins that have not filled host_site yet.
     return [...claimed, ...fallback];
   }
 

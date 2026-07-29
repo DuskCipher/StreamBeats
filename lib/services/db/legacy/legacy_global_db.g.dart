@@ -1,13 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'legacy_global_db.dart';
-
-// **************************************************************************
-// IsarCollectionGenerator
-// **************************************************************************
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetMediaPlaylistDBCollection on Isar {
   IsarCollection<MediaPlaylistDB> get mediaPlaylistDBs => this.collection();
@@ -917,9 +908,6 @@ extension MediaPlaylistDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetPlaylistsInfoDBCollection on Isar {
   IsarCollection<PlaylistsInfoDB> get playlistsInfoDBs => this.collection();
@@ -2691,9 +2679,6 @@ extension PlaylistsInfoDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetMediaItemDBCollection on Isar {
   IsarCollection<MediaItemDB> get mediaItemDBs => this.collection();
@@ -5193,9 +5178,6 @@ extension MediaItemDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetAppSettingsStrDBCollection on Isar {
   IsarCollection<AppSettingsStrDB> get appSettingsStrDBs => this.collection();
 }
@@ -6265,9 +6247,6 @@ extension AppSettingsStrDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetAppSettingsBoolDBCollection on Isar {
   IsarCollection<AppSettingsBoolDB> get appSettingsBoolDBs => this.collection();
 }
@@ -6873,9 +6852,6 @@ extension AppSettingsBoolDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetChartsCacheDBCollection on Isar {
   IsarCollection<ChartsCacheDB> get chartsCacheDBs => this.collection();
@@ -7762,9 +7738,6 @@ extension ChartsCacheDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetRecentlyPlayedDBCollection on Isar {
   IsarCollection<RecentlyPlayedDB> get recentlyPlayedDBs => this.collection();
 }
@@ -8164,9 +8137,6 @@ extension RecentlyPlayedDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetYtLinkCacheDBCollection on Isar {
   IsarCollection<YtLinkCacheDB> get ytLinkCacheDBs => this.collection();
@@ -9094,9 +9064,6 @@ extension YtLinkCacheDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetDownloadDBCollection on Isar {
   IsarCollection<DownloadDB> get downloadDBs => this.collection();
 }
@@ -10020,9 +9987,6 @@ extension DownloadDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetSavedCollectionsDBCollection on Isar {
   IsarCollection<SavedCollectionsDB> get savedCollectionsDBs =>
@@ -11931,9 +11895,6 @@ extension SavedCollectionsDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetNotificationDBCollection on Isar {
   IsarCollection<NotificationDB> get notificationDBs => this.collection();
 }
@@ -13285,9 +13246,6 @@ extension NotificationDBQueryProperty
     });
   }
 }
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetLyricsDBCollection on Isar {
   IsarCollection<LyricsDB> get lyricsDBs => this.collection();
@@ -15421,9 +15379,6 @@ extension LyricsDBQueryProperty
   }
 }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
 extension GetSearchHistoryDBCollection on Isar {
   IsarCollection<SearchHistoryDB> get searchHistoryDBs => this.collection();
 }
@@ -15965,13 +15920,6 @@ extension SearchHistoryDBQueryProperty
     });
   }
 }
-
-// **************************************************************************
-// IsarEmbeddedGenerator
-// **************************************************************************
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 const ChartItemDBSchema = Schema(
   name: r'ChartItemDB',

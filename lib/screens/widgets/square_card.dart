@@ -1,5 +1,5 @@
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 

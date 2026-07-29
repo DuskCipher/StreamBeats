@@ -1,7 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
-import 'package:Bloomee/src/rust/api/plugin/models.dart' as plugin_models;
+import 'package:streambeats/src/rust/api/plugin/models.dart' as plugin_models;
 
 enum LyricsProvider {
   plugin,
@@ -122,7 +121,6 @@ class ParsedLyrics {
   }
 
   void parseLyrics(String syncedLyrics) {
-    //LRC fromat is [mm:ss.xx] lyrics
     final regex = RegExp(r'\[(\d+):(\d+)\.(\d+)\] (.+)');
     final matches = regex.allMatches(syncedLyrics);
 
@@ -151,11 +149,6 @@ class ParsedLyrics {
   }
 }
 
-/// Convert a plugin [PluginLyrics] + [LyricsMetadata] to the app's [Lyrics] model.
-///
-/// Builds both [lyricsPlain] and [lyricsSynced] (LRC format) from
-/// the structured [PluginLyrics.lines] so existing UI code (synced display,
-/// plain text fallback, DB caching) works unchanged.
 Lyrics pluginLyricsToLyrics(
   plugin_models.PluginLyrics pluginLyrics, {
   required String artist,

@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/storage_backup_service.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/storage_backup_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -44,7 +44,6 @@ class BackupSettings extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             children: [
-              // ── History ──────────────────────────────────────────────
               SettingSectionHeader(label: l10n.settingsHistory),
               SettingCard(
                 children: [
@@ -71,7 +70,6 @@ class BackupSettings extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── Backup & Restore ──────────────────────────────────────
               SettingSectionHeader(label: l10n.settingsBackupRestore),
               SettingCard(
                 children: [
@@ -105,8 +103,8 @@ class BackupSettings extends StatelessWidget {
                                   SharePlus.instance
                                       .share(ShareParams(
                                     files: [XFile(value)],
-                                    text: 'Bloomee backup file',
-                                    subject: 'Bloomee Backup',
+                                    text: 'StreamBeats backup file',
+                                    subject: 'StreamBeats Backup',
                                   ))
                                       .catchError((e) {
                                     SnackbarService.showMessage(
@@ -142,8 +140,8 @@ class BackupSettings extends StatelessWidget {
                                   SharePlus.instance
                                       .share(ShareParams(
                                     files: [XFile(value)],
-                                    text: 'Bloomee JSON backup file',
-                                    subject: 'Bloomee JSON Backup',
+                                    text: 'StreamBeats JSON backup file',
+                                    subject: 'StreamBeats JSON Backup',
                                   ))
                                       .catchError((e) {
                                     SnackbarService.showMessage(
@@ -176,7 +174,6 @@ class BackupSettings extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── Automatic ─────────────────────────────────────────────
               SettingSectionHeader(label: l10n.settingsAutomatic),
               SettingCard(
                 children: [
@@ -201,7 +198,6 @@ class BackupSettings extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── Danger Zone ───────────────────────────────────────────
               SettingSectionHeader(label: l10n.settingsDangerZone),
               SettingCard(
                 children: [
@@ -301,7 +297,6 @@ class _BackupLocationDialog extends StatelessWidget {
 Future<void> _onRestoreTap(BuildContext context) async {
   final l10n = AppLocalizations.of(context)!;
   try {
-    // 1) Ask user to pick a file (using FileType.any so that custom extensions like .isar / .db are not grayed out on Android)
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       withData: false,
@@ -315,18 +310,15 @@ Future<void> _onRestoreTap(BuildContext context) async {
 
     final picked = result.files.first;
 
-    // 2) Save the picked file to internal documents directory
     final savedPath = await _savePickedFileToInternalDir(picked);
     if (savedPath == null) {
       SnackbarService.showMessage(l10n.storageRestoreSaveFailed);
       return;
     }
 
-    // 3) Show options dialog: which parts to restore (defaults all true)
     final options = await showDialog<_RestoreOptions?>(
       context: context,
       builder: (ctx) {
-        // initial values (all true)
         bool mediaItems = true;
         bool searchHistory = true;
         bool settingsAndPrefs = true;
@@ -430,10 +422,8 @@ Future<void> _onRestoreTap(BuildContext context) async {
       },
     );
 
-    // If user cancelled options dialog
     if (options == null) return;
 
-    // 4) Show final confirmation with warning (user must confirm)
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) {
@@ -473,11 +463,9 @@ Future<void> _onRestoreTap(BuildContext context) async {
     );
 
     if (confirmed != true) {
-      // user cancelled final confirmation
       return;
     }
 
-    // 5) Show non-dismissible progress dialog and capture its context
     BuildContext? progressDialogContext;
     showDialog(
       context: context,
@@ -506,14 +494,11 @@ Future<void> _onRestoreTap(BuildContext context) async {
       },
     );
 
-    // 6) Execute restore (guarantee progress dialog closed in finally)
     Map<String, dynamic> restoreResult = {
       "success": false,
       "error": "Restore not executed."
     };
     try {
-      // NOTE: This call must be async and ideally run heavy work inside its own isolates.
-      // Signature: restoreDB(path, settings, searchHistory, mediaitems)
       restoreResult = await StorageBackupService.restoreBackup(
         savedPath,
         options: options.toBackupOptions(),
@@ -525,7 +510,6 @@ Future<void> _onRestoreTap(BuildContext context) async {
         "error": "Exception during restore: $e"
       };
     } finally {
-      // Always attempt to close the progress dialog using captured context
       if (progressDialogContext != null) {
         try {
           if (Navigator.of(progressDialogContext!).canPop()) {
@@ -535,18 +519,15 @@ Future<void> _onRestoreTap(BuildContext context) async {
           log("Failed to pop progress dialog: $e", name: "StorageSetting");
         }
       } else {
-        // Fallback: try to pop root navigator (best-effort)
         try {
           if (Navigator.of(context, rootNavigator: true).canPop()) {
             Navigator.of(context, rootNavigator: true).pop();
           }
         } catch (_) {}
       }
-      // allow UI a short moment to settle
       await Future.delayed(const Duration(milliseconds: 150));
     }
 
-    // 7) Show final result dialog and recommend restart
     final success = restoreResult["success"] == true;
     final errors = <String>[];
     if (restoreResult.containsKey("errors")) {
@@ -571,7 +552,6 @@ Future<void> _onRestoreTap(BuildContext context) async {
   }
 }
 
-/// Simple holder for options selected in options dialog
 class _RestoreOptions {
   final bool restoreMediaItems;
   final bool restoreSearchHistory;
@@ -592,14 +572,12 @@ class _RestoreOptions {
   }
 }
 
-/// Save the picked file to app documents directory so the app retains access.
-/// Returns saved file path or null.
 Future<String?> _savePickedFileToInternalDir(PlatformFile picked) async {
   try {
     final docs = await getApplicationDocumentsDirectory();
     final safeName = picked.name.replaceAll(RegExp(r'[^A-Za-z0-9_.-]'), '_');
     final filename =
-        'bloomee_restore_${DateTime.now().millisecondsSinceEpoch}_$safeName';
+        'streambeats_restore_${DateTime.now().millisecondsSinceEpoch}_$safeName';
     final dest = File('${docs.path}/$filename');
 
     if (picked.bytes != null) {
@@ -620,7 +598,6 @@ Future<String?> _savePickedFileToInternalDir(PlatformFile picked) async {
   }
 }
 
-/// Show final result dialog. Asks user to restart for best consistency.
 Future<void> _showResultDialog(
   BuildContext context, {
   required bool success,

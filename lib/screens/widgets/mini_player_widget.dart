@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:Bloomee/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/mini_player/mini_player_cubit.dart';
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/mini_player/mini_player_cubit.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,7 +130,7 @@ class _MiniPlayerCardState extends State<MiniPlayerCard>
 
   void _onHorizontalDragEnd(DragEndDetails details) {
     final velocity = details.primaryVelocity ?? 0;
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
 
     if (_dragOffset < -_swipeThreshold || velocity < -600) {
       HapticFeedback.mediumImpact();
@@ -201,8 +201,8 @@ class _MiniPlayerCardState extends State<MiniPlayerCard>
                             onPressed: () {
                               HapticFeedback.lightImpact();
                               context
-                                  .read<BloomeePlayerCubit>()
-                                  .bloomeePlayer
+                                  .read<StreamBeatsPlayerCubit>()
+                                  .streambeatsPlayer
                                   .skipToPrevious();
                             },
                           ),
@@ -214,8 +214,8 @@ class _MiniPlayerCardState extends State<MiniPlayerCard>
                             onPressed: () {
                               HapticFeedback.lightImpact();
                               context
-                                  .read<BloomeePlayerCubit>()
-                                  .bloomeePlayer
+                                  .read<StreamBeatsPlayerCubit>()
+                                  .streambeatsPlayer
                                   .skipToNext();
                             },
                           ),
@@ -481,7 +481,7 @@ class _PlayPauseButton extends StatelessWidget {
         size: 22,
         onPressed: () {
           HapticFeedback.mediumImpact();
-          context.read<BloomeePlayerCubit>().bloomeePlayer.rewind();
+          context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.rewind();
         },
       );
     }
@@ -490,8 +490,8 @@ class _PlayPauseButton extends StatelessWidget {
       onTap: () {
         HapticFeedback.lightImpact();
         state.isPlaying
-            ? context.read<BloomeePlayerCubit>().bloomeePlayer.pause()
-            : context.read<BloomeePlayerCubit>().bloomeePlayer.play();
+            ? context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.pause()
+            : context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.play();
       },
       child: Container(
         width: 42,
@@ -562,7 +562,7 @@ class _GlowingProgressBar extends StatelessWidget {
       right: 0,
       height: 3,
       child: StreamBuilder<ProgressBarStreams>(
-        stream: context.watch<BloomeePlayerCubit>().progressStreams,
+        stream: context.watch<StreamBeatsPlayerCubit>().progressStreams,
         builder: (context, snapshot) {
           double fraction = 0;
           if (snapshot.hasData && snapshot.data!.duration != Duration.zero) {

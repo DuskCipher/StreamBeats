@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:Bloomee/services/db/dao/search_history_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart' as plugin_models;
+import 'package:streambeats/services/db/dao/search_history_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart' as plugin_models;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -94,7 +94,6 @@ class SearchSuggestionBloc
     });
   }
 
-  /// Returns a tuple of (query strings, entity suggestions) from the plugin.
   Future<(List<String>, List<plugin_models.EntitySuggestion>)>
       _getPluginSuggestions(String query) async {
     final pluginId =

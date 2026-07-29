@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:Bloomee/screens/widgets/play_pause_widget.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/screens/widgets/play_pause_widget.dart';
+import 'package:streambeats/utils/load_image.dart';
 
 class CarouselCardView extends StatelessWidget {
   final String coverImageUrl;
-  // final ImageProvider<Object> placeHolder =
-  //     const AssetImage("assets/sample/album_cover_sam1.jpg");
   const CarouselCardView({super.key, required this.coverImageUrl});
 
   @override

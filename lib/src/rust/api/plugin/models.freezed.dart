@@ -1,18 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'models.dart';
 
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
-
-// dart format off
 T _$identity<T>(T value) => value;
 
-/// @nodoc
 mixin _$MediaItem {
   Object get field0;
 
@@ -34,24 +23,11 @@ mixin _$MediaItem {
   }
 }
 
-/// @nodoc
 class $MediaItemCopyWith<$Res> {
   $MediaItemCopyWith(MediaItem _, $Res Function(MediaItem) __);
 }
 
-/// Adds pattern-matching-related methods to [MediaItem].
 extension MediaItemPatterns on MediaItem {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -76,19 +52,6 @@ extension MediaItemPatterns on MediaItem {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MediaItem_Track value) track,
@@ -108,18 +71,6 @@ extension MediaItemPatterns on MediaItem {
         return playlist(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -142,18 +93,6 @@ extension MediaItemPatterns on MediaItem {
         return null;
     }
   }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -178,19 +117,6 @@ extension MediaItemPatterns on MediaItem {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Track field0) track,
@@ -210,18 +136,6 @@ extension MediaItemPatterns on MediaItem {
         return playlist(_that.field0);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -246,16 +160,12 @@ extension MediaItemPatterns on MediaItem {
   }
 }
 
-/// @nodoc
-
 class MediaItem_Track extends MediaItem {
   const MediaItem_Track(this.field0) : super._();
 
   @override
   final Track field0;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $MediaItem_TrackCopyWith<MediaItem_Track> get copyWith =>
@@ -278,7 +188,6 @@ class MediaItem_Track extends MediaItem {
   }
 }
 
-/// @nodoc
 abstract mixin class $MediaItem_TrackCopyWith<$Res>
     implements $MediaItemCopyWith<$Res> {
   factory $MediaItem_TrackCopyWith(
@@ -288,7 +197,6 @@ abstract mixin class $MediaItem_TrackCopyWith<$Res>
   $Res call({Track field0});
 }
 
-/// @nodoc
 class _$MediaItem_TrackCopyWithImpl<$Res>
     implements $MediaItem_TrackCopyWith<$Res> {
   _$MediaItem_TrackCopyWithImpl(this._self, this._then);
@@ -296,8 +204,6 @@ class _$MediaItem_TrackCopyWithImpl<$Res>
   final MediaItem_Track _self;
   final $Res Function(MediaItem_Track) _then;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -311,16 +217,12 @@ class _$MediaItem_TrackCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class MediaItem_Album extends MediaItem {
   const MediaItem_Album(this.field0) : super._();
 
   @override
   final AlbumSummary field0;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $MediaItem_AlbumCopyWith<MediaItem_Album> get copyWith =>
@@ -343,7 +245,6 @@ class MediaItem_Album extends MediaItem {
   }
 }
 
-/// @nodoc
 abstract mixin class $MediaItem_AlbumCopyWith<$Res>
     implements $MediaItemCopyWith<$Res> {
   factory $MediaItem_AlbumCopyWith(
@@ -353,7 +254,6 @@ abstract mixin class $MediaItem_AlbumCopyWith<$Res>
   $Res call({AlbumSummary field0});
 }
 
-/// @nodoc
 class _$MediaItem_AlbumCopyWithImpl<$Res>
     implements $MediaItem_AlbumCopyWith<$Res> {
   _$MediaItem_AlbumCopyWithImpl(this._self, this._then);
@@ -361,8 +261,6 @@ class _$MediaItem_AlbumCopyWithImpl<$Res>
   final MediaItem_Album _self;
   final $Res Function(MediaItem_Album) _then;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -376,16 +274,12 @@ class _$MediaItem_AlbumCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class MediaItem_Artist extends MediaItem {
   const MediaItem_Artist(this.field0) : super._();
 
   @override
   final ArtistSummary field0;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $MediaItem_ArtistCopyWith<MediaItem_Artist> get copyWith =>
@@ -408,7 +302,6 @@ class MediaItem_Artist extends MediaItem {
   }
 }
 
-/// @nodoc
 abstract mixin class $MediaItem_ArtistCopyWith<$Res>
     implements $MediaItemCopyWith<$Res> {
   factory $MediaItem_ArtistCopyWith(
@@ -418,7 +311,6 @@ abstract mixin class $MediaItem_ArtistCopyWith<$Res>
   $Res call({ArtistSummary field0});
 }
 
-/// @nodoc
 class _$MediaItem_ArtistCopyWithImpl<$Res>
     implements $MediaItem_ArtistCopyWith<$Res> {
   _$MediaItem_ArtistCopyWithImpl(this._self, this._then);
@@ -426,8 +318,6 @@ class _$MediaItem_ArtistCopyWithImpl<$Res>
   final MediaItem_Artist _self;
   final $Res Function(MediaItem_Artist) _then;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -441,16 +331,12 @@ class _$MediaItem_ArtistCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class MediaItem_Playlist extends MediaItem {
   const MediaItem_Playlist(this.field0) : super._();
 
   @override
   final PlaylistSummary field0;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $MediaItem_PlaylistCopyWith<MediaItem_Playlist> get copyWith =>
@@ -473,7 +359,6 @@ class MediaItem_Playlist extends MediaItem {
   }
 }
 
-/// @nodoc
 abstract mixin class $MediaItem_PlaylistCopyWith<$Res>
     implements $MediaItemCopyWith<$Res> {
   factory $MediaItem_PlaylistCopyWith(
@@ -483,7 +368,6 @@ abstract mixin class $MediaItem_PlaylistCopyWith<$Res>
   $Res call({PlaylistSummary field0});
 }
 
-/// @nodoc
 class _$MediaItem_PlaylistCopyWithImpl<$Res>
     implements $MediaItem_PlaylistCopyWith<$Res> {
   _$MediaItem_PlaylistCopyWithImpl(this._self, this._then);
@@ -491,8 +375,6 @@ class _$MediaItem_PlaylistCopyWithImpl<$Res>
   final MediaItem_Playlist _self;
   final $Res Function(MediaItem_Playlist) _then;
 
-  /// Create a copy of MediaItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -506,7 +388,6 @@ class _$MediaItem_PlaylistCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
 mixin _$Suggestion {
   Object get field0;
 
@@ -528,24 +409,11 @@ mixin _$Suggestion {
   }
 }
 
-/// @nodoc
 class $SuggestionCopyWith<$Res> {
   $SuggestionCopyWith(Suggestion _, $Res Function(Suggestion) __);
 }
 
-/// Adds pattern-matching-related methods to [Suggestion].
 extension SuggestionPatterns on Suggestion {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -564,19 +432,6 @@ extension SuggestionPatterns on Suggestion {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Suggestion_Query value) query,
@@ -590,18 +445,6 @@ extension SuggestionPatterns on Suggestion {
         return entity(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -618,18 +461,6 @@ extension SuggestionPatterns on Suggestion {
         return null;
     }
   }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -648,19 +479,6 @@ extension SuggestionPatterns on Suggestion {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) query,
@@ -674,18 +492,6 @@ extension SuggestionPatterns on Suggestion {
         return entity(_that.field0);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -704,16 +510,12 @@ extension SuggestionPatterns on Suggestion {
   }
 }
 
-/// @nodoc
-
 class Suggestion_Query extends Suggestion {
   const Suggestion_Query(this.field0) : super._();
 
   @override
   final String field0;
 
-  /// Create a copy of Suggestion
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $Suggestion_QueryCopyWith<Suggestion_Query> get copyWith =>
@@ -736,7 +538,6 @@ class Suggestion_Query extends Suggestion {
   }
 }
 
-/// @nodoc
 abstract mixin class $Suggestion_QueryCopyWith<$Res>
     implements $SuggestionCopyWith<$Res> {
   factory $Suggestion_QueryCopyWith(
@@ -746,7 +547,6 @@ abstract mixin class $Suggestion_QueryCopyWith<$Res>
   $Res call({String field0});
 }
 
-/// @nodoc
 class _$Suggestion_QueryCopyWithImpl<$Res>
     implements $Suggestion_QueryCopyWith<$Res> {
   _$Suggestion_QueryCopyWithImpl(this._self, this._then);
@@ -754,8 +554,6 @@ class _$Suggestion_QueryCopyWithImpl<$Res>
   final Suggestion_Query _self;
   final $Res Function(Suggestion_Query) _then;
 
-  /// Create a copy of Suggestion
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -769,16 +567,12 @@ class _$Suggestion_QueryCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class Suggestion_Entity extends Suggestion {
   const Suggestion_Entity(this.field0) : super._();
 
   @override
   final EntitySuggestion field0;
 
-  /// Create a copy of Suggestion
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $Suggestion_EntityCopyWith<Suggestion_Entity> get copyWith =>
@@ -801,7 +595,6 @@ class Suggestion_Entity extends Suggestion {
   }
 }
 
-/// @nodoc
 abstract mixin class $Suggestion_EntityCopyWith<$Res>
     implements $SuggestionCopyWith<$Res> {
   factory $Suggestion_EntityCopyWith(
@@ -811,7 +604,6 @@ abstract mixin class $Suggestion_EntityCopyWith<$Res>
   $Res call({EntitySuggestion field0});
 }
 
-/// @nodoc
 class _$Suggestion_EntityCopyWithImpl<$Res>
     implements $Suggestion_EntityCopyWith<$Res> {
   _$Suggestion_EntityCopyWithImpl(this._self, this._then);
@@ -819,8 +611,6 @@ class _$Suggestion_EntityCopyWithImpl<$Res>
   final Suggestion_Entity _self;
   final $Res Function(Suggestion_Entity) _then;
 
-  /// Create a copy of Suggestion
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -833,5 +623,3 @@ class _$Suggestion_EntityCopyWithImpl<$Res>
     ));
   }
 }
-
-// dart format on

@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Defines the style of gradient generation
 enum GradientStyle {
-  /// Creates a lighter, airy start. Best for cool colors (Blue, Cyan, Green).
-  /// Result: [Lighter/Brighter Version] -> [Base Color]
   lightAndBreezy,
 
-  /// Creates a richer, deeper start. Best for warm colors (Pink, Red, Orange).
-  /// Result: [Warmer/Vibrant Version] -> [Base Color]
   warmAndRich,
 }
 
-/// Utility class for generating aesthetic gradients from a single accent color
 class GradientGenerator {
   GradientGenerator._();
 
-  /// Generates a beautiful gradient pair [startColor, endColor] from a single accent color.
-  ///
-  /// [accentColor] - The base accent color to generate gradient from
-  /// [style] - The generation style (lightAndBreezy or warmAndRich)
   static List<Color> fromAccentColor(
     Color accentColor, {
     GradientStyle style = GradientStyle.lightAndBreezy,
@@ -26,26 +16,19 @@ class GradientGenerator {
     final HSLColor hsl = HSLColor.fromColor(accentColor);
 
     if (style == GradientStyle.warmAndRich) {
-      // WARM & RICH MODE (Best for Pinks/Reds)
-      // Instead of going lighter/whiter, we shift hue towards a warmer tone (orange/yellow direction)
-      // and keep saturation high to avoid the "immature/pastel" look.
 
       double hueShift = 0.0;
       double lightnessAdjust = 0.0;
       double saturationAdjust = 0.0;
 
       if (hsl.hue >= 300 || hsl.hue <= 20) {
-        // Pink/Red -> Shift towards Orange/Coral for that "Electric Watermelon" vibe
-        // e.g. Pink (340) -> Orange-Red (10)
         hueShift = 25.0;
         lightnessAdjust = 0.05; // Only slightly lighter
         saturationAdjust = 0.1; // Boost saturation
       } else if (hsl.hue >= 20 && hsl.hue < 60) {
-        // Orange/Yellow -> Shift towards Red
         hueShift = -15.0;
         lightnessAdjust = 0.05;
       } else {
-        // Fallback for other colors in this mode
         hueShift = 10.0;
         lightnessAdjust = 0.1;
       }
@@ -63,7 +46,6 @@ class GradientGenerator {
         newLightness,
       ).toColor();
 
-      // Make the end color slightly deeper for contrast
       final Color endColor = HSLColor.fromAHSL(
         1.0,
         hsl.hue,
@@ -73,8 +55,6 @@ class GradientGenerator {
 
       return [startColor, endColor];
     } else {
-      // LIGHT & BREEZY MODE (Best for Blues/Cyans)
-      // Original logic: Lighter, more vibrant version for the left side
 
       const double lightnessBoost = 0.18;
       const double saturationBoost = 0.08;
@@ -86,10 +66,8 @@ class GradientGenerator {
 
       double hueShift = 0.0;
       if (hsl.hue >= 180 && hsl.hue < 240) {
-        // Cyan to Blue - shift towards cyan for that beautiful sky effect
         hueShift = -10;
       } else if (hsl.hue >= 240 && hsl.hue < 300) {
-        // Blue to Purple - shift towards lighter blue
         hueShift = -8;
       }
 
@@ -113,15 +91,12 @@ class GradientGenerator {
     }
   }
 
-  /// Generates gradient with more control - produces a subtle, elegant gradient
-  /// Perfect for music player progress bars
   static List<Color> elegantGradient(
     Color accentColor, {
     double intensity = 1.0, // 0.0 = subtle, 1.0 = normal, 2.0 = intense
   }) {
     final HSLColor hsl = HSLColor.fromColor(accentColor);
 
-    // Calculate the light color - more white/bright mixed in
     final double lightLightness =
         (hsl.lightness + (0.25 * intensity)).clamp(0.0, 0.9);
     final double lightSaturation =
@@ -138,59 +113,39 @@ class GradientGenerator {
   }
 }
 
-/// A beautiful gradient progress bar widget for music players.
-/// Features animated gradient transitions, custom thumb with inner colored circle,
-/// and smooth, jank-free drag handling.
 class GradientProgressBar extends StatefulWidget {
-  /// Current progress position
   final Duration progress;
 
-  /// Total duration
   final Duration total;
 
-  /// Buffered position (optional)
   final Duration buffered;
 
-  /// Callback when user seeks to a position
   final ValueChanged<Duration>? onSeek;
 
-  /// Gradient colors for the active/playing state (left to right)
   final List<Color> activeGradientColors;
 
-  /// Gradient colors for the inactive/paused state (left to right)
   final List<Color> inactiveGradientColors;
 
-  /// Whether the player is currently playing
   final bool isPlaying;
 
-  /// Height of the progress track
   final double trackHeight;
 
-  /// Radius of the thumb
   final double thumbRadius;
 
-  /// Whether to show time labels
   final bool showTimeLabels;
 
-  /// Style for the time labels
   final TextStyle? timeLabelStyle;
 
-  /// Padding between time labels and the progress bar
   final double timeLabelPadding;
 
-  /// Location of time labels
   final TimeLabelLocation timeLabelLocation;
 
-  /// Color of the inactive/remaining track
   final Color? inactiveTrackColor;
 
-  /// Color of the buffered track (will be derived from gradient if not set)
   final Color? bufferedTrackColor;
 
-  /// Duration for the color transition animation
   final Duration animationDuration;
 
-  /// Curve for the color transition animation
   final Curve animationCurve;
 
   const GradientProgressBar({
@@ -214,13 +169,6 @@ class GradientProgressBar extends StatefulWidget {
     this.animationCurve = Curves.easeInOut,
   });
 
-  /// Factory constructor that auto-generates beautiful gradients from accent colors.
-  /// Just pass your theme's accent colors and it will create aesthetic gradients automatically.
-  ///
-  /// [activeAccentColor] - The accent color for playing state (e.g., sky blue)
-  /// [inactiveAccentColor] - The accent color for paused state (e.g., pink)
-  /// [activeGradientStyle] - Style for active gradient (default: lightAndBreezy)
-  /// [inactiveGradientStyle] - Style for inactive gradient (default: warmAndRich)
   factory GradientProgressBar.fromAccentColors({
     Key? key,
     required Duration progress,
@@ -567,24 +515,19 @@ class _GradientProgressBarPainter extends CustomPainter {
     final double trackTop = centerY - trackHeight / 2;
     final double trackBottom = centerY + trackHeight / 2;
 
-    // Track spans the full width for visual alignment with other UI elements
     final double trackStartX = 0;
     final double trackEndX = size.width;
     final double trackWidth = trackEndX - trackStartX;
 
-    // Thumb is constrained within bounds so it doesn't overflow
     final double thumbMinX = thumbRadius;
     final double thumbMaxX = size.width - thumbRadius;
     final double thumbRange = thumbMaxX - thumbMinX;
 
-    // Thumb position is constrained to stay within visible bounds
     final double thumbX =
         thumbMinX + (thumbRange * progressRatio.clamp(0.0, 1.0));
-    // Buffered position spans the full track width
     final double bufferedX =
         trackStartX + (trackWidth * bufferedRatio.clamp(0.0, 1.0));
 
-    // 1. Draw inactive (background) track - full width
     final inactivePaint = Paint()
       ..color = inactiveTrackColor
       ..style = PaintingStyle.fill;
@@ -595,7 +538,6 @@ class _GradientProgressBarPainter extends CustomPainter {
     );
     canvas.drawRRect(inactiveRect, inactivePaint);
 
-    // 2. Draw buffered track
     if (bufferedRatio > 0 && bufferedX > trackStartX) {
       final bufferedPaint = Paint()
         ..color = bufferedTrackColor
@@ -608,12 +550,9 @@ class _GradientProgressBarPainter extends CustomPainter {
       canvas.drawRRect(bufferedRect, bufferedPaint);
     }
 
-    // 3. Draw active (progress) track with gradient
     if (progressRatio > 0) {
-      // Create gradient rect that spans the full track for consistent gradient appearance
       final fullGradientRect =
           Rect.fromLTRB(trackStartX, trackTop, trackEndX, trackBottom);
-      // Active track ends at thumb center for smooth visual connection
       final activeRect =
           Rect.fromLTRB(trackStartX, trackTop, thumbX, trackBottom);
 
@@ -631,7 +570,6 @@ class _GradientProgressBarPainter extends CustomPainter {
       );
     }
 
-    // 4. Draw thumb glow when dragging (behind thumb)
     if (isDragging) {
       final glowPaint = Paint()
         ..color = thumbInnerColor.withValues(alpha: 0.15)
@@ -640,7 +578,6 @@ class _GradientProgressBarPainter extends CustomPainter {
       canvas.drawCircle(Offset(thumbX, centerY), thumbRadius * 2, glowPaint);
     }
 
-    // 5. Draw thumb shadow
     final shadowPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
@@ -650,13 +587,11 @@ class _GradientProgressBarPainter extends CustomPainter {
       shadowPaint,
     );
 
-    // 6. Draw white outer thumb
     final thumbOuterPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(thumbX, centerY), thumbRadius, thumbOuterPaint);
 
-    // 7. Draw colored inner thumb
     final thumbInnerPaint = Paint()
       ..color = thumbInnerColor
       ..style = PaintingStyle.fill;
@@ -679,43 +614,30 @@ class _GradientProgressBarPainter extends CustomPainter {
   }
 }
 
-/// Pre-defined gradient presets for quick use
 class ProgressBarGradients {
   ProgressBarGradients._();
 
-  /// Iconic Play Pink - Hot pink gradient (for playing state)
   static const iconicPlayPink = [Color(0xFFFF6B8B), Color(0xFFFF2E63)];
 
-  /// Sky Blue to White - For paused state
   static const skyBlueWhite = [Colors.white, Color(0xFF0EA5E0)];
 
-  /// Electric Watermelon - Warm pink/red gradient
   static const electricWatermelon = [Color(0xFFFF512F), Color(0xFFDD2476)];
 
-  /// Hot Magenta Glow - Deep magenta gradient
   static const hotMagentaGlow = [Color(0xFFFF4081), Color(0xFFF50057)];
 
-  /// Vaporwave Sunset - Cyan to magenta aesthetic
   static const vaporwaveSunset = [Color(0xFF00C6FF), Color(0xFFFF00CC)];
 
-  /// Cotton Candy Skies - Soft blue to pink
   static const cottonCandySkies = [Color(0xFF89F7FE), Color(0xFFF68084)];
 
-  /// Cyber Twilight - Deep blue to neon red
   static const cyberTwilight = [Color(0xFF0072FF), Color(0xFFFF2E63)];
 
-  /// Electric Bubblegum - Turquoise to shocking pink
   static const electricBubblegum = [Color(0xFF00DBDE), Color(0xFFFC00FF)];
 
-  /// Malibu Drive - Light blue to salmon pink
   static const malibuDrive = [Color(0xFF43CBFF), Color(0xFFFF96F9)];
 
-  /// Cyber Blue - Electric blue gradient
   static const cyberBlue = [Color(0xFF00F2FF), Color(0xFF007BFF)];
 
-  /// Neon Lime - Green gradient (popular media-app style)
   static const neonLime = [Color(0xFF81FF8A), Color(0xFF1DB954)];
 
-  /// Solar Flare - Yellow to orange gradient
   static const solarFlare = [Color(0xFFFFD200), Color(0xFFFF7B00)];
 }

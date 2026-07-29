@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'settings_cubit.dart';
 
 class SettingsState extends Equatable {
@@ -25,8 +24,6 @@ class SettingsState extends Equatable {
   final List<double> eqBandGains; // 10 gains, -15..+15 dB
   final String eqPreset;
 
-  /// EQ routing source: 'builtin' or 'device'.
-  /// See [EqSourceValues] for valid values.
   final String eqSource;
 
   final String homePluginId; // content resolver plugin for home sections

@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/constants/sentinel_values.dart';
-import 'package:Bloomee/repository/LastFM/lastfmapi.dart';
-import 'package:Bloomee/core/constants/cache_keys.dart';
-import 'package:Bloomee/services/db/dao/cache_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/meta_resolver/chart_item_resolver.dart';
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/constants/sentinel_values.dart';
+import 'package:streambeats/repository/LastFM/lastfmapi.dart';
+import 'package:streambeats/core/constants/cache_keys.dart';
+import 'package:streambeats/services/db/dao/cache_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/meta_resolver/chart_item_resolver.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,18 +20,15 @@ part 'lastdotfm_state.dart';
 class LastdotfmCubit extends Cubit<LastdotfmState> {
   LastFmAPI lastFmAPI = LastFmAPI();
   StreamSubscription? _progressSub;
-  BloomeePlayerCubit playerCubit;
+  StreamBeatsPlayerCubit playerCubit;
   final CacheDAO _cacheDao;
   final SettingsDAO _settingsDao;
   final PluginService _pluginService;
 
-  /// The track currently being timed for scrobble eligibility.
   Track _timedTrack = trackNull;
 
-  /// Accumulated play-time for [_timedTrack].
   final Stopwatch _playWatch = Stopwatch();
 
-  /// Whether [_timedTrack] has already been scrobbled in this play session.
   bool _scrobbled = false;
 
   LastdotfmCubit({
@@ -53,28 +50,18 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
     super.close();
   }
 
-  // Track-time tracking
-
-  /// Last.fm scrobble rules:
-  /// 1. Track must be longer than 30 seconds.
-  /// 2. Track is scrobbled when played for >= max(duration * 0.3, 30s),
-  ///    capped at 240 seconds.
   void _startTrackingLoop() {
-    // Player is fully initialised before any cubit is constructed (AudioService.init
-    // is called in main() before runApp). No polling loop needed.
     _progressSub = playerCubit.progressStreams.listen((_) {
       _onProgressTick();
     });
   }
 
   void _onProgressTick() {
-    final player = playerCubit.bloomeePlayer;
+    final player = playerCubit.streambeatsPlayer;
     final current = player.currentMedia;
     final isPlaying = player.engine.playing;
 
-    // Track changed -> scrobble previous if eligible, then reset timing.
     if (current != _timedTrack) {
-      // Scrobble the outgoing track if it qualified but was never scrobbled.
       if (!_scrobbled &&
           !isTrackNull(_timedTrack) &&
           _isScrobbleEligible(_timedTrack)) {
@@ -95,7 +82,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
         _scrobbleTrack(current);
       }
     } else {
-      // Paused / buffering - pause the stopwatch but keep accumulated time.
       _playWatch.stop();
     }
   }
@@ -122,24 +108,17 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
     );
   }
 
-  /// Scrobble rules (aligned with Last.fm guidelines):
-  /// 1. Track must be longer than 30 seconds (or duration unknown).
-  /// 2. Track is scrobbled after max(30% of duration, 30s) of play time,
-  ///    capped at 240 seconds.
   bool _isScrobbleEligible(Track track) {
     if (isTrackNull(track)) return false;
     final durationSec = _trackDurationSec(track);
-    // Track must be > 30 seconds (unknown-duration tracks scrobble after 30s).
     if (durationSec > 0 && durationSec <= 30) return false;
 
     final elapsed = _playWatch.elapsed.inSeconds;
     if (durationSec > 0) {
-      // Scrobble after >= max(30% of track, 30s), capped at 240s.
       final pctThreshold = (durationSec * 0.3).ceil();
       final threshold = pctThreshold.clamp(30, 240);
       return elapsed >= threshold;
     }
-    // Unknown duration — scrobble after 30 seconds of play.
     return elapsed >= 30;
   }
 
@@ -159,21 +138,17 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
       chosenByUser: false,
     );
 
-    // Append to offline cache first (safe against crashes).
     await _appendToCache(entry);
 
-    // Attempt to flush the entire cache.
     await _flushCache();
   }
 
-  /// Flush all cached scrobble entries to Last.fm.
   Future<void> _flushCache() async {
     if (!LastFmAPI.initialized) return;
     final cached = await _readCache();
     if (cached.isEmpty) return;
 
     try {
-      // Last.fm accepts max 50 tracks per call.
       for (var i = 0; i < cached.length; i += 50) {
         final batch = cached.sublist(i, (i + 50).clamp(0, cached.length));
         final ok = await LastFmAPI.scrobble(batch);
@@ -188,10 +163,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
       log('Scrobble failed: $e', name: 'Last.FM');
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // Offline cache helpers (uses toMap/fromMap to avoid double-encoding)
-  // ---------------------------------------------------------------------------
 
   Future<void> _appendToCache(ScrobbleTrack entry) async {
     final cached = await _readCache();
@@ -223,10 +194,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
     await _cacheDao.putCache(CacheKeys.lFMTrackedCache, 'null');
   }
 
-  // ---------------------------------------------------------------------------
-  // Initialization & auth
-  // ---------------------------------------------------------------------------
-
   Future<void> initializeFromDB() async {
     log('Getting Last.FM Keys from DB', name: 'Last.FM');
     final username = await _cacheDao.getApiToken(CacheKeys.lFMUsername);
@@ -253,7 +220,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
             username: username));
       }
     }
-    // Flush any leftover scrobbles from previous session.
     await _flushCache();
   }
 
@@ -315,12 +281,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
     return ms != null ? ms ~/ 1000 : 0;
   }
 
-  /// Fetches the user's Last.fm recommended tracks and resolves each one
-  /// to a playable [Track] via the plugin resolver system.
-  ///
-  /// [resolverPluginIds] — ordered list of content-resolver plugin IDs to use.
-  /// Returns an empty list when Last.fm is not initialised or no resolvers are
-  /// available.
   Future<List<Track>> getRecommendedTracks({
     List<String> resolverPluginIds = const [],
   }) async {
@@ -343,7 +303,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
     );
     final tracks = <Track>[];
 
-    // Resolve up to 10 tracks (API can return many; avoid over-fetching).
     for (final raw in playlist.take(10)) {
       final item = raw as Map<String, dynamic>? ?? {};
       final title = (item['name'] as String? ?? '').trim();
@@ -354,7 +313,6 @@ class LastdotfmCubit extends Cubit<LastdotfmState> {
           .where((s) => s.isNotEmpty)
           .toList();
 
-      // Build a minimal synthetic Track so ChartItemResolver can search for it.
       final syntheticTrack = Track(
         id: '',
         title: title,

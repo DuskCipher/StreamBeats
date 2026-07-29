@@ -1,18 +1,18 @@
 import 'dart:developer';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/widgets/downloading_item.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/widgets/downloading_item.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class OfflineScreen extends StatefulWidget {
@@ -57,7 +57,6 @@ class _OfflineScreenState extends State<OfflineScreen> {
   void _toggleSearch() {
     setState(() {
       _isSearch = !_isSearch;
-      // When closing the search, clear the controller and reset the filter
       if (!_isSearch) {
         _searchController.clear();
         final downloaderState = context.read<DownloaderCubit>().state;
@@ -118,8 +117,8 @@ class _OfflineScreenState extends State<OfflineScreen> {
 
                                 try {
                                   context
-                                      .read<BloomeePlayerCubit>()
-                                      .bloomeePlayer
+                                      .read<StreamBeatsPlayerCubit>()
+                                      .streambeatsPlayer
                                       .loadPlaylist(
                                         Playlist(
                                           tracks: state.downloaded,

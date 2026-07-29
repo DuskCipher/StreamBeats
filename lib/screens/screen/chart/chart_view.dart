@@ -1,35 +1,31 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:Bloomee/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/constants/route_paths.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_bloc.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_event.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/screens/widgets/chart_list_tile.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/meta_resolver/chart_item_resolver.dart';
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
-import 'package:Bloomee/utils/load_image.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/constants/route_paths.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_bloc.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_event.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/screens/widgets/chart_list_tile.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/meta_resolver/chart_item_resolver.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/utils/load_image.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-/// Displays the details (items) of a specific chart.
-///
-/// Takes [pluginId] and [chartId] from the route, creates its own
-/// [ChartBloc], and dispatches [LoadChartDetails].
 class ChartScreen extends StatelessWidget {
   final String pluginId;
   final String chartId;
@@ -149,7 +145,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
     });
   }
 
-  /// Resolves a chart item. Returns the resolved track, or null on failure.
   Future<Track?> _resolveChartItem(
     BuildContext context,
     ChartItem chartItem, {
@@ -162,8 +157,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
     final priority = context.read<SettingsCubit>().state.resolverPriority;
     final allIds =
         pluginState.loadedContentResolvers.map((p) => p.manifest.id).toList();
-    // Priority-listed IDs come first (in user-defined order);
-    // any loaded resolver not in the list is appended at the end.
     final resolverIds = [
       ...priority.where(allIds.contains),
       ...allIds.where((id) => !priority.contains(id)),
@@ -209,7 +202,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
     return result.resolvedTrack;
   }
 
-  /// Resolves a chart item, plays if successful, else falls back to search.
   Future<void> _resolveAndPlay(
       BuildContext context, ChartItem chartItem, String actionKey) async {
     final token = _beginResolveAction(actionKey);
@@ -229,7 +221,7 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
       return;
     }
 
-    context.read<BloomeePlayerCubit>().bloomeePlayer.loadPlaylist(
+    context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loadPlaylist(
           Playlist(tracks: [track], title: widget.chartTitle),
           doPlay: true,
         );
@@ -237,7 +229,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
     await _completeResolveAction(actionKey, token);
   }
 
-  /// Resolves and shows add-to-playlist if confident.
   Future<void> _resolveAndAdd(
       BuildContext context, ChartItem chartItem, String actionKey) async {
     final token = _beginResolveAction(actionKey);
@@ -432,7 +423,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        // Skip rank 1 item since it's in the hero
                         final chartItem = state.chartItems[index + 1];
                         final playActionKey = _playActionKey(chartItem);
                         final addActionKey = _addActionKey(chartItem);
@@ -465,8 +455,6 @@ class _ChartScreenBodyState extends State<_ChartScreenBody> {
   }
 }
 
-// ── Editorial Hero Masthead ──────────────────────────────────────────────────
-
 class _EditorialHeroMasthead extends StatelessWidget {
   final ChartItem topItem;
   final String chartTitle;
@@ -494,7 +482,6 @@ class _EditorialHeroMasthead extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Background image
             if (imgUrl.isNotEmpty)
               Positioned.fill(
                 child: LoadImageCached(
@@ -503,14 +490,12 @@ class _EditorialHeroMasthead extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-            // Heavy blur overlay
             Positioned.fill(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
                 child: Container(color: Colors.black.withValues(alpha: 0.35)),
               ),
             ),
-            // Gradient fade to theme color
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -527,7 +512,6 @@ class _EditorialHeroMasthead extends StatelessWidget {
                 ),
               ),
             ),
-            // Watermark rank number — bold, visible
             Positioned(
               right: isMobile ? -10 : 30,
               bottom: isMobile ? 0 : -30,
@@ -542,7 +526,6 @@ class _EditorialHeroMasthead extends StatelessWidget {
                 ),
               ),
             ),
-            // Content
             Padding(
               padding: EdgeInsets.fromLTRB(
                 isMobile ? 20.0 : 48.0,
@@ -762,8 +745,6 @@ class _EditorialHeroMasthead extends StatelessWidget {
   }
 }
 
-// ── Control bar (pinned header) ──────────────────────────────────────────────
-
 class _ChartControlBarDelegate extends SliverPersistentHeaderDelegate {
   final String chartTitle;
   const _ChartControlBarDelegate({required this.chartTitle});
@@ -807,9 +788,6 @@ class _ChartControlBarDelegate extends SliverPersistentHeaderDelegate {
       false;
 }
 
-// ── Utility ──────────────────────────────────────────────────────────────────
-
-/// Extracts (title, subtitle, imageUrl) from a [ChartItem].
 (String, String, String) extractItemInfo(ChartItem chartItem) {
   return chartItem.item.when(
     track: (track) => (
@@ -835,7 +813,6 @@ class _ChartControlBarDelegate extends SliverPersistentHeaderDelegate {
   );
 }
 
-/// Prominent play button for the chart hero.
 class _HeroPlayButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final ChartResolveActionStatus status;

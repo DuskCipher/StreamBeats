@@ -1,4 +1,4 @@
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'dart:io';
 
 void main() {

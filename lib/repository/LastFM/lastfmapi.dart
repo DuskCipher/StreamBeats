@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:developer';
 
@@ -86,15 +85,12 @@ class LastFmAPI {
     "library": "/library",
   };
 
-  // Private constructor
   LastFmAPI._internal() {
     initialize(apiKey: null, apiSecret: null, sessionKey: null);
   }
 
-  // Singleton instance
   static final LastFmAPI _instance = LastFmAPI._internal();
 
-  // Factory constructor to return the singleton instance
   factory LastFmAPI() {
     initialize(
       apiKey: null,
@@ -148,7 +144,6 @@ class LastFmAPI {
     return signature;
   }
 
-  /// Updates the "Now Playing" status on the user's Last.fm profile.
   static Future<void> updateNowPlaying(ScrobbleTrack track) async {
     if (apiKey == null || apiSecret == null || sessionKey == null) return;
 

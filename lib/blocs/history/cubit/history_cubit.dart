@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/db/dao/history_dao.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/db/dao/history_dao.dart';
 import 'package:bloc/bloc.dart';
 
 part 'history_state.dart';
 
-/// Cubit for the full playback history screen.
-///
-/// Uses [HistoryDAO.getHistory] (no limit) to fetch all recorded plays.
 class HistoryCubit extends Cubit<HistoryState> {
   final HistoryDAO _historyDao;
   StreamSubscription<void>? _watcher;

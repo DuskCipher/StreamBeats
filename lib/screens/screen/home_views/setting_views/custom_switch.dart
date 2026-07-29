@@ -1,23 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class BloomeeSwitch extends StatefulWidget {
+class StreamBeatsSwitch extends StatefulWidget {
   final bool value;
   final VoidCallback onChanged;
 
-  const BloomeeSwitch({
+  const StreamBeatsSwitch({
     super.key,
     required this.value,
     required this.onChanged,
   });
 
   @override
-  State<BloomeeSwitch> createState() => _BloomeeSwitchState();
+  State<StreamBeatsSwitch> createState() => _StreamBeatsSwitchState();
 }
 
-class _BloomeeSwitchState extends State<BloomeeSwitch> {
+class _StreamBeatsSwitchState extends State<StreamBeatsSwitch> {
   late bool _localValue;
 
   @override
@@ -27,16 +25,14 @@ class _BloomeeSwitchState extends State<BloomeeSwitch> {
   }
 
   @override
-  void didUpdateWidget(covariant BloomeeSwitch oldWidget) {
+  void didUpdateWidget(covariant StreamBeatsSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Sync with external state when the parent rebuilds with a new value.
     if (oldWidget.value != widget.value) {
       _localValue = widget.value;
     }
   }
 
   void _handleTap() {
-    // Optimistically flip for instant animation.
     setState(() {
       _localValue = !_localValue;
     });

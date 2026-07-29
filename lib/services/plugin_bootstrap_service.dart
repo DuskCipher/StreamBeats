@@ -4,17 +4,17 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/plugins/errors/plugin_exceptions.dart';
-import 'package:Bloomee/plugins/models/plugin_repository.dart';
-import 'package:Bloomee/plugins/utils/plugin_constants.dart';
-import 'package:Bloomee/plugins/services/plugin_repository_service.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/plugin/plugin_load_state_service.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
-import 'package:Bloomee/utils/country_info.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/plugins/errors/plugin_exceptions.dart';
+import 'package:streambeats/plugins/models/plugin_repository.dart';
+import 'package:streambeats/plugins/utils/plugin_constants.dart';
+import 'package:streambeats/plugins/services/plugin_repository_service.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/plugin/plugin_load_state_service.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
+import 'package:streambeats/utils/country_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -58,7 +58,7 @@ class PluginBootstrapProgress {
 
 class PluginBootstrapService {
   static const String hostedRepositoriesUrl =
-      'https://hemantkarya.github.io/BloomeeTunes/repositories.json';
+      'https://hemantkarya.github.io/StreamBeatsTunes/repositories.json';
 
   static const int maxRetries = 3;
 
@@ -240,9 +240,6 @@ class PluginBootstrapService {
       }
     }
 
-    // Persist bootstrap-managed plugin IDs for auto-load regardless of
-    // non-fatal install errors, so successful installs remain loaded on
-    // subsequent app opens.
     try {
       if (bootstrapTargetIds.isNotEmpty) {
         final loadStateService = PluginLoadStateService(settingsDao);
@@ -256,13 +253,9 @@ class PluginBootstrapService {
     }
 
     if (errors.isEmpty) {
-      // Ensure all installed plugins (the ones we just installed/updated)
-      // are added to the auto-load list so they are actually used.
       try {
         final loadStateService = PluginLoadStateService(settingsDao);
 
-        // Ensure everything that is "available" and part of our bootstrap
-        // is in the auto-load list.
         final available = await _safeGetAvailable(pluginService);
         final bootstrapIds = available
             .where((p) => installedIds.contains(p.manifest.id))
@@ -433,8 +426,6 @@ class PluginBootstrapService {
         }
 
         try {
-          // Check if plugin is currently loaded RIGHT NOW (not from snapshot)
-          // — auto-load may have loaded it since the snapshot was taken.
           final currentlyLoaded = pluginService.getLoadedPlugins().contains(pluginId);
           if (currentlyLoaded) {
             try {
@@ -449,9 +440,6 @@ class PluginBootstrapService {
             }
           }
 
-          // Always pass shouldLoad:false here because we handle the reload
-          // explicitly below. Passing true would cause the Rust side to load
-          // the plugin AND then we'd call loadPlugin() again, double-loading it.
           await _installRemotePluginWithRetry(
             pluginService: pluginService,
             plugin: remote,
@@ -460,7 +448,6 @@ class PluginBootstrapService {
             shouldLoad: false,
           );
 
-          // Reload plugin only if it was previously loaded.
           if (currentlyLoaded) {
             try {
               await pluginService.loadPlugin(
@@ -474,7 +461,6 @@ class PluginBootstrapService {
             }
           }
 
-          // Add to auto-load list if updated.
           final loadStateService = PluginLoadStateService(settingsDao);
           await loadStateService.addAutoLoadPluginIds(<String>[pluginId]);
         } on PluginCountryRestrictedException {

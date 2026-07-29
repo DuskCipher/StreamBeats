@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
@@ -60,8 +59,8 @@ class LibItemCard extends StatelessWidget {
               type == LibItemTypes.userPlaylist
                   ? StreamBuilder<String>(
                       stream: context
-                          .watch<BloomeePlayerCubit>()
-                          .bloomeePlayer
+                          .watch<StreamBeatsPlayerCubit>()
+                          .streambeatsPlayer
                           .queueTitle,
                       builder: (context, snapshot) {
                         if (snapshot.hasData && snapshot.data == title) {

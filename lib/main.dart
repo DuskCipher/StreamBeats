@@ -1,72 +1,72 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/blocs/global_events/global_events_cubit.dart';
-import 'package:Bloomee/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
-import 'package:Bloomee/blocs/lastdotfm/lastdotfm_cubit.dart';
-import 'package:Bloomee/blocs/local_music/cubit/local_music_cubit.dart';
-import 'package:Bloomee/blocs/lyrics/lyrics_cubit.dart';
-import 'package:Bloomee/blocs/mini_player/mini_player_cubit.dart';
-import 'package:Bloomee/blocs/notification/notification_cubit.dart';
-import 'package:Bloomee/blocs/history/cubit/history_cubit.dart';
-import 'package:Bloomee/blocs/explore/cubit/recently_cubit.dart';
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/blocs/search_suggestions/search_suggestion_bloc.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_event.dart';
-import 'package:Bloomee/repository/bloomee/download_repository.dart';
-import 'package:Bloomee/repository/bloomee/settings_repository.dart';
-import 'package:Bloomee/services/db/dao/cache_dao.dart';
-import 'package:Bloomee/services/db/dao/download_dao.dart';
-import 'package:Bloomee/services/db/dao/history_dao.dart';
-import 'package:Bloomee/services/db/dao/lyrics_dao.dart';
-import 'package:Bloomee/services/db/dao/notification_dao.dart';
-import 'package:Bloomee/services/db/dao/library_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/search_history_dao.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/blocs/timer/timer_bloc.dart';
-import 'package:Bloomee/screens/widgets/global_event_listener.dart';
-import 'package:Bloomee/screens/widgets/shortcut_indicator_overlay.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/services/bootstrap.dart';
-import 'package:Bloomee/services/audio_service_initializer.dart';
-import 'package:Bloomee/services/keyboard_shortcuts_service.dart';
-import 'package:Bloomee/services/shortcut_indicator_service.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/import_export_service.dart';
-import 'package:Bloomee/utils/ticker.dart';
-import 'package:Bloomee/utils/url_checker.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/blocs/global_events/global_events_cubit.dart';
+import 'package:streambeats/blocs/internet_connectivity/cubit/connectivity_cubit.dart';
+import 'package:streambeats/blocs/lastdotfm/lastdotfm_cubit.dart';
+import 'package:streambeats/blocs/local_music/cubit/local_music_cubit.dart';
+import 'package:streambeats/blocs/lyrics/lyrics_cubit.dart';
+import 'package:streambeats/blocs/mini_player/mini_player_cubit.dart';
+import 'package:streambeats/blocs/notification/notification_cubit.dart';
+import 'package:streambeats/blocs/history/cubit/history_cubit.dart';
+import 'package:streambeats/blocs/explore/cubit/recently_cubit.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/blocs/search_suggestions/search_suggestion_bloc.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_event.dart';
+import 'package:streambeats/repository/streambeats/download_repository.dart';
+import 'package:streambeats/repository/streambeats/settings_repository.dart';
+import 'package:streambeats/services/db/dao/cache_dao.dart';
+import 'package:streambeats/services/db/dao/download_dao.dart';
+import 'package:streambeats/services/db/dao/history_dao.dart';
+import 'package:streambeats/services/db/dao/lyrics_dao.dart';
+import 'package:streambeats/services/db/dao/notification_dao.dart';
+import 'package:streambeats/services/db/dao/library_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/search_history_dao.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/blocs/timer/timer_bloc.dart';
+import 'package:streambeats/screens/widgets/global_event_listener.dart';
+import 'package:streambeats/screens/widgets/shortcut_indicator_overlay.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/services/bootstrap.dart';
+import 'package:streambeats/services/audio_service_initializer.dart';
+import 'package:streambeats/services/keyboard_shortcuts_service.dart';
+import 'package:streambeats/services/shortcut_indicator_service.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/import_export_service.dart';
+import 'package:streambeats/utils/ticker.dart';
+import 'package:streambeats/utils/url_checker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_cubit.dart';
-import 'package:Bloomee/routes/app_router.dart';
-import 'package:Bloomee/screens/screen/library_views/cubit/current_playlist_cubit.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/blocs/add_to_playlist/cubit/add_to_playlist_cubit.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_cubit.dart';
+import 'package:streambeats/routes/app_router.dart';
+import 'package:streambeats/screens/screen/library_views/cubit/current_playlist_cubit.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:share_handler/share_handler.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'blocs/media_player/bloomee_player_cubit.dart';
+import 'blocs/media_player/streambeats_player_cubit.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:Bloomee/services/discord_service.dart';
-import 'package:Bloomee/services/supabase_party_service.dart';
-import 'package:Bloomee/services/db/legacy/legacy_migration_service.dart'
+import 'package:streambeats/services/discord_service.dart';
+import 'package:streambeats/services/supabase_party_service.dart';
+import 'package:streambeats/services/db/legacy/legacy_migration_service.dart'
     as legacy_migration;
-import 'package:Bloomee/screens/widgets/legacy_migration_overlay.dart';
-import 'package:Bloomee/screens/widgets/onboarding_overlay.dart';
-import 'package:Bloomee/screens/widgets/plugin_bootstrap_overlay.dart';
-import 'package:Bloomee/services/onboarding_service.dart';
-import 'package:Bloomee/services/plugin_bootstrap_service.dart';
-import 'package:Bloomee/plugins/services/plugin_repository_service.dart';
-import 'package:Bloomee/services/shared_url_resolver_service.dart';
+import 'package:streambeats/screens/widgets/legacy_migration_overlay.dart';
+import 'package:streambeats/screens/widgets/onboarding_overlay.dart';
+import 'package:streambeats/screens/widgets/plugin_bootstrap_overlay.dart';
+import 'package:streambeats/services/onboarding_service.dart';
+import 'package:streambeats/services/plugin_bootstrap_service.dart';
+import 'package:streambeats/plugins/services/plugin_repository_service.dart';
+import 'package:streambeats/services/shared_url_resolver_service.dart';
 
 void processIncomingIntent(SharedMedia sharedMedia) {
   if (sharedMedia.content != null && isUrl(sharedMedia.content!)) {
@@ -115,7 +115,7 @@ Future<void> _handleYoutubeVideoIntent(String url) async {
 
   final track = result.track;
   if (result.status == SharedUrlResolveStatus.success && track != null) {
-    final player = await PlayerInitializer().getBloomeeMusicPlayer();
+    final player = await PlayerInitializer().getStreamBeatsMusicPlayer();
     await player.updateQueueTracks([track], doPlay: true);
     SnackbarService.showMessage('Playing: ${track.title}');
     return;
@@ -144,11 +144,11 @@ Future<void> setHighRefreshRate() async {
   }
 }
 
-late BloomeePlayerCubit bloomeePlayerCubit;
+late StreamBeatsPlayerCubit streambeatsPlayerCubit;
 Future<void> setupPlayerCubit() async {
   await setupAudioSession();
-  final player = await PlayerInitializer().getBloomeeMusicPlayer();
-  bloomeePlayerCubit = BloomeePlayerCubit(player);
+  final player = await PlayerInitializer().getStreamBeatsMusicPlayer();
+  streambeatsPlayerCubit = StreamBeatsPlayerCubit(player);
 }
 
 Future<void> main() async {
@@ -176,26 +176,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  // Initialize the player
-  // This widget is the root of your application.
   StreamSubscription<SharedMedia>? _intentSub;
   SharedMedia? sharedMedia;
 
-  // TODO: remove this after one or two releases.
-  // Legacy migration — set to true when a default.isar file is found.
-  // Remove this field (and the overlay block in build) once no users
-  // need legacy migration.
   bool _migrationPending = false;
   bool _onboardingPending = false;
   bool _pluginBootstrapPending = false;
-  // ------------------
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // Check once at startup; DBProvider.appSuppDir is set by bootstrapApp().
     _migrationPending = legacy_migration.needsMigration(
       DBProvider.appSuppDir,
       DBProvider.appDocDir,
@@ -203,7 +195,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     _onboardingPending = !OnboardingService.onboardingDone;
     _pluginBootstrapPending = !PluginBootstrapService.bootstrapDone;
-    //--------------------------------------------------------------------
 
     if (io.Platform.isAndroid) {
       initPlatformState();
@@ -214,16 +205,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       unawaited(_ensurePlayerHealthyOnResume());
-      // Check for plugin updates when app resumes (30-min cooldown enforced).
       unawaited(_checkPluginUpdatesOnResume());
-      // Reconnect party room realtime channel if guest/host
       unawaited(SupabasePartyService.reconnectIfNecessary());
     }
   }
 
   Future<void> _ensurePlayerHealthyOnResume() async {
     try {
-      final player = await PlayerInitializer().getBloomeeMusicPlayer();
+      final player = await PlayerInitializer().getStreamBeatsMusicPlayer();
       if (!player.isPlayerHealthy) {
         await player.revive();
       }
@@ -248,7 +237,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     try {
       final handler = ShareHandlerPlatform.instance;
@@ -268,7 +256,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       if (!mounted) return;
 
       setState(() {
-        // If there's initial shared media, process it
         if (sharedMedia != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             processIncomingIntent(sharedMedia!);
@@ -284,7 +271,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _intentSub?.cancel();
-    bloomeePlayerCubit.close();
+    streambeatsPlayerCubit.close();
     if (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS) {
       DiscordService.clearPresence();
     }
@@ -293,13 +280,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    // ── Legacy migration guard ────────────────────────────────────────────
-    // If a default.isar (legacy DB) exists, show the non-dismissible
-    // migration overlay before starting the normal app. Once migration
-    // finishes successfully the overlay removes itself.
-    //
-    // To remove this feature in future: delete the `if` block below AND the
-    // import at the top of this file AND lib/services/db/legacy/.
     if (_migrationPending) {
       return Directionality(
         textDirection: TextDirection.ltr,
@@ -337,7 +317,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
       );
     }
-    // ─────────────────────────────────────────────────────────────────────
 
     final trackDao = TrackDAO(DBProvider.db);
     final playlistDao = PlaylistDAO(DBProvider.db, trackDao);
@@ -355,12 +334,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           lazy: false,
         ),
         BlocProvider(
-          create: (context) => bloomeePlayerCubit,
+          create: (context) => streambeatsPlayerCubit,
           lazy: false,
         ),
         BlocProvider(
             create: (context) =>
-                MiniPlayerCubit(playerCubit: bloomeePlayerCubit),
+                MiniPlayerCubit(playerCubit: streambeatsPlayerCubit),
             lazy: true),
         BlocProvider(
           create: (context) => SettingsCubit(
@@ -376,7 +355,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider(
             create: (context) => TimerBloc(
-                ticker: const Ticker(), bloomeePlayer: bloomeePlayerCubit)),
+                ticker: const Ticker(), streambeatsPlayer: streambeatsPlayerCubit)),
         BlocProvider(
           create: (context) => ConnectivityCubit(),
           lazy: false,
@@ -416,7 +395,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider(
           create: (context) => LyricsCubit(
-            bloomeePlayerCubit,
+            streambeatsPlayerCubit,
             lyricsDao: LyricsDAO(DBProvider.db),
             settingsDao: SettingsDAO(DBProvider.db),
             pluginService: ServiceLocator.pluginService,
@@ -424,7 +403,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider(
           create: (context) => LastdotfmCubit(
-            playerCubit: bloomeePlayerCubit,
+            playerCubit: streambeatsPlayerCubit,
             cacheDao: CacheDAO(DBProvider.db),
             settingsDao: SettingsDAO(DBProvider.db),
             pluginService: ServiceLocator.pluginService,
@@ -462,9 +441,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           lazy: true,
         ),
       ],
-      child: BlocBuilder<BloomeePlayerCubit, BloomeePlayerState>(
+      child: BlocBuilder<StreamBeatsPlayerCubit, StreamBeatsPlayerState>(
         builder: (context, state) {
-          if (state is BloomeePlayerInitial) {
+          if (state is StreamBeatsPlayerInitial) {
             return const Center(
               child: SizedBox(
                 width: 50,

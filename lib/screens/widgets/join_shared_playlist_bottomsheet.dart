@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/supabase_playlist_service.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/routes/app_router.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/supabase_playlist_service.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/routes/app_router.dart';
 
 void joinSharedPlaylistDialog(BuildContext context) {
   showGeneralDialog(

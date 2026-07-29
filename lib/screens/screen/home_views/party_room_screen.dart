@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/supabase_party_service.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/supabase_party_service.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class PartyRoomScreen extends StatefulWidget {

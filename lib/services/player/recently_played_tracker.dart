@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/player/player_engine.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/dao/history_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/player/player_engine.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/dao/history_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
 
-/// Tracks continuous playback of the current track and pushes it to
-/// the playback history DB only when the item has been played continuously
-/// for at least [_thresholdSeconds]. Default threshold is 15 seconds.
 class RecentlyPlayedTracker {
   final PlayerEngine _engine;
   final Track? Function() _getCurrentTrack;
@@ -19,7 +16,6 @@ class RecentlyPlayedTracker {
   StreamSubscription<EngineState>? _stateSub;
   StreamSubscription<Duration>? _positionSub;
 
-  // Tracking state
   String? _trackingMediaId;
   int? _startPositionMs;
   bool _recordedForCurrent = false;

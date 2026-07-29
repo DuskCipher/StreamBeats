@@ -1,15 +1,10 @@
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
 
-/// Repository for application settings (string and boolean key-value pairs).
-///
-/// Wraps [SettingsDAO] and provides a clean interface for cubits.
 class SettingsRepository {
   final SettingsDAO _settingsDao;
 
   const SettingsRepository(this._settingsDao);
-
-  // --------------- String settings ---------------
 
   Future<void> putSettingStr(String key, String value) =>
       _settingsDao.putSettingStr(key, value);
@@ -19,8 +14,6 @@ class SettingsRepository {
 
   Future<Stream<AppSettingsStrDB?>?> watchSettingStr(String key) =>
       _settingsDao.getWatcher4SettingStr(key);
-
-  // --------------- Boolean settings ---------------
 
   Future<void> putSettingBool(String key, bool value) =>
       _settingsDao.putSettingBool(key, value);

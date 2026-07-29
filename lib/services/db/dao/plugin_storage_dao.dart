@@ -1,17 +1,12 @@
 import 'dart:developer';
 import 'package:isar_community/isar.dart';
-import 'package:Bloomee/services/db/global_db.dart';
+import 'package:streambeats/services/db/global_db.dart';
 
-/// Data access object for [PluginStorageEntity].
-///
-/// Provides CRUD operations for plugin key-value storage persistence.
-/// Used by [PluginStorageService] to mirror Rust in-memory storage to Isar.
 class PluginStorageDao {
   final Future<Isar> _db;
 
   PluginStorageDao(this._db);
 
-  /// Upsert a storage entry. Uses composite key for uniqueness.
   Future<void> putEntry({
     required String pluginId,
     required String key,
@@ -29,7 +24,6 @@ class PluginStorageDao {
     });
   }
 
-  /// Get a single entry by plugin ID and key.
   Future<PluginStorageEntity?> getEntry({
     required String pluginId,
     required String key,
@@ -42,7 +36,6 @@ class PluginStorageDao {
         .findFirst();
   }
 
-  /// Get all entries for a specific plugin.
   Future<List<PluginStorageEntity>> getAllForPlugin(String pluginId) async {
     final isar = await _db;
     return isar.pluginStorageEntitys
@@ -51,13 +44,11 @@ class PluginStorageDao {
         .findAll();
   }
 
-  /// Get all plugin storage entries (for startup preload).
   Future<List<PluginStorageEntity>> getAll() async {
     final isar = await _db;
     return isar.pluginStorageEntitys.where().findAll();
   }
 
-  /// Delete a single entry.
   Future<void> deleteEntry({
     required String pluginId,
     required String key,
@@ -72,7 +63,6 @@ class PluginStorageDao {
     });
   }
 
-  /// Clear all storage for a plugin.
   Future<void> clearPlugin(String pluginId) async {
     final isar = await _db;
     await isar.writeTxn(() async {
@@ -84,7 +74,6 @@ class PluginStorageDao {
     log('Cleared storage for plugin: $pluginId', name: 'PluginStorageDao');
   }
 
-  /// Clear ALL plugin storage (nuclear option).
   Future<void> clearAll() async {
     final isar = await _db;
     await isar.writeTxn(() async {

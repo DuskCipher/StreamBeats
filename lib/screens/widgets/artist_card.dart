@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/screens/screen/common_views/artist_view.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/screens/screen/common_views/artist_view.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
@@ -36,7 +35,6 @@ class _ArtistCardState extends State<ArtistCard> {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: SizedBox(
-        // Set your desired max width here. The circle will scale perfectly to match it.
         width: 160,
         child: GestureDetector(
           onTap: () {
@@ -53,7 +51,6 @@ class _ArtistCardState extends State<ArtistCard> {
           child: MouseRegion(
             onEnter: (_) => _setHovering(true),
             onExit: (_) => _setHovering(false),
-            // Removed the Card widget to fix alignment/margin issues
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -91,7 +88,6 @@ class _ArtistCardState extends State<ArtistCard> {
                   ),
                 ),
 
-                // --- ARTIST NAME ---
                 const SizedBox(height: 12),
                 Text(
                   widget.artist.name,

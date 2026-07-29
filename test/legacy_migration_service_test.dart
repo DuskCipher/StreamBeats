@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:Bloomee/services/db/dao/library_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-import 'package:Bloomee/services/db/legacy/legacy_global_db.dart' as legacy;
-import 'package:Bloomee/services/db/legacy/legacy_migration_service.dart'
+import 'package:streambeats/services/db/dao/library_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/db/global_db.dart';
+import 'package:streambeats/services/db/legacy/legacy_global_db.dart' as legacy;
+import 'package:streambeats/services/db/legacy/legacy_migration_service.dart'
     as migration;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
@@ -39,7 +39,7 @@ void main() {
     test('migrates legacy data into dbv3 and validates visible app state',
         () async {
       tempRoot = await Directory.systemTemp.createTemp(
-        'bloomee_legacy_migration_test_',
+        'streambeats_legacy_migration_test_',
       );
       supportDir = Directory(p.join(tempRoot.path, 'support'))
         ..createSync(recursive: true);

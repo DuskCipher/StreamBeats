@@ -1316,7 +1316,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  rust_lib_Bloomee:
+  rust_lib_streambeats:
     dependency: "direct main"
     description:
       path: rust_builder

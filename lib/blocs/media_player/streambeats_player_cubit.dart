@@ -1,29 +1,29 @@
-import 'package:Bloomee/services/bloomee_player.dart';
+import 'package:streambeats/services/streambeats_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
-part 'bloomee_player_state.dart';
+part 'streambeats_player_state.dart';
 
-class BloomeePlayerCubit extends Cubit<BloomeePlayerState> {
-  final BloomeeMusicPlayer bloomeePlayer;
+class StreamBeatsPlayerCubit extends Cubit<StreamBeatsPlayerState> {
+  final StreamBeatsMusicPlayer streambeatsPlayer;
   late ValueStream<ProgressBarStreams> progressStreams;
 
-  BloomeePlayerCubit(this.bloomeePlayer)
-      : super(BloomeePlayerState(isReady: true)) {
-    bloomeePlayer.syncPublicState();
+  StreamBeatsPlayerCubit(this.streambeatsPlayer)
+      : super(StreamBeatsPlayerState(isReady: true)) {
+    streambeatsPlayer.syncPublicState();
     _setupProgressStreams();
   }
 
   void switchShowLyrics({bool? value}) {
-    emit(BloomeePlayerState(
+    emit(StreamBeatsPlayerState(
         isReady: true, showLyrics: value ?? !state.showLyrics));
   }
 
   void _setupProgressStreams() {
     progressStreams = Rx.combineLatest4(
-      Rx.defer(() => bloomeePlayer.engine.positionStream, reusable: true),
-      Rx.defer(() => bloomeePlayer.engine.durationStream, reusable: true),
-      Rx.defer(() => bloomeePlayer.engine.bufferedStream, reusable: true),
-      Rx.defer(() => bloomeePlayer.engine.playingStream, reusable: true),
+      Rx.defer(() => streambeatsPlayer.engine.positionStream, reusable: true),
+      Rx.defer(() => streambeatsPlayer.engine.durationStream, reusable: true),
+      Rx.defer(() => streambeatsPlayer.engine.bufferedStream, reusable: true),
+      Rx.defer(() => streambeatsPlayer.engine.playingStream, reusable: true),
       (Duration position, Duration duration, Duration buffered, bool playing) =>
           ProgressBarStreams(
         position: position,
@@ -43,9 +43,6 @@ class BloomeePlayerCubit extends Cubit<BloomeePlayerState> {
 
   @override
   Future<void> close() {
-    // Intentionally does NOT stop the player.
-    // The AudioService foreground service manages its own lifecycle via
-    // onTaskRemoved() / onNotificationDeleted().
     return super.close();
   }
 }

@@ -1,18 +1,14 @@
 import 'dart:developer';
 
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-/// Shows a bottom sheet listing track segments/chapters.
-///
-/// Queries all loaded content resolver plugins for segments of the given track.
-/// Each segment can be tapped to seek the player.
 void showSegmentsSheet(
   BuildContext context, {
   required String trackId,

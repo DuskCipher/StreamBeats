@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/plugins/models/plugin_repository.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/plugins/models/plugin_repository.dart';
 
 class PluginRepositoryService {
   final SettingsDAO _settingsDao;
@@ -24,7 +24,6 @@ class PluginRepositoryService {
     return completer.future;
   }
 
-  /// Fetch and parse a repository from a URL
   Future<PluginRepositoryModel> fetchRepository(String url) async {
     try {
       final response =
@@ -41,7 +40,6 @@ class PluginRepositoryService {
     }
   }
 
-  /// Get the list of saved repository URLs
   Future<List<String>> getSavedRepositoryUrls() async {
     final urlsJson = await _settingsDao.getSettingStr(_reposKey);
     if (urlsJson != null && urlsJson.isNotEmpty) {
@@ -55,12 +53,10 @@ class PluginRepositoryService {
     return [];
   }
 
-  /// Add a new repository URL
   Future<void> addRepositoryUrl(String url) async {
     await ensureRepositoryUrls(<String>[url]);
   }
 
-  /// Remove a repository URL
   Future<void> removeRepositoryUrl(String url) async {
     await _enqueueMutation(() async {
       final urls = await getSavedRepositoryUrls();

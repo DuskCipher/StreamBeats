@@ -1,7 +1,5 @@
-import 'package:Bloomee/core/models/lyrics_models.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-
-/// Maps between [LyricsDB] (Isar entity) and [Lyrics] (domain).
+import 'package:streambeats/core/models/lyrics_models.dart';
+import 'package:streambeats/services/db/global_db.dart';
 
 Lyrics? lyricsDBToLyrics(LyricsDB? lyricsDB) {
   if (lyricsDB == null) return null;

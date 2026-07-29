@@ -1,5 +1,5 @@
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/custom_switch.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/custom_switch.dart';
 import 'package:flutter/material.dart';
 
 class SettingSectionHeader extends StatelessWidget {
@@ -86,7 +86,6 @@ class SettingIconBox extends StatelessWidget {
   }
 }
 
-// CONVERTED TO STATEFUL WIDGET FOR INSTANT SWITCH ANIMATION
 class SettingToggleTile extends StatefulWidget {
   final IconData icon;
   final String title;
@@ -159,7 +158,7 @@ class _SettingToggleTileState extends State<SettingToggleTile> {
             ),
           ),
           const SizedBox(width: 12),
-          BloomeeSwitch(
+          StreamBeatsSwitch(
             value: _currentValue,
             onChanged: () {
               final newValue = !_currentValue;

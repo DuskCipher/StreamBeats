@@ -1,1 +1,1 @@
-export 'package:Bloomee/src/rust/api/plugin/models.dart';
+export 'package:streambeats/src/rust/api/plugin/models.dart';

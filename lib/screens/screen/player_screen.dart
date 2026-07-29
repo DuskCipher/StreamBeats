@@ -1,33 +1,33 @@
 import 'dart:async';
 
-import 'package:Bloomee/blocs/downloader/cubit/downloader_cubit.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/core/adapters/track_adapter.dart';
-import 'package:Bloomee/screens/screen/home_views/timer_view.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/player_setting.dart';
-import 'package:Bloomee/screens/widgets/gradient_progress_bar.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/up_next_panel.dart';
-import 'package:Bloomee/screens/widgets/volume_slider.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/screens/screen/player_views/segments_sheet.dart';
-import 'package:Bloomee/services/bloomee_player.dart';
+import 'package:streambeats/blocs/downloader/cubit/downloader_cubit.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/core/adapters/track_adapter.dart';
+import 'package:streambeats/screens/screen/home_views/timer_view.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/player_setting.dart';
+import 'package:streambeats/screens/widgets/gradient_progress_bar.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/up_next_panel.dart';
+import 'package:streambeats/screens/widgets/volume_slider.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/screens/screen/player_views/segments_sheet.dart';
+import 'package:streambeats/services/streambeats_player.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/services/player/player_engine.dart';
-import 'package:Bloomee/screens/widgets/like_widget.dart';
-import 'package:Bloomee/screens/widgets/play_pause_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
-import 'package:Bloomee/utils/pallete_generator.dart';
+import 'package:streambeats/services/player/player_engine.dart';
+import 'package:streambeats/screens/widgets/like_widget.dart';
+import 'package:streambeats/screens/widgets/play_pause_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
+import 'package:streambeats/utils/pallete_generator.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../blocs/media_player/bloomee_player_cubit.dart';
+import '../../blocs/media_player/streambeats_player_cubit.dart';
 import '../../blocs/mini_player/mini_player_cubit.dart';
 import 'player_views/fullscreen_lyrics_view.dart';
 
@@ -66,8 +66,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final bloomeePlayerCubit = context.read<BloomeePlayerCubit>();
-    final musicPlayer = bloomeePlayerCubit.bloomeePlayer;
+    final streambeatsPlayerCubit = context.read<StreamBeatsPlayerCubit>();
+    final musicPlayer = streambeatsPlayerCubit.streambeatsPlayer;
     final isMobile = ResponsiveBreakpoints.of(context).smallerOrEqualTo(TABLET);
 
     return Scaffold(
@@ -200,7 +200,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 }
 
 class _PlayerUI extends StatelessWidget {
-  final BloomeeMusicPlayer musicPlayer;
+  final StreamBeatsMusicPlayer musicPlayer;
   final TabController tabController;
 
   const _PlayerUI({
@@ -256,14 +256,14 @@ class CoverImageVolSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloomeePlayerCubit = context.read<BloomeePlayerCubit>();
+    final streambeatsPlayerCubit = context.read<StreamBeatsPlayerCubit>();
 
     return VolumeDragController(
       child: StreamBuilder<MediaItem?>(
-        stream: bloomeePlayerCubit.bloomeePlayer.mediaItem,
+        stream: streambeatsPlayerCubit.streambeatsPlayer.mediaItem,
         builder: (context, snapshot) {
           final currentTrack =
-              bloomeePlayerCubit.bloomeePlayer.currentTrackInfo;
+              streambeatsPlayerCubit.streambeatsPlayer.currentTrackInfo;
           final highResUrl =
               currentTrack.thumbnail.urlHigh ?? currentTrack.thumbnail.url;
           final lowResUrl =
@@ -291,7 +291,7 @@ class CoverImageVolSlider extends StatelessWidget {
 }
 
 class PlayerCtrlWidgets extends StatelessWidget {
-  final BloomeeMusicPlayer musicPlayer;
+  final StreamBeatsMusicPlayer musicPlayer;
   const PlayerCtrlWidgets({super.key, required this.musicPlayer});
 
   @override
@@ -317,7 +317,7 @@ class _SongInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     return Row(
       children: [
         Expanded(
@@ -364,9 +364,6 @@ class _SongInfoRow extends StatelessWidget {
   }
 }
 
-/// FIX M-05: Replaced FutureBuilder (re-queries DB on every stream event) with
-/// a StatefulWidget that caches the download state and only re-queries when the
-/// media item ID actually changes.
 class _DownloadButton extends StatefulWidget {
   const _DownloadButton();
 
@@ -382,14 +379,13 @@ class _DownloadButtonState extends State<_DownloadButton> {
   @override
   void initState() {
     super.initState();
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     _mediaSub = player.mediaItem.listen((mi) {
       if (mi?.id != _lastTrackId) {
         _lastTrackId = mi?.id;
         _queryDownloadState(mi);
       }
     });
-    // Query immediately for the current track.
     _queryDownloadState(player.mediaItem.valueOrNull);
   }
 
@@ -431,8 +427,6 @@ class _DownloadButtonState extends State<_DownloadButton> {
   }
 }
 
-/// FIX M-05: Replaced nested FutureBuilder+StreamBuilder+BlocBuilder with a
-/// StatefulWidget that caches liked state and only re-queries when track ID changes.
 class _LikeButton extends StatefulWidget {
   const _LikeButton();
 
@@ -448,7 +442,7 @@ class _LikeButtonState extends State<_LikeButton> {
   @override
   void initState() {
     super.initState();
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     _mediaSub = player.mediaItem.listen((mi) {
       if (mi?.id != _lastTrackId) {
         _lastTrackId = mi?.id;
@@ -481,7 +475,7 @@ class _LikeButtonState extends State<_LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<bool>(
@@ -520,7 +514,7 @@ class _PlayerProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerCubit = context.read<BloomeePlayerCubit>();
+    final playerCubit = context.read<StreamBeatsPlayerCubit>();
     return RepaintBoundary(
       child: StreamBuilder<ProgressBarStreams>(
         stream: playerCubit.progressStreams,
@@ -530,7 +524,7 @@ class _PlayerProgressBar extends StatelessWidget {
             progress: data?.position ?? Duration.zero,
             total: data?.duration ?? Duration.zero,
             buffered: data?.buffered ?? Duration.zero,
-            onSeek: playerCubit.bloomeePlayer.seek,
+            onSeek: playerCubit.streambeatsPlayer.seek,
             isPlaying: data?.isPlaying ?? false,
             activeAccentColor: Default_Theme.accentColor1,
             inactiveAccentColor: Default_Theme.accentColor2,
@@ -556,7 +550,7 @@ class _PlayerProgressBar extends StatelessWidget {
 }
 
 class _PlayerControlsRow extends StatelessWidget {
-  final BloomeeMusicPlayer musicPlayer;
+  final StreamBeatsMusicPlayer musicPlayer;
   const _PlayerControlsRow({required this.musicPlayer});
 
   Widget _buildControlColumn({required Widget top, required Widget bottom}) {
@@ -635,7 +629,7 @@ class _LoopControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<LoopMode>(
-      stream: context.read<BloomeePlayerCubit>().bloomeePlayer.loopMode,
+      stream: context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.loopMode,
       builder: (context, snapshot) {
         final loopMode = snapshot.data ?? LoopMode.off;
         final l10n = AppLocalizations.of(context)!;
@@ -657,7 +651,7 @@ class _LoopControl extends StatelessWidget {
             size: 24,
           ),
           onSelected: (value) {
-            final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+            final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
             if (value == 0) player.setLoopMode(LoopMode.off);
             if (value == 1) player.setLoopMode(LoopMode.one);
             if (value == 2) player.setLoopMode(LoopMode.all);
@@ -673,7 +667,7 @@ class _ShuffleControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     return StreamBuilder<bool>(
       stream: player.shuffleMode,
       builder: (context, snapshot) {
@@ -698,7 +692,7 @@ class _ExternalLinkControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     return IconButton(
       icon: const Icon(MingCute.external_link_line,
           color: Default_Theme.primaryColor1, size: 24),
@@ -720,7 +714,7 @@ class _PlayPauseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final musicPlayer = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final musicPlayer = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     return BlocBuilder<MiniPlayerCubit, MiniPlayerState>(
       builder: (context, state) {
         Widget child;
@@ -777,9 +771,6 @@ class _PlayPauseButton extends StatelessWidget {
   }
 }
 
-/// FIX M-06: Replaced async palette fetch inside build() with a proper
-/// lifecycle-based approach using a stream subscription.
-/// The fetch only triggers when the artUri CHANGES, not on every rebuild.
 class AmbientImgShadowWidget extends StatefulWidget {
   const AmbientImgShadowWidget({super.key});
 
@@ -796,7 +787,7 @@ class _AmbientImgShadowWidgetState extends State<AmbientImgShadowWidget> {
   @override
   void initState() {
     super.initState();
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer;
     _mediaSub = player.mediaItem.listen((mi) {
       final artUri = mi?.artUri?.toString();
       if (artUri != _lastArtUri) {
@@ -804,7 +795,6 @@ class _AmbientImgShadowWidgetState extends State<AmbientImgShadowWidget> {
         _fetchPalette(artUri);
       }
     });
-    // Initial fetch
     final current = player.mediaItem.valueOrNull;
     _lastArtUri = current?.artUri?.toString();
     _fetchPalette(_lastArtUri);

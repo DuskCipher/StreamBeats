@@ -1,7 +1,6 @@
-import 'package:Bloomee/services/db/global_db.dart';
+import 'package:streambeats/services/db/global_db.dart';
 import 'package:isar_community/isar.dart';
 
-/// DAO for search-history CRUD.
 class SearchHistoryDAO {
   final Future<Isar> _db;
 

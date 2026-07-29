@@ -1,4 +1,3 @@
-//DB version 3
 import 'dart:convert';
 import 'package:isar_community/isar.dart';
 part 'global_db.g.dart';
@@ -429,32 +428,20 @@ class CacheEntryDB {
   bool get isExpired => ttl != null && DateTime.now().isAfter(ttl!);
 }
 
-/// Persists plugin key-value storage entries to Isar.
-///
-/// Rust plugin storage is in-memory (for instant sync WASM reads).
-/// This collection mirrors it persistently so data survives app restarts.
-/// On startup, all entries are preloaded back into Rust via [pluginStoragePreload].
-///
-/// Composite key format: `"{pluginId}/{key}"`.
 @collection
 class PluginStorageEntity {
   Id id = Isar.autoIncrement;
 
-  /// Composite key: `"{pluginId}/{key}"`.
   @Index(unique: true, replace: true)
   late String compositeKey;
 
-  /// The plugin that owns this entry.
   @Index()
   late String pluginId;
 
-  /// The storage key within the plugin's namespace.
   late String key;
 
-  /// The stored value (arbitrary string — plugins may store JSON).
   late String value;
 
-  /// Last time this entry was written.
   DateTime updatedAt;
 
   PluginStorageEntity({

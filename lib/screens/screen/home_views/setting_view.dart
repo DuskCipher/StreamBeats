@@ -1,23 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:Bloomee/routes/app_router.dart';
+import 'package:streambeats/routes/app_router.dart';
 import 'package:go_router/go_router.dart';
-import 'package:Bloomee/services/supabase_auth_service.dart';
+import 'package:streambeats/services/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/about.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/appui_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/local_music_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/plugin_defaults_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/storage_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/country_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/download_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/lastfm_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/player_setting.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/updates_setting.dart';
-import 'package:Bloomee/screens/screen/plugin_manager_screen.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/about.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/appui_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/local_music_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/plugin_defaults_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/storage_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/country_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/download_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/lastfm_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/player_setting.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/updates_setting.dart';
+import 'package:streambeats/screens/screen/plugin_manager_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class SettingsView extends StatelessWidget {
@@ -50,11 +49,9 @@ class SettingsView extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-              // ── Group 0: Profile & Social ──
               _ProfileSection(),
               const SizedBox(height: 16),
 
-              // ── Group 1: Core App & Plugins ──
               _SettingsSection(
                 children: [
                   _SettingsTile(
@@ -88,7 +85,6 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
 
-              // ── Group 2: Playback & Media ──
               _SettingsSection(
                 children: [
                   _SettingsTile(
@@ -118,7 +114,6 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
 
-              // ── Group 3: Preferences & Integrations ──
               _SettingsSection(
                 children: [
                   _SettingsTile(
@@ -157,7 +152,6 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
 
-              // ── Group 4: Info ──
               _SettingsSection(
                 children: [
                   _SettingsTile(
@@ -187,9 +181,6 @@ class SettingsView extends StatelessWidget {
   }
 }
 
-// ── Custom Widgets for Modern Settings UI ───────────────────────────────────
-
-/// Wraps a list of settings tiles in a beautifully rounded, borderless card.
 class _SettingsSection extends StatelessWidget {
   final List<Widget> children;
   const _SettingsSection({required this.children});
@@ -199,7 +190,6 @@ class _SettingsSection extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
-        // Solid, subtle surface color with NO border. Looks much cleaner.
         color: Default_Theme.primaryColor1.withValues(alpha: 0.02),
         borderRadius: BorderRadius.circular(20),
       ),
@@ -221,7 +211,6 @@ class _SettingsSection extends StatelessWidget {
     final List<Widget> result = [];
     for (int i = 0; i < children.length; i++) {
       result.add(children[i]);
-      // Add a very subtle divider after every item except the last one
       if (i < children.length - 1) {
         result.add(
           Divider(
@@ -238,7 +227,6 @@ class _SettingsSection extends StatelessWidget {
   }
 }
 
-/// A highly polished, readable individual settings row with custom soft touch effects.
 class _SettingsTile extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -260,14 +248,12 @@ class _SettingsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      // Overriding the default harsh white/blue splash with a subtle, cohesive dark tint
       splashColor: Default_Theme.primaryColor1.withValues(alpha: 0.06),
       highlightColor: Default_Theme.primaryColor1.withValues(alpha: 0.04),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            // Icon wrapped in a soft, rounded square
             Container(
               width: 40,
               height: 40,
@@ -288,7 +274,6 @@ class _SettingsTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 14),
-            // Main text content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,7 +282,6 @@ class _SettingsTile extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      // Using 0.92 opacity pure white prevents halation (harsh glow) on dark screens
                       color: Colors.white.withValues(alpha: 0.92),
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -322,7 +306,6 @@ class _SettingsTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            // Dimmed right chevron hint
             Icon(
               Icons.chevron_right_rounded,
               color: Default_Theme.primaryColor2.withValues(alpha: 0.3),
@@ -416,4 +399,3 @@ class _ProfileSection extends StatelessWidget {
     );
   }
 }
-

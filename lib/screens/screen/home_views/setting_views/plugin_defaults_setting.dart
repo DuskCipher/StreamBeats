@@ -1,12 +1,12 @@
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/setting_shared_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class PluginDefaultsSettings extends StatelessWidget {
@@ -196,13 +196,10 @@ class PluginDefaultsSettings extends StatelessWidget {
       );
     }
 
-    // Build the ordered list: persisted priority first, then any new ones
     final storedPriority = state.resolverPriority;
     final loadedIds = resolvers.map((r) => r.manifest.id).toSet();
     final ordered = <String>[
-      // Keep persisted order for plugins that are still loaded
       ...storedPriority.where(loadedIds.contains),
-      // Append any loaded plugins not in the stored priority
       ...loadedIds.where((id) => !storedPriority.contains(id)),
     ];
 

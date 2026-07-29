@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_state.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_state.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 
 const int _kResolutionConcurrency = 5;
 const Duration _kPluginTimeout = Duration(seconds: 10);
@@ -42,8 +42,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
     final trackDao = TrackDAO(DBProvider.db);
     return PlaylistDAO(DBProvider.db, trackDao);
   }
-
-  // ── Step 1: Check URL ────────────────────────────────────────────────────
 
   Future<void> checkUrl(String pluginId, String url) async {
     _cancelRequested = false;
@@ -86,8 +84,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
     }
   }
 
-  // ── Step 2: Fetch Collection Info ────────────────────────────────────────
-
   Future<void> _fetchCollectionInfo(String pluginId, String url) async {
     emit(state.copyWith(phase: ImportPhase.fetchingInfo));
 
@@ -126,8 +122,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       ));
     }
   }
-
-  // ── Step 3: Fetch Tracks ─────────────────────────────────────────────────
 
   Future<void> _fetchTracks(String pluginId, String url) async {
     try {
@@ -168,8 +162,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       ));
     }
   }
-
-  // ── Step 4: Resolve Tracks ───────────────────────────────────────────────
 
   Future<void> _resolveTracks() async {
     final resolverPluginIds = await _getContentResolverPluginIds();
@@ -222,7 +214,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
 
     final entry = tracks[index];
 
-    // Mark as resolving.
     tracks[index] = entry.copyWith(status: TrackResolutionStatus.resolving);
     if (!isClosed) {
       emit(state.copyWith(tracks: List.unmodifiable(tracks)));
@@ -235,8 +226,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
         durationMs: entry.sourceTrack.durationMs?.toInt(),
       );
 
-      // Use the shared resolver — parallel across plugins, scored, with
-      // early-exit on high confidence.
       final candidates = await _resolver.resolveTrack(
         target: target,
         pluginIds: pluginIds,
@@ -273,7 +262,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       }
     }
 
-    // Emit progress.
     if (!isClosed && !_cancelRequested) {
       final counts = _recount(tracks);
       emit(state.copyWith(
@@ -283,8 +271,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       ));
     }
   }
-
-  // ── Cancellation ─────────────────────────────────────────────────────────
 
   void cancelResolution() {
     if (state.phase != ImportPhase.resolving) return;
@@ -298,8 +284,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       failedCount: counts.failed,
     ));
   }
-
-  // ── User candidate selection ─────────────────────────────────────────────
 
   void pickCandidate(int trackIndex, int? candidateIdx) {
     final tracks = List<ImportTrackEntry>.from(state.tracks);
@@ -316,8 +300,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
       failedCount: counts.failed,
     ));
   }
-
-  // ── Step 5: Save to Library ──────────────────────────────────────────────
 
   Future<void> saveToLibrary({String? customName}) async {
     final info = state.collectionInfo;
@@ -363,19 +345,11 @@ class ContentImportCubit extends Cubit<ContentImportState> {
     }
   }
 
-  // ── Reset ────────────────────────────────────────────────────────────────
-
   void reset() {
     _cancelRequested = false;
     emit(const ContentImportState());
   }
 
-  // ── M3U Import ────────────────────────────────────────────────────────────
-
-  /// Directly loads tracks parsed from an M3U file and starts resolution.
-  ///
-  /// Bypasses the URL-check / collection-info / fetch-tracks plugin steps.
-  /// The [summary] provides playlist metadata (title, kind, trackCount).
   Future<void> loadFromM3U(
     List<ImportTrackItem> tracks,
     ImportCollectionSummary summary,
@@ -392,9 +366,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
     await _resolveTracks();
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────
-
-  /// Returns only loaded content-resolver plugin IDs.
   Future<List<String>> _getContentResolverPluginIds() async {
     final available = await _pluginService.getAvailablePlugins();
     final loadedIds = _pluginService.getLoadedPlugins().toSet();
@@ -406,7 +377,6 @@ class ContentImportCubit extends Cubit<ContentImportState> {
         .toList(growable: false);
   }
 
-  /// Single source of truth for resolved/failed counts.
   ({int resolved, int failed}) _recount(List<ImportTrackEntry> tracks) {
     var resolved = 0;
     var failed = 0;

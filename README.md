@@ -1,112 +1,125 @@
 <div align="center">
 
-<img src="./assets/docs/bloomeetunes_new_banner.png" alt="StreamBeats Banner" width="100%">
+<img src="./assets/icons/streambeats_logo.png" alt="StreamBeats Logo" width="160">
 
 # 🎵 StreamBeats
 
-**Pemutar musik streaming lokal dan berbasis plugin, dibangun dengan Flutter & Rust.**
+**Pemutar Musik Hybrid Lintas Platform (Lokal & Streaming) Canggih yang Didukung oleh Flutter & Rust.**
 
-<p align="center">
-  <a href="https://github.com/DuskCipher/StreamBeats/releases/latest">
-    <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/DuskCipher/StreamBeats/total?style=for-the-badge&label=DOWNLOADS(GH)">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/DuskCipher/StreamBeats?display_name=release&style=for-the-badge&color=f01d7c">
-  </a>
-  <img alt="GitHub License" src="https://img.shields.io/github/license/DuskCipher/StreamBeats?style=for-the-badge&color=1881cc">
-  <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/DuskCipher/StreamBeats/checkout.yml?style=for-the-badge">
-  <br>
+[![GitHub Release](https://img.shields.io/github/v/release/DuskCipher/StreamBeats?display_name=release&style=for-the-badge&color=f01d7c)](https://github.com/DuskCipher/StreamBeats/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/DuskCipher/StreamBeats/total?style=for-the-badge&label=DOWNLOADS&color=25D366)](https://github.com/DuskCipher/StreamBeats/releases/latest)
+[![GitHub License](https://img.shields.io/github/license/DuskCipher/StreamBeats?style=for-the-badge&color=1881cc)](https://github.com/DuskCipher/StreamBeats/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/DuskCipher/StreamBeats/checkout.yml?style=for-the-badge)](https://github.com/DuskCipher/StreamBeats/actions)
+
+<div style="margin: 10px 0;">
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white">
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black">
-</p>
+</div>
 
-**StreamBeats** adalah pemutar musik open-source eksperimental yang dirancang untuk memberikan kebebasan penuh atas audio Anda. Gabungkan musik lokal di perangkat Anda dengan streaming tanpa batas yang didukung oleh sistem plugin berbasis **Rust** yang aman. Tanpa iklan, tanpa gangguan — hanya lagu-lagu pilihan Anda. 🎵🌸
+---
+
+**StreamBeats** adalah pemutar musik modern, open-source, dan berfokus pada privasi yang dirancang untuk menyatukan musik Anda di satu tempat. Dengan menggabungkan performa tinggi pustaka audio lokal Anda dan fleksibilitas streaming online melalui arsitektur plugin **Rust** (`.bex`) yang aman, StreamBeats menghadirkan pengalaman mendengarkan musik premium tanpa batas. **Tanpa iklan, tanpa login akun, tanpa pelacakan data.**
 
 </div>
+
+---
+
+## Jaminan Keamanan & Sumber Resmi
+Untuk melindungi perangkat Anda dari APK palsu yang dimodifikasi secara ilegal oleh pihak ketiga:
+- **Situs Resmi & Unduhan Aman**:
+  - Halaman Rilis GitHub: [Rilis Resmi StreamBeats](https://github.com/DuskCipher/StreamBeats/releases)
+  - Halaman Web Resmi: [duskcipher.github.io/StreamBeats](https://duskcipher.github.io/StreamBeats/)
+
+> [!WARNING]
+> Jangan pernah mengunduh installer StreamBeats dari luar sumber resmi di atas. Kami tidak bertanggung jawab atas kerusakan sistem atau pelanggaran privasi akibat penggunaan file dari pihak ketiga.
+
+---
+
+## Fitur Utama StreamBeats
+
+- **Bebas Iklan Selamanya:** Nikmati musik favorit tanpa jeda iklan atau interupsi komersial.
+- **Plugin Engine Berbasis Rust:** Menggunakan ekstensi aman berformat `.bex` untuk menambahkan sumber streaming baru tanpa batasan.
+- **Integrasi Perpustakaan Lokal:** Putar berkas audio lokal Anda (MP3, FLAC, AAC, dll.) berdampingan dengan playlist online.
+- **Lirik Karaoke Tersinkron:** Tampilan lirik lagu dengan fitur sinkronisasi waktu dan penyesuaian waktu tunda (offset) manual.
+- **Audio DSP & Crossfade:** Equalizer internal canggih dan fitur perpindahan antar lagu yang mulus (crossfade).
+- **Smart Link Recovery:** Otomatis mencadangkan dan mencari sumber lagu alternatif jika streaming utama terputus.
+- **Scrobbling Last.fm Offline:** Riwayat lagu yang Anda dengarkan akan tetap tercatat dan dikirimkan saat Anda kembali online.
+- **Discord Rich Presence:** Bagikan lagu yang sedang Anda putar secara realtime ke profil Discord Anda.
+- **Ekspor & Impor Fleksibel:** Simpan perpustakaan lagu dan konfigurasi favorit Anda dalam format file JSON atau M3U.
+- **Lokalisasi Multibahasa:** Antarmuka intuitif yang telah sepenuhnya diterjemahkan ke dalam 8 bahasa utama global.
+
+---
+
+## 🌍 Dukungan Bahasa saat Ini
+
+Aplikasi telah sepenuhnya diterjemahkan secara native ke dalam bahasa berikut:
+
+| Bendera | Bahasa | Status Terjemahan |
+| :---: | :--- | :---: |
+| 🇮🇩 | **Bahasa Indonesia** | ✅ 100% Selesai |
+| 🇺🇸 | **English** | ✅ 100% Selesai |
+| 🇮🇳 | **हिन्दी (Hindi)** | ✅ 100% Selesai |
+| 🇩🇪 | **Deutsch (Jerman)** | ✅ 100% Selesai |
+| 🇪🇸 | **Español (Spanyol)** | ✅ 100% Selesai |
+| 🇯🇵 | **日本語 (Jepang)** | ✅ 100% Selesai |
+| 🇰🇷 | **한국어 (Korea)** | ✅ 100% Selesai |
+| 🇨🇳 | **中文 (Mandarin)** | ✅ 100% Selesai |
+
+---
+
+## 🛠️ Panduan Pengembangan Lokal (Kompilasi Mandiri)
+
+Jika Anda ingin membangun StreamBeats sendiri dari source code:
+
+### 1. Prasyarat Sistem
+Pastikan perangkat Anda sudah terpasang perkakas berikut:
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (versi stabil terbaru)
+- [Rust toolchain](https://www.rust-lang.org/tools/install) (cargo, rustc)
+- Pustaka kompilasi platform target (C++ Build Tools untuk Windows, Xcode untuk macOS, build-essential untuk Linux)
+
+### 2. Kloning Repositori
+```bash
+git clone https://github.com/DuskCipher/StreamBeats.git
+cd StreamBeats
+```
+
+### 3. Pasang Generator Jembatan Rust-Flutter
+StreamBeats menggunakan `flutter_rust_bridge` v2 untuk komunikasi super-cepat antara Flutter dan Rust.
+```bash
+cargo install flutter_rust_bridge_codegen
+```
+
+### 4. Jalankan Kode Generator & Bangun Aplikasi
+Jalankan perintah flutter untuk memicu hooks generator dan mengunduh dependensi:
+```bash
+flutter pub get
+```
+Jalankan aplikasi di perangkat atau emulator pilihan Anda:
+```bash
+flutter run
+```
+
+---
+
+## Kontribusi ke Project
+Kami sangat menghargai kontribusi dari komunitas! Setiap kontribusi kode, desain, perbaikan bug, atau dokumentasi sangatlah berharga untuk perkembangan aplikasi ini.
+
+1. Buka halaman **Issues** terlebih dahulu untuk mendiskusikan perubahan yang ingin dilakukan.
+2. Lakukan **Fork** pada repositori ini.
+3. Buat branch fitur baru (`git checkout -b fitur/fitur-keren-saya`).
+4. Lakukan commit dan kirimkan **Pull Request**.
+
+---
+
+## 📫 Hubungi Kami & Komunitas
+Mari terhubung dan bergabung bersama komunitas kami:
 
 <div align="center">
-  <img src="./assets/docs/banner2BloomeScrnShot.png" width="90%"/>
-</div>
 
----
-
-> ⚠️ **PERINGATAN KEAMANAN!** ⚠️
-> Situs resmi dan sumber unduhan yang aman untuk StreamBeats **hanya** di:
->
-> - https://github.com/DuskCipher/StreamBeats/releases
-> - https://duskcipher.github.io/StreamBeats/
->
-> Jangan unduh dari sumber lain yang tidak resmi — situs tidak resmi mungkin mendistribusikan APK yang dimodifikasi atau berbahaya. Saya **tidak bertanggung jawab** atas kerusakan, kehilangan privasi, atau masalah yang disebabkan oleh mengunduh dari pihak ketiga.
-
----
-
-## 🚀 Fitur & Roadmap
-
-- [x] 🚫 **Bebas Iklan:** Nol gangguan, hanya musik murni.
-- [x] 🦀 **Sistem Plugin:** Plugin `.bex` yang aman dan otomatis diperbarui untuk sumber musik tanpa batas.
-- [x] 📂 **Musik Lokal:** Putar musik offline lokal Anda berdampingan dengan streaming online.
-- [x] 🎤 **Lirik Karaoke:** Lirik tersinkronisasi waktu dengan penyesuaian offset manual.
-- [x] 🎛️ **Equalizer Audio:** Equalizer bawaan dan transisi Crossfade yang dapat dikustomisasi.
-- [x] 🔄 **Smart Replace:** Pemulihan otomatis menemukan stream yang berfungsi jika track playlist mati.
-- [x] 📊 **Scrobbling Last.fm:** Catat riwayat mendengarkan Anda secara otomatis (termasuk cache offline).
-- [x] 🎮 **Discord Rich Presence:** Tampilkan lagu yang sedang diputar di profil Discord Anda.
-- [x] 🌍 **Chart Global:** Chart yang diperbarui harian dari plugin yang terpasang.
-- [x] 🖥️ **Lintas Platform:** Kontrol media native dan pintasan untuk Windows, Linux, dan Android.
-- [x] 💾 **Backup & Restore:** Ekspor/impor perpustakaan dan pengaturan dengan mudah via JSON atau M3U.
-- [x] 🤖 **Rekomendasi Berbasis AI:** Saran lagu yang lebih cerdas (berbasis Last.fm/Plugin).
-- [x] 🆎 **Dukungan Multi-Bahasa:** Antarmuka aplikasi yang dilokalisasi untuk pengguna global.
-
----
-
-## 🌍 Dukungan Bahasa
-
-| Bahasa | Nama Asli | Status |
-|--------|-----------|--------|
-| 🇮🇩 Indonesia | Bahasa Indonesia | ✅ Lengkap |
-| 🇺🇸 Inggris | English | ✅ Lengkap |
-| 🇮🇳 Hindi | हिन्दी | ✅ Lengkap |
-| 🇩🇪 Jerman | Deutsch | ✅ Lengkap |
-| 🇪🇸 Spanyol | Español | ✅ Lengkap |
-| 🇯🇵 Jepang | 日本語 | ✅ Lengkap |
-| 🇰🇷 Korea | 한국어 | ✅ Lengkap |
-| 🇨🇳 Mandarin | 中文 | ✅ Lengkap |
-
-> 🟢 Semua terjemahan sudah lengkap. Jika Anda menemukan terjemahan yang perlu diperbaiki, silakan buka Issue.
-
----
-
-<h2 align="center">📥 Unduh & Pasang</h2>
-
-<h4 align="center">Tersedia untuk Android, Windows & Linux 😍</h4>
-
-<p align="center">
-  <a href="https://github.com/DuskCipher/StreamBeats/releases/latest">
-    <img src="https://img.shields.io/badge/GitHub_Releases-100000?style=for-the-badge&logo=github&logoColor=white" height="40"/>
-  </a>
-</p>
-
----
-
-## 🤝 Kontribusi ke StreamBeats
-
-**Setiap nada berarti!** Apakah Anda developer berpengalaman atau pemula, pull request, laporan bug, dan saran fitur Anda sangat dihargai.
-
-Berkontribusi ke StreamBeats adalah cara yang bagus untuk belajar **Flutter, arsitektur bersih, dan pola BLoC** dalam codebase dunia nyata.
-
-1. **Diskusi:** Buka Issue terlebih dahulu untuk mendiskusikan ide Anda.
-2. **Fork & Clone:** Fork branch `master`.
-3. **Branch & Build:** Buat branch fitur Anda.
-4. **Pull Request:** Kirim PR dan biarkan kode Anda bergabung dengan simfoni StreamBeats!
-
----
-
-## 📫 Hubungi Kami
-
-Ada pertanyaan, masukan, atau sekadar ingin menyapa? Terhubung di sini:
-
-<div align="center">
-
-<a href="https://github.com/DuskCipher"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/></a>
+[![GitHub Developer Profile](https://img.shields.io/badge/GitHub_Developer-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DuskCipher)
+[![WhatsApp Channel](https://img.shields.io/badge/WhatsApp_Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029Vb8V2qh8V0tpL0VDky0M)
 
 </div>
 
-<p align="center"><i>Dibuat dengan ❤️ oleh DuskCipher</i></p>
+<p align="center"><i>Dibuat dengan dedikasi penuh oleh DuskCipher dan kontributor hebat komunitas.</i></p>

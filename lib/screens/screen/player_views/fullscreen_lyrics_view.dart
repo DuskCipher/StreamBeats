@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:Bloomee/blocs/lyrics/lyrics_cubit.dart';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/mini_player/mini_player_cubit.dart';
-import 'package:Bloomee/screens/screen/player_views/lyrics_search.dart';
-import 'package:Bloomee/screens/widgets/media_metadata_links.dart';
-import 'package:Bloomee/screens/widgets/play_pause_widget.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/up_next_panel.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/blocs/lyrics/lyrics_cubit.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/mini_player/mini_player_cubit.dart';
+import 'package:streambeats/screens/screen/player_views/lyrics_search.dart';
+import 'package:streambeats/screens/widgets/media_metadata_links.dart';
+import 'package:streambeats/screens/widgets/play_pause_widget.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/up_next_panel.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,8 +45,8 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
     _startHideControlsTimer();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    final playerCubit = context.read<BloomeePlayerCubit>();
-    _currentTrackId = playerCubit.bloomeePlayer.currentTrackInfo.id;
+    final playerCubit = context.read<StreamBeatsPlayerCubit>();
+    _currentTrackId = playerCubit.streambeatsPlayer.currentTrackInfo.id;
 
     _loadPersistedOffset();
   }
@@ -105,7 +105,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
 
   void _stopOffsetChange() => _holdTimer?.cancel();
 
-  void _openSettingsMenu(LyricsState state, BloomeePlayerCubit playerCubit) {
+  void _openSettingsMenu(LyricsState state, StreamBeatsPlayerCubit playerCubit) {
     _hideControlsTimer?.cancel();
     showModalBottomSheet(
       context: context,
@@ -127,7 +127,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final bloomeePlayerCubit = context.read<BloomeePlayerCubit>();
+    final streambeatsPlayerCubit = context.read<StreamBeatsPlayerCubit>();
     final isDesktop = MediaQuery.of(context).size.width > 600;
 
     return Scaffold(
@@ -138,7 +138,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
-            _buildBackground(bloomeePlayerCubit),
+            _buildBackground(streambeatsPlayerCubit),
             Container(color: Colors.black.withValues(alpha: 0.4)),
             Positioned.fill(
               child: BlocBuilder<LyricsCubit, LyricsState>(
@@ -209,7 +209,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
               right: 0,
               child: GestureDetector(
                 onTap: () {},
-                child: _buildTopBar(bloomeePlayerCubit, isDesktop),
+                child: _buildTopBar(streambeatsPlayerCubit, isDesktop),
               ),
             ),
             AnimatedPositioned(
@@ -220,7 +220,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
               right: 0,
               child: GestureDetector(
                 onTap: () {},
-                child: _buildBottomControls(bloomeePlayerCubit, isDesktop),
+                child: _buildBottomControls(streambeatsPlayerCubit, isDesktop),
               ),
             ),
             AnimatedPositioned(
@@ -250,17 +250,15 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
     );
   }
 
-  Widget _buildBackground(BloomeePlayerCubit bloomeePlayerCubit) {
+  Widget _buildBackground(StreamBeatsPlayerCubit streambeatsPlayerCubit) {
     return StreamBuilder<MediaItem?>(
-      stream: bloomeePlayerCubit.bloomeePlayer.mediaItem,
+      stream: streambeatsPlayerCubit.streambeatsPlayer.mediaItem,
       builder: (context, snapshot) {
-        final currentTrack = bloomeePlayerCubit.bloomeePlayer.currentTrackInfo;
+        final currentTrack = streambeatsPlayerCubit.streambeatsPlayer.currentTrackInfo;
         final artworkUrl =
             currentTrack.thumbnail.urlLow ?? currentTrack.thumbnail.url;
 
         return AnimatedSwitcher(
-          // FIX M-10: Reduced transition duration from 1000ms to 500ms for
-          // a snappier background crossfade.
           duration: const Duration(milliseconds: 500),
           child: Container(
             key: ValueKey(snapshot.data?.id),
@@ -271,11 +269,6 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
                   Transform.scale(
                     scale: 1.2,
                     child: ImageFiltered(
-                      // FIX M-10: Reduced from sigma=80 to sigma=22.
-                      // The blur background is overlaid with a 0.6 opacity
-                      // black layer — the visual difference from reducing blur
-                      // radius is imperceptible while GPU load drops ~3x on
-                      // mid-range Android devices (Snapdragon 600/700 series).
                       imageFilter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
                       child: Container(
                         decoration: BoxDecoration(
@@ -297,7 +290,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
     );
   }
 
-  Widget _buildTopBar(BloomeePlayerCubit bloomeePlayerCubit, bool isDesktop) {
+  Widget _buildTopBar(StreamBeatsPlayerCubit streambeatsPlayerCubit, bool isDesktop) {
     return Container(
       padding: EdgeInsets.fromLTRB(
           16, MediaQuery.of(context).padding.top + 16, 16, 40),
@@ -322,10 +315,10 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
               const SizedBox(width: 16),
               Expanded(
                 child: StreamBuilder<MediaItem?>(
-                  stream: bloomeePlayerCubit.bloomeePlayer.mediaItem,
+                  stream: streambeatsPlayerCubit.streambeatsPlayer.mediaItem,
                   builder: (context, snapshot) {
                     final currentTrack =
-                        bloomeePlayerCubit.bloomeePlayer.currentTrackInfo;
+                        streambeatsPlayerCubit.streambeatsPlayer.currentTrackInfo;
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -363,7 +356,7 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
                 builder: (context, state) {
                   return IconButton(
                     onPressed: () =>
-                        _openSettingsMenu(state, bloomeePlayerCubit),
+                        _openSettingsMenu(state, streambeatsPlayerCubit),
                     icon: const Icon(MingCute.more_2_fill,
                         color: Colors.white, size: 28),
                   );
@@ -483,9 +476,9 @@ class _FullscreenLyricsViewState extends State<FullscreenLyricsView> {
   }
 
   Widget _buildBottomControls(
-      BloomeePlayerCubit bloomeePlayerCubit, bool isDesktop) {
+      StreamBeatsPlayerCubit streambeatsPlayerCubit, bool isDesktop) {
     final l10n = AppLocalizations.of(context)!;
-    final musicPlayer = bloomeePlayerCubit.bloomeePlayer;
+    final musicPlayer = streambeatsPlayerCubit.streambeatsPlayer;
     final paddingBottom = MediaQuery.of(context).padding.bottom;
 
     return Container(
@@ -649,7 +642,7 @@ class _FullscreenSyncedLyricsState extends State<FullscreenSyncedLyrics> {
   }
 
   void _forceSyncRecalculation() {
-    final player = context.read<BloomeePlayerCubit>().bloomeePlayer.engine;
+    final player = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.engine;
     final adjustedPosition = player.position + widget.lyricOffset;
     widget.positionNotifier.value = adjustedPosition;
 
@@ -661,16 +654,14 @@ class _FullscreenSyncedLyricsState extends State<FullscreenSyncedLyrics> {
   }
 
   void _setupPositionListener() {
-    final bloomeePlayerCubit = context.read<BloomeePlayerCubit>();
-    final posStream = bloomeePlayerCubit.bloomeePlayer.engine.positionStream;
+    final streambeatsPlayerCubit = context.read<StreamBeatsPlayerCubit>();
+    final posStream = streambeatsPlayerCubit.streambeatsPlayer.engine.positionStream;
 
     _positionSubscription = posStream.listen((rawPosition) {
       if (!mounted) return;
-      // Update positionNotifier at full rate for smooth karaoke fill
       widget.positionNotifier.value = rawPosition + widget.lyricOffset;
     });
 
-    // Separate throttled subscription for index changes + scrolling
     _indexSubscription = posStream
         .throttleTime(const Duration(milliseconds: 200))
         .listen((rawPosition) {
@@ -773,8 +764,8 @@ class _FullscreenSyncedLyricsState extends State<FullscreenSyncedLyrics> {
               onTap: () {
                 widget.onInteraction?.call();
                 context
-                    .read<BloomeePlayerCubit>()
-                    .bloomeePlayer
+                    .read<StreamBeatsPlayerCubit>()
+                    .streambeatsPlayer
                     .seek(lyric.start - widget.lyricOffset);
               },
               child: _KaraokeLyricLine(
@@ -794,11 +785,6 @@ class _FullscreenSyncedLyricsState extends State<FullscreenSyncedLyrics> {
   }
 }
 
-/// FIX M-08: Removed the TweenAnimationBuilder that had begin==end (the
-/// animation never executed). The ShaderMask is now driven directly by the
-/// ValueListenableBuilder from positionNotifier, which already updates at the
-/// engine's position stream rate (~60Hz). This produces naturally smooth karaoke
-/// fill animation without the no-op tween layer.
 class _KaraokeLyricLine extends StatelessWidget {
   final String text;
   final Duration startTime;
@@ -846,9 +832,6 @@ class _KaraokeLyricLine extends StatelessWidget {
                         final double progress =
                             total > 0 ? (elapsed / total).clamp(0.0, 1.0) : 1.0;
 
-                        // FIX M-08: Direct ShaderMask with current progress.
-                        // No TweenAnimationBuilder needed — positionNotifier
-                        // already provides smooth sub-second updates.
                         return ShaderMask(
                           shaderCallback: (Rect bounds) {
                             return LinearGradient(

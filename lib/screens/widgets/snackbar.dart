@@ -1,4 +1,4 @@
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class SnackbarService {
@@ -11,12 +11,7 @@ class SnackbarService {
     Duration duration = const Duration(seconds: 2),
     bool loading = false,
   }) {
-    // If there's no ScaffoldMessenger available (e.g., in background service)
-    // avoid throwing. Log and return early so background code doesn't crash.
     if (messengerKey.currentState == null) {
-      // Can't show snackbar right now; log and return.
-      // UI layer can observe error streams and surface messages when ready.
-      // ignore: avoid_print
       print(
           'SnackbarService: messengerKey.currentState is null, skipping snackbar: $message');
       return;

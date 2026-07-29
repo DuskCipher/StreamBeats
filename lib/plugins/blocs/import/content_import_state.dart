@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 
 enum ImportPhase {
   idle,
@@ -14,7 +14,6 @@ enum ImportPhase {
   error,
 }
 
-/// Resolution status of a single track during import.
 enum TrackResolutionStatus {
   pending,
   resolving,
@@ -22,21 +21,14 @@ enum TrackResolutionStatus {
   failed,
 }
 
-/// A track from the import source paired with its resolution state.
 class ImportTrackEntry extends Equatable {
   final ImportTrackItem sourceTrack;
   final TrackResolutionStatus status;
 
-  /// Best auto-resolved track (first candidate found).
   final Track? resolvedTrack;
 
-  /// Up to 5 candidate tracks from search results.
   final List<Track> candidates;
 
-  /// User-selected candidate index.
-  /// - null  → use [resolvedTrack] (auto best)
-  /// - >= 0  → use [candidates[selectedCandidateIndex]]
-  /// - -1    → user explicitly skipped this track
   final int? selectedCandidateIndex;
 
   const ImportTrackEntry({
@@ -47,10 +39,8 @@ class ImportTrackEntry extends Equatable {
     this.selectedCandidateIndex,
   });
 
-  /// Whether the user has explicitly chosen to skip this track.
   bool get isSkipped => selectedCandidateIndex == -1;
 
-  /// The track that will be saved (respects user selection / skip).
   Track? get effectiveTrack {
     if (isSkipped) return null;
     final idx = selectedCandidateIndex;

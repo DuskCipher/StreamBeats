@@ -25,9 +25,6 @@ class EqualizerBand {
   EqualizerBand(this.centerFrequency, {this.gain = 0.0});
 }
 
-/// FIX M-07: Replaced the 20-step await loop with a Timer.periodic that fires
-/// at ~30fps and calls setVolume fire-and-forget. This eliminates 20 sequential
-/// platform-channel round-trips and removes jitter from event-loop pressure.
 class VolumeFader {
   bool _cancelled = false;
   Timer? _timer;
@@ -52,7 +49,6 @@ class VolumeFader {
       final now = DateTime.now().millisecondsSinceEpoch;
       final frac = ((now - startMs) / (endMs - startMs)).clamp(0.0, 1.0);
       final vol = startVol + (endVol - startVol) * frac;
-      // Fire and forget — do NOT await. Awaiting here would back-pressure the timer.
       player.setVolume(vol.clamp(0.0, 100.0));
       if (frac >= 1.0) t.cancel();
     });
@@ -140,9 +136,6 @@ class PlayerEngine {
   static const Duration _eqApplyDebounce = Duration(milliseconds: 180);
   Timer? _eqApplyDebounceTimer;
 
-  // FIX L-01: Reactive EQ streams so EqualizerView can subscribe and stay
-  // in sync even if EQ state changes from outside the view (settings restore,
-  // revive, eqSource toggle).
   final BehaviorSubject<bool> _eqEnabledSubject = BehaviorSubject.seeded(false);
   final BehaviorSubject<List<double>> _eqBandGainsSubject =
       BehaviorSubject.seeded(List.filled(10, 0.0));
@@ -332,8 +325,6 @@ class PlayerEngine {
       if (_disposed || _generation != gen) return EngineCanceled();
 
       _hasMedia = true;
-      // FIX M-09: Apply EQ only to active player after open; standby gets it
-      // when it becomes active (after _swapActivePlayer in crossfade paths).
       if (_eqEnabled) await _applyEqualizerToPlayer(_active);
       _deriveState();
       return EngineSuccess();
@@ -396,7 +387,6 @@ class PlayerEngine {
       _hasMedia = true;
 
       _swapActivePlayer();
-      // FIX M-09: Apply EQ to the newly active player after swap.
       if (_eqEnabled) await _applyEqualizerToPlayer(_active);
 
       return EngineSuccess();
@@ -462,7 +452,6 @@ class PlayerEngine {
       _hasMedia = true;
 
       _swapActivePlayer();
-      // FIX M-09: Apply EQ to the new active player immediately after swap.
       if (_eqEnabled) await _applyEqualizerToPlayer(_active);
 
       _oldPlayerFader.fade(oldPlayer, oldStartVol, 0.0, duration);
@@ -655,8 +644,6 @@ class PlayerEngine {
 
   bool get isPreloaded => _standbyPreloaded || _pendingPreloadUri != null;
 
-  // ── Equalizer ──────────────────────────────────────────────────────────────
-
   List<EqualizerBand> get equalizerBands => List.unmodifiable(_eqBands);
   bool get equalizerEnabled => _eqEnabled;
 
@@ -719,12 +706,6 @@ class PlayerEngine {
     });
   }
 
-  /// FIX M-09: Applies the EQ filter with context-awareness.
-  /// - During normal playback: apply to active player only.
-  /// - When not transitioning: apply to both players so the standby
-  ///   is ready for preload and crossfade with the correct filter.
-  /// - After a crossfade completes: re-apply to the now-active player
-  ///   via the post-crossfade Timer in crossfadeToPreloaded.
   Future<void> _applyEqualizer() async {
     if (_disposed) return;
     try {
@@ -733,11 +714,8 @@ class PlayerEngine {
           name: 'PlayerEngine');
 
       if (_isTransitioning) {
-        // During crossfade, only update the new active player (post-swap).
-        // The old player is fading out and will be stopped soon anyway.
         await _applyEqualizerToPlayer(_active);
       } else {
-        // Outside of transition, apply to both so preloaded standby is ready.
         await Future.wait([
           _applyEqualizerToPlayer(_playerA),
           _applyEqualizerToPlayer(_playerB),

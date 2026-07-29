@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/import_export_service.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/import_export_service.dart';
 
 enum RestorePayloadType {
   isarSnapshot,
@@ -56,7 +56,6 @@ class StorageBackupService {
       case RestorePayloadType.isarSnapshot:
         final result = await DBProvider.restoreDB(path);
         if (result['success'] == true) return result;
-        // If the Isar schema doesn't match (old version), give clear error
         return {
           'success': false,
           'error': 'This backup is from an older app version with an '
@@ -92,7 +91,6 @@ class StorageBackupService {
       return RestorePayloadType.isarSnapshot;
     }
 
-    // Try parsing as JSON first, even if extension doesn't match, to be extremely robust!
     try {
       final content = await file.readAsString();
       final decoded = jsonDecode(content);

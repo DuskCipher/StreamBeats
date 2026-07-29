@@ -6,19 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_cubit.dart';
-import 'package:Bloomee/plugins/blocs/import/content_import_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_cubit.dart';
+import 'package:streambeats/plugins/blocs/import/content_import_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart';
 
-// ── Screen ──────────────────────────────────────────────────────────────────
-
-/// Full-screen import process.
-/// [ContentImportCubit] is provided globally (main.dart) — state survives navigation.
 class ImportProcessScreen extends StatefulWidget {
   final String pluginId;
   const ImportProcessScreen({super.key, required this.pluginId});
@@ -104,7 +100,6 @@ class _ImportProcessScreenState extends State<ImportProcessScreen> {
       title: BlocBuilder<ContentImportCubit, ContentImportState>(
         builder: (context, state) {
           final title = state.collectionInfo?.title;
-          // Only using the highlight/heavy font for the main App Bar title
           return Text(
             title?.isNotEmpty == true
                 ? title!
@@ -214,8 +209,6 @@ String _localizedImportError(BuildContext context, String rawError) {
   }
   return rawError;
 }
-
-// ── URL Input ────────────────────────────────────────────────────────────────
 
 class _UrlInputView extends StatelessWidget {
   final TextEditingController controller;
@@ -332,8 +325,6 @@ class _UrlInputView extends StatelessWidget {
   }
 }
 
-// ── Loading / Fetching ───────────────────────────────────────────────────────
-
 class _LoadingView extends StatelessWidget {
   final String message;
   final ImportCollectionSummary? collectionInfo;
@@ -375,8 +366,6 @@ class _LoadingView extends StatelessWidget {
   }
 }
 
-// ── Collection Header ────────────────────────────────────────────────────────
-
 class _CollectionHeader extends StatelessWidget {
   final ImportCollectionSummary info;
   const _CollectionHeader({required this.info});
@@ -414,7 +403,6 @@ class _CollectionHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Allowed to use heavy font here as it acts as a page/section header
                 Text(
                   info.title,
                   style: Default_Theme.secondoryTextStyle.merge(
@@ -464,8 +452,6 @@ class _CollectionHeader extends StatelessWidget {
             size: 32),
       );
 }
-
-// ── Resolving View ───────────────────────────────────────────────────────────
 
 class _ResolvingView extends StatelessWidget {
   final ContentImportState state;
@@ -541,8 +527,6 @@ class _ResolvingView extends StatelessWidget {
     );
   }
 }
-
-// ── Review View ──────────────────────────────────────────────────────────────
 
 class _ReviewView extends StatefulWidget {
   final ContentImportState state;
@@ -679,8 +663,6 @@ class _ReviewViewState extends State<_ReviewView> {
   }
 }
 
-// ── Stat chip ────────────────────────────────────────────────────────────────
-
 class _StatChip extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -711,8 +693,6 @@ class _StatChip extends StatelessWidget {
     );
   }
 }
-
-// ── Resolving Track Tile ─────────────────────────────────────────────────────
 
 class _ResolvingTrackTile extends StatelessWidget {
   final ImportTrackEntry entry;
@@ -796,8 +776,6 @@ class _ResolvingTrackTile extends StatelessWidget {
       child: Icon(MingCute.music_2_fill,
           color: Default_Theme.primaryColor2.withValues(alpha: 0.4), size: 20));
 }
-
-// ── Review Track Tile (expandable) ───────────────────────────────────────────
 
 class _ReviewTrackTile extends StatelessWidget {
   final ImportTrackEntry entry;
@@ -978,8 +956,6 @@ class _ReviewTrackTile extends StatelessWidget {
           color: Default_Theme.primaryColor2.withValues(alpha: 0.4), size: 22));
 }
 
-// ── Candidate Picker ─────────────────────────────────────────────────────────
-
 class _CandidateList extends StatelessWidget {
   final ImportTrackEntry entry;
   final int index;
@@ -1147,7 +1123,6 @@ class _SkipTile extends StatelessWidget {
   }
 }
 
-// Custom Radio Button matching the provided design exactly
 class _CustomRadio extends StatelessWidget {
   final bool isSelected;
   final Color color;
@@ -1181,8 +1156,6 @@ class _CustomRadio extends StatelessWidget {
     );
   }
 }
-
-// ── Done View ────────────────────────────────────────────────────────────────
 
 class _DoneView extends StatelessWidget {
   final ContentImportState state;
@@ -1289,8 +1262,6 @@ class _DoneView extends StatelessWidget {
     );
   }
 }
-
-// ── Error View ───────────────────────────────────────────────────────────────
 
 class _ErrorView extends StatelessWidget {
   final String error;

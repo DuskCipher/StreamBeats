@@ -1,20 +1,9 @@
-/// Non-closable migration overlay shown when a legacy default.isar database
-/// is detected on startup.
-///
-/// Placed as an opaque full-screen layer above the app.  The user must wait
-/// for migration to finish (or fail) and then manually tap "Continue" (or
-/// "Retry") to dismiss the overlay.
-///
-/// To remove this entire feature later, delete:
-///   • lib/services/db/legacy/
-///   • lib/screens/widgets/legacy_migration_overlay.dart
-///   • The call-site in lib/main.dart
 library;
 
 import 'dart:math' as math;
 
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/services/db/legacy/legacy_migration_service.dart'
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/services/db/legacy/legacy_migration_service.dart'
     as migration_service;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -39,14 +28,12 @@ class LegacyMigrationOverlay extends StatefulWidget {
 
 class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
     with TickerProviderStateMixin {
-  // ── Colors & Styling ───────────────────────────────────────────────────
   static const _maxContentWidth = 500.0;
   static const _bgBase = Color(0xFF060608); // Ultra deep cinematic dark
   static const _surfaceCol = Color(0xFF14141A);
   static const _errorAccent = Color(0xFFFF4C4C);
-  static const _successAccent = Color(0xFFFF2A5F); // Bloomee Pink/Red
+  static const _successAccent = Color(0xFFFF2A5F); // StreamBeats Pink/Red
 
-  // ── State (Isolated for Zero Jank) ─────────────────────────────────────
   final ValueNotifier<_Phase> _phase = ValueNotifier(_Phase.running);
   final ValueNotifier<double> _progress = ValueNotifier(0.0);
   final ValueNotifier<String> _stepLabel = ValueNotifier('Initializing...');
@@ -91,7 +78,6 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
     }
 
     _result = result;
-    // Slight delay so the progress ring hits 100% before transitioning
     await Future.delayed(const Duration(milliseconds: 300));
     if (mounted) {
       _phase.value = result.success ? _Phase.success : _Phase.failed;
@@ -111,12 +97,10 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
       color: _bgBase,
       child: Stack(
         children: [
-          // 1. Soft Cinematic Dust Background
           const Positioned.fill(
             child: RepaintBoundary(child: _CinematicDustBackground()),
           ),
 
-          // 2. Fluid, Overflow-Proof Layout
           Positioned.fill(
             child: SafeArea(
               child: Center(
@@ -133,17 +117,13 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Spacers allow natural centering that glides upwards when HUD appears
                               const Spacer(flex: 3),
 
-                              // Visualizer Orb
                               _buildCosmicOrbiter(),
                               const SizedBox(height: 32),
 
-                              // Text & Headlines
                               _buildHeadlines(),
 
-                              // The Dashboard HUD (Smoothly expands without jumping)
                               AnimatedSize(
                                 duration: const Duration(milliseconds: 800),
                                 curve: Curves.easeOutCubic,
@@ -207,8 +187,8 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
       valueListenable: _phase,
       builder: (context, phase, _) {
         final title = switch (phase) {
-          _Phase.running => 'Upgrading Bloomee',
-          _Phase.success => 'Welcome to Bloomee 3.0',
+          _Phase.running => 'Upgrading StreamBeats',
+          _Phase.success => 'Welcome to StreamBeats 3.0',
           _Phase.failed => 'Migration Aborted',
         };
 
@@ -406,7 +386,7 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
           elevation: 0,
         ),
         child: Text(
-          isErr ? 'Retry Migration' : 'Enter Bloomee',
+          isErr ? 'Retry Migration' : 'Enter StreamBeats',
           style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 0.3),
         ),
@@ -414,10 +394,6 @@ class _LegacyMigrationOverlayState extends State<LegacyMigrationOverlay>
     );
   }
 }
-
-// ═════════════════════════════════════════════════════════════════════════════
-// 1. Cinematic Bokeh Dust (No hard dots, soft focus)
-// ═════════════════════════════════════════════════════════════════════════════
 
 class _CinematicDustBackground extends StatefulWidget {
   const _CinematicDustBackground();
@@ -476,7 +452,6 @@ class _DustEngine extends ChangeNotifier {
   void _init(Size size) {
     width = size.width;
     height = size.height;
-    // Lower count, larger, blurry particles
     for (int i = 0; i < 40; i++) {
       particles.add(_Dust(
         rnd.nextDouble() * width,
@@ -520,7 +495,6 @@ class _DustPainter extends CustomPainter {
 
     for (var p in engine.particles) {
       paint.color = Colors.white.withValues(alpha: p.opacity);
-      // Softens the particles so they look like cinematic dust
       paint.maskFilter = MaskFilter.blur(BlurStyle.normal, p.size * 0.8);
       canvas.drawCircle(Offset(p.x, p.y), p.size, paint);
     }
@@ -529,10 +503,6 @@ class _DustPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-
-// ═════════════════════════════════════════════════════════════════════════════
-// 2. The Custom Vector Animated Success Mark & Progress Orb
-// ═════════════════════════════════════════════════════════════════════════════
 
 class _ProgressRing extends StatelessWidget {
   final ValueNotifier<double> progressNotifier;
@@ -663,7 +633,6 @@ class _AnimatedSuccessMark extends StatelessWidget {
   }
 }
 
-// ── The Beautiful Custom Drawn Vector Checkmark ──
 class _CheckmarkPainter extends CustomPainter {
   final double progress;
   final Color color;
@@ -679,14 +648,10 @@ class _CheckmarkPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     final path = Path();
-    // Start left
     path.moveTo(size.width * 0.25, size.height * 0.5);
-    // Down to middle
     path.lineTo(size.width * 0.45, size.height * 0.7);
-    // Up to right
     path.lineTo(size.width * 0.8, size.height * 0.3);
 
-    // Animates the drawing of the path
     final metrics = path.computeMetrics();
     final extract = Path();
     for (var metric in metrics) {
@@ -696,7 +661,6 @@ class _CheckmarkPainter extends CustomPainter {
       );
     }
 
-    // Glow effect for the checkmark itself
     final glowPaint = Paint()
       ..color = color.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
@@ -712,10 +676,6 @@ class _CheckmarkPainter extends CustomPainter {
   @override
   bool shouldRepaint(_CheckmarkPainter old) => old.progress != progress;
 }
-
-// ═════════════════════════════════════════════════════════════════════════════
-// 3. Premium Data Chips
-// ═════════════════════════════════════════════════════════════════════════════
 
 class _StatChip extends StatelessWidget {
   final IconData icon;

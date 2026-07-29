@@ -4,7 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseAuthService {
   static final SupabaseClient _supabase = Supabase.instance.client;
 
-  /// Web Client ID that you registered with Google Cloud.
   static const webClientId = '347726171121-05vv2sgttc1pi38k8dui4ka5hpn6o722.apps.googleusercontent.com';
 
   static bool _isInitialized = false;
@@ -16,7 +15,6 @@ class SupabaseAuthService {
     }
   }
 
-  /// Sign in with Google using the native Google Sign In plugin.
   static Future<AuthResponse?> signInWithGoogle() async {
     try {
       await _ensureInitialized();

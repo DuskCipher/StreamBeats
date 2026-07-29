@@ -1,7 +1,6 @@
-import 'package:Bloomee/services/db/global_db.dart';
+import 'package:streambeats/services/db/global_db.dart';
 import 'package:isar_community/isar.dart';
 
-/// DAO for in-app notifications.
 class NotificationDAO {
   final Future<Isar> _db;
 

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
+import 'package:streambeats/core/models/exported.dart' hide MediaItem;
 
-import 'package:Bloomee/core/models/exported.dart' hide MediaItem;
+import 'package:streambeats/core/models/exported.dart' hide MediaItem;
 
 Map<String, dynamic> trackToMap(Track track) {
   return {
@@ -35,13 +35,11 @@ class SupabasePartyService {
   static PartyRole currentRole = PartyRole.none;
   static String? currentRoomCode;
   
-  // Callbacks for guests
   static Function(Track)? onTrackPlay;
   static Function()? onPause;
   static Function()? onResume;
   static Function(Duration)? onSeek;
 
-  /// Creates a new party room and acts as Host
   static Future<String?> createParty() async {
     final user = _supabase.auth.currentUser;
     if (user == null) throw Exception('Must be logged in');
@@ -53,7 +51,6 @@ class SupabasePartyService {
     return currentRoomCode;
   }
 
-  /// Joins an existing party room as a Guest
   static Future<bool> joinParty(String code) async {
     final user = _supabase.auth.currentUser;
     if (user == null) throw Exception('Must be logged in');
@@ -84,7 +81,6 @@ class SupabasePartyService {
     }
   }
 
-  /// Leaves the current party
   static Future<void> leaveParty() async {
     _reconnectTimer?.cancel();
     _reconnectTimer = null;
@@ -96,7 +92,6 @@ class SupabasePartyService {
     currentRoomCode = null;
   }
 
-  /// Initialize and subscribe to the Supabase Realtime Channel
   static Future<void> _joinChannel(String code) async {
     if (_channel != null) {
       await _supabase.removeChannel(_channel!);
@@ -125,7 +120,6 @@ class SupabasePartyService {
       });
   }
 
-  /// Handle incoming broadcast messages (for Guests)
   static void _handleBroadcastMessage(Map<String, dynamic> payload) {
     final action = payload['action'] as String?;
     if (action == null) return;
@@ -151,8 +145,6 @@ class SupabasePartyService {
         break;
     }
   }
-
-  // --- HOST BROADCAST METHODS ---
 
   static void broadcastPlayTrack(Track track) {
     if (currentRole != PartyRole.host || _channel == null) return;

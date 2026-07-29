@@ -1,11 +1,9 @@
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
-/// Events for [ContentBloc].
 sealed class ContentEvent {
   const ContentEvent();
 }
 
-/// Search for media items across the active content resolver plugin.
 class SearchContent extends ContentEvent {
   final String query;
   final ContentSearchFilter filter;
@@ -18,27 +16,23 @@ class SearchContent extends ContentEvent {
   });
 }
 
-/// Load the next page of the current search results.
 class LoadMoreSearchContent extends ContentEvent {
   final String pageToken;
 
   const LoadMoreSearchContent({required this.pageToken});
 }
 
-/// Set the active content resolver plugin.
 class SetActiveContentPlugin extends ContentEvent {
   final String pluginId;
   const SetActiveContentPlugin({required this.pluginId});
 }
 
-/// Load album details.
 class LoadAlbumDetails extends ContentEvent {
   final String pluginId;
   final String albumId;
   const LoadAlbumDetails({required this.pluginId, required this.albumId});
 }
 
-/// Load more album tracks (pagination).
 class LoadMoreAlbumTracks extends ContentEvent {
   final String pluginId;
   final String albumId;
@@ -50,14 +44,12 @@ class LoadMoreAlbumTracks extends ContentEvent {
   });
 }
 
-/// Load artist details.
 class LoadArtistDetails extends ContentEvent {
   final String pluginId;
   final String artistId;
   const LoadArtistDetails({required this.pluginId, required this.artistId});
 }
 
-/// Load more artist albums (pagination).
 class LoadMoreArtistAlbums extends ContentEvent {
   final String pluginId;
   final String artistId;
@@ -69,14 +61,12 @@ class LoadMoreArtistAlbums extends ContentEvent {
   });
 }
 
-/// Load playlist details.
 class LoadPlaylistDetails extends ContentEvent {
   final String pluginId;
   final String playlistId;
   const LoadPlaylistDetails({required this.pluginId, required this.playlistId});
 }
 
-/// Load more playlist tracks (pagination).
 class LoadMorePlaylistTracks extends ContentEvent {
   final String pluginId;
   final String playlistId;
@@ -88,25 +78,20 @@ class LoadMorePlaylistTracks extends ContentEvent {
   });
 }
 
-/// Get stream URL(s) for a track.
 class GetStreams extends ContentEvent {
   final String pluginId;
   final String trackId;
   const GetStreams({required this.pluginId, required this.trackId});
 }
 
-/// Get home page sections from the active content resolver.
 class GetHomeSections extends ContentEvent {
   final String? pluginId;
 
-  /// When true, skips the cache and forces a fresh network fetch.
-  /// Use for pull-to-refresh.
   final bool bypassCache;
 
   const GetHomeSections({this.pluginId, this.bypassCache = false});
 }
 
-/// Load more items for a home section.
 class LoadMoreHomeSectionItems extends ContentEvent {
   final String pluginId;
   final String sectionId;
@@ -118,7 +103,6 @@ class LoadMoreHomeSectionItems extends ContentEvent {
   });
 }
 
-/// Get radio tracks.
 class GetRadioTracks extends ContentEvent {
   final String pluginId;
   final String trackId;
@@ -130,17 +114,14 @@ class GetRadioTracks extends ContentEvent {
   });
 }
 
-/// Clear the current search results.
 class ClearSearch extends ContentEvent {
   const ClearSearch();
 }
 
-/// Clear album/artist/playlist detail state.
 class ClearDetails extends ContentEvent {
   const ClearDetails();
 }
 
-/// Clear home sections and reset active plugin.
 class ClearHomeSections extends ContentEvent {
   const ClearHomeSections();
 }

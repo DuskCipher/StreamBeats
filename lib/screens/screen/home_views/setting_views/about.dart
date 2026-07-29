@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,7 +48,6 @@ class About extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-                  // Logo StreamBeats
                   Center(
                     child: Container(
                       decoration: BoxDecoration(
@@ -74,7 +73,6 @@ class About extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // Nama Aplikasi
                   const Text(
                     'StreamBeats',
                     style: TextStyle(
@@ -86,7 +84,6 @@ class About extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  // Tagline / Deskripsi Singkat
                   Text(
                     'Pemutar Musik Bebas Iklan & Kustom',
                     textAlign: TextAlign.center,
@@ -98,7 +95,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 36),
                   
-                  // Developer Card
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
@@ -134,7 +130,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
 
-                  // Partner Card
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
@@ -170,7 +165,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 28),
 
-                  // Hubungi Kami / Komunitas Section
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -185,7 +179,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  // Link 1: Telegram
                   _buildLinkTile(
                     icon: MingCute.telegram_fill,
                     title: 'Telegram @Riz_buyX',
@@ -194,7 +187,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  // Link 2: WhatsApp Channel
                   _buildLinkTile(
                     icon: MingCute.whatsapp_fill,
                     title: 'Saluran WhatsApp',
@@ -203,7 +195,6 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  // Link 3: Valora Store
                   _buildLinkTile(
                     icon: MingCute.store_2_fill,
                     title: 'Valora Store',
@@ -213,7 +204,6 @@ class About extends StatelessWidget {
                   
                   const SizedBox(height: 40),
 
-                  // Footer: Version
                   FutureBuilder<PackageInfo>(
                     future: PackageInfo.fromPlatform(),
                     builder: (context, snapshot) {

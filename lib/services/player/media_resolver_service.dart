@@ -1,18 +1,18 @@
 import 'dart:developer';
 
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/plugins/errors/plugin_exceptions.dart';
-import 'package:Bloomee/plugins/utils/media_id.dart';
-import 'package:Bloomee/services/db/dao/download_dao.dart';
-import 'package:Bloomee/services/db/dao/playlist_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/track_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/services/player/stream_quality_selector.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/plugins/errors/plugin_exceptions.dart';
+import 'package:streambeats/plugins/utils/media_id.dart';
+import 'package:streambeats/services/db/dao/download_dao.dart';
+import 'package:streambeats/services/db/dao/playlist_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/track_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/services/player/stream_quality_selector.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
 class ResolvedMediaSource {
   final Uri uri;
@@ -26,11 +26,6 @@ class ResolvedMediaSource {
   });
 }
 
-/// Resolves a [Track] into a playable [Uri].
-///
-/// Resolution order:
-/// 1. Local downloaded file (offline).
-/// 2. Plugin system — asks the owning plugin for stream URIs via [GetStreams].
 class MediaResolverService {
   final DownloadDAO _downloadDao;
   final SettingsDAO _settingsDao;
@@ -44,7 +39,6 @@ class MediaResolverService {
         _settingsDao = settingsDao,
         _pluginService = pluginService;
 
-  /// Factory that creates its own DAO instances from [DBProvider.db].
   factory MediaResolverService.create(PluginService pluginService) {
     final trackDao = TrackDAO(DBProvider.db);
     final playlistDao = PlaylistDAO(DBProvider.db, trackDao);
@@ -55,9 +49,7 @@ class MediaResolverService {
     );
   }
 
-  /// Resolve [track] into a playable URI.
   Future<ResolvedMediaSource> resolve(Track track) async {
-    // 1. Check for an offline/downloaded version.
     try {
       final down = await _downloadDao.getDownloadRecord(track.id);
       if (down != null) {
@@ -69,10 +61,8 @@ class MediaResolverService {
       }
     } catch (e) {
       log('Download check failed: $e', name: 'MediaResolverService');
-      // Non-fatal — continue to online resolution
     }
 
-    // 2. Plugin-based stream resolution.
     final parts = tryParseMediaId(track.id);
     if (parts == null) {
       GlobalEventBus.instance.emitError(

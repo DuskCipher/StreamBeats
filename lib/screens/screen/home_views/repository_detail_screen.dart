@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
 
@@ -9,14 +8,14 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/plugins/models/plugin_repository.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_event.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/plugins/utils/plugin_constants.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/plugins/models/plugin_repository.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_event.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/plugins/utils/plugin_constants.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
 
 enum _RemoteInstallPhase {
   idle,
@@ -467,8 +466,6 @@ class _RepositoryDetailScreenState extends State<RepositoryDetailScreen> {
   }
 }
 
-// ── Shared UI Helpers ────────────────────────────────────────────────────────
-
 class _MetaChip extends StatelessWidget {
   final String label;
 
@@ -495,7 +492,6 @@ class _MetaChip extends StatelessWidget {
   }
 }
 
-/// A perfectly uniform, highly aesthetic button. Solves the "solid blob" and mismatched sizing issues.
 class _AestheticButton extends StatelessWidget {
   final String text;
   final Color color;
@@ -513,7 +509,6 @@ class _AestheticButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If subdued (like "Installed"), we make it look recessed and greyed out
     final bgColor = isSubdued
         ? Default_Theme.primaryColor1.withValues(alpha: 0.04)
         : color.withValues(alpha: 0.15);

@@ -1,12 +1,12 @@
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/l10n/language_options.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/country_setting.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/onboarding_service.dart';
-import 'package:Bloomee/utils/country_info.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/language_options.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/country_setting.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/onboarding_service.dart';
+import 'package:streambeats/utils/country_info.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
@@ -67,7 +67,6 @@ class _OnboardingOverlayState extends State<OnboardingOverlay> {
       _currentLocale = normalizedLang.isEmpty ? null : Locale(normalizedLang);
     });
 
-    // Improve first guess quickly without network delay.
     _updateCountryFromDeviceLocaleIfNeeded(
       shouldGuess: storedCountry.isEmpty,
     );

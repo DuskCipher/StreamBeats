@@ -1,18 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'events.dart';
 
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
-
-// dart format off
 T _$identity<T>(T value) => value;
 
-/// @nodoc
 mixin _$PluginManagerEvent {
   @override
   bool operator ==(Object other) {
@@ -29,25 +18,12 @@ mixin _$PluginManagerEvent {
   }
 }
 
-/// @nodoc
 class $PluginManagerEventCopyWith<$Res> {
   $PluginManagerEventCopyWith(
       PluginManagerEvent _, $Res Function(PluginManagerEvent) __);
 }
 
-/// Adds pattern-matching-related methods to [PluginManagerEvent].
 extension PluginManagerEventPatterns on PluginManagerEvent {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -125,19 +101,6 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
         return orElse();
     }
   }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
@@ -217,18 +180,6 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
     }
   }
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(PluginManagerEvent_PluginLoading value)? pluginLoading,
@@ -307,18 +258,6 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? pluginLoading,
@@ -389,19 +328,6 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) pluginLoading,
@@ -464,18 +390,6 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
         return error(_that.message);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -547,15 +461,11 @@ extension PluginManagerEventPatterns on PluginManagerEvent {
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginLoading extends PluginManagerEvent {
   const PluginManagerEvent_PluginLoading({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginLoadingCopyWith<PluginManagerEvent_PluginLoading>
@@ -579,7 +489,6 @@ class PluginManagerEvent_PluginLoading extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginLoadingCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginLoadingCopyWith(
@@ -590,7 +499,6 @@ abstract mixin class $PluginManagerEvent_PluginLoadingCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginLoadingCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginLoadingCopyWith<$Res> {
   _$PluginManagerEvent_PluginLoadingCopyWithImpl(this._self, this._then);
@@ -598,8 +506,6 @@ class _$PluginManagerEvent_PluginLoadingCopyWithImpl<$Res>
   final PluginManagerEvent_PluginLoading _self;
   final $Res Function(PluginManagerEvent_PluginLoading) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -613,8 +519,6 @@ class _$PluginManagerEvent_PluginLoadingCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginLoaded extends PluginManagerEvent {
   const PluginManagerEvent_PluginLoaded(
       {required this.id, required this.pluginType})
@@ -623,8 +527,6 @@ class PluginManagerEvent_PluginLoaded extends PluginManagerEvent {
   final String id;
   final PluginType pluginType;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginLoadedCopyWith<PluginManagerEvent_PluginLoaded>
@@ -650,7 +552,6 @@ class PluginManagerEvent_PluginLoaded extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginLoadedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginLoadedCopyWith(
@@ -661,7 +562,6 @@ abstract mixin class $PluginManagerEvent_PluginLoadedCopyWith<$Res>
   $Res call({String id, PluginType pluginType});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginLoadedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginLoadedCopyWith<$Res> {
   _$PluginManagerEvent_PluginLoadedCopyWithImpl(this._self, this._then);
@@ -669,8 +569,6 @@ class _$PluginManagerEvent_PluginLoadedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginLoaded _self;
   final $Res Function(PluginManagerEvent_PluginLoaded) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -689,8 +587,6 @@ class _$PluginManagerEvent_PluginLoadedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginLoadFailed extends PluginManagerEvent {
   const PluginManagerEvent_PluginLoadFailed(
       {required this.id, required this.error})
@@ -699,8 +595,6 @@ class PluginManagerEvent_PluginLoadFailed extends PluginManagerEvent {
   final String id;
   final String error;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginLoadFailedCopyWith<
@@ -726,7 +620,6 @@ class PluginManagerEvent_PluginLoadFailed extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginLoadFailedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginLoadFailedCopyWith(
@@ -737,7 +630,6 @@ abstract mixin class $PluginManagerEvent_PluginLoadFailedCopyWith<$Res>
   $Res call({String id, String error});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginLoadFailedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginLoadFailedCopyWith<$Res> {
   _$PluginManagerEvent_PluginLoadFailedCopyWithImpl(this._self, this._then);
@@ -745,8 +637,6 @@ class _$PluginManagerEvent_PluginLoadFailedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginLoadFailed _self;
   final $Res Function(PluginManagerEvent_PluginLoadFailed) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -765,15 +655,11 @@ class _$PluginManagerEvent_PluginLoadFailedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginUnloading extends PluginManagerEvent {
   const PluginManagerEvent_PluginUnloading({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginUnloadingCopyWith<
@@ -798,7 +684,6 @@ class PluginManagerEvent_PluginUnloading extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginUnloadingCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginUnloadingCopyWith(
@@ -809,7 +694,6 @@ abstract mixin class $PluginManagerEvent_PluginUnloadingCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginUnloadingCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginUnloadingCopyWith<$Res> {
   _$PluginManagerEvent_PluginUnloadingCopyWithImpl(this._self, this._then);
@@ -817,8 +701,6 @@ class _$PluginManagerEvent_PluginUnloadingCopyWithImpl<$Res>
   final PluginManagerEvent_PluginUnloading _self;
   final $Res Function(PluginManagerEvent_PluginUnloading) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -832,15 +714,11 @@ class _$PluginManagerEvent_PluginUnloadingCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginUnloaded extends PluginManagerEvent {
   const PluginManagerEvent_PluginUnloaded({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginUnloadedCopyWith<PluginManagerEvent_PluginUnloaded>
@@ -864,7 +742,6 @@ class PluginManagerEvent_PluginUnloaded extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginUnloadedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginUnloadedCopyWith(
@@ -875,7 +752,6 @@ abstract mixin class $PluginManagerEvent_PluginUnloadedCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginUnloadedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginUnloadedCopyWith<$Res> {
   _$PluginManagerEvent_PluginUnloadedCopyWithImpl(this._self, this._then);
@@ -883,8 +759,6 @@ class _$PluginManagerEvent_PluginUnloadedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginUnloaded _self;
   final $Res Function(PluginManagerEvent_PluginUnloaded) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -898,8 +772,6 @@ class _$PluginManagerEvent_PluginUnloadedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginUnloadFailed extends PluginManagerEvent {
   const PluginManagerEvent_PluginUnloadFailed(
       {required this.id, required this.error})
@@ -908,8 +780,6 @@ class PluginManagerEvent_PluginUnloadFailed extends PluginManagerEvent {
   final String id;
   final String error;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginUnloadFailedCopyWith<
@@ -935,7 +805,6 @@ class PluginManagerEvent_PluginUnloadFailed extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginUnloadFailedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginUnloadFailedCopyWith(
@@ -946,7 +815,6 @@ abstract mixin class $PluginManagerEvent_PluginUnloadFailedCopyWith<$Res>
   $Res call({String id, String error});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginUnloadFailedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginUnloadFailedCopyWith<$Res> {
   _$PluginManagerEvent_PluginUnloadFailedCopyWithImpl(this._self, this._then);
@@ -954,8 +822,6 @@ class _$PluginManagerEvent_PluginUnloadFailedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginUnloadFailed _self;
   final $Res Function(PluginManagerEvent_PluginUnloadFailed) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -974,15 +840,11 @@ class _$PluginManagerEvent_PluginUnloadFailedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginInstalling extends PluginManagerEvent {
   const PluginManagerEvent_PluginInstalling({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginInstallingCopyWith<
@@ -1007,7 +869,6 @@ class PluginManagerEvent_PluginInstalling extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginInstallingCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginInstallingCopyWith(
@@ -1018,7 +879,6 @@ abstract mixin class $PluginManagerEvent_PluginInstallingCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginInstallingCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginInstallingCopyWith<$Res> {
   _$PluginManagerEvent_PluginInstallingCopyWithImpl(this._self, this._then);
@@ -1026,8 +886,6 @@ class _$PluginManagerEvent_PluginInstallingCopyWithImpl<$Res>
   final PluginManagerEvent_PluginInstalling _self;
   final $Res Function(PluginManagerEvent_PluginInstalling) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1041,15 +899,11 @@ class _$PluginManagerEvent_PluginInstallingCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginInstalled extends PluginManagerEvent {
   const PluginManagerEvent_PluginInstalled({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginInstalledCopyWith<
@@ -1074,7 +928,6 @@ class PluginManagerEvent_PluginInstalled extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginInstalledCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginInstalledCopyWith(
@@ -1085,7 +938,6 @@ abstract mixin class $PluginManagerEvent_PluginInstalledCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginInstalledCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginInstalledCopyWith<$Res> {
   _$PluginManagerEvent_PluginInstalledCopyWithImpl(this._self, this._then);
@@ -1093,8 +945,6 @@ class _$PluginManagerEvent_PluginInstalledCopyWithImpl<$Res>
   final PluginManagerEvent_PluginInstalled _self;
   final $Res Function(PluginManagerEvent_PluginInstalled) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1108,8 +958,6 @@ class _$PluginManagerEvent_PluginInstalledCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginInstallFailed extends PluginManagerEvent {
   const PluginManagerEvent_PluginInstallFailed(
       {required this.id, required this.error})
@@ -1118,8 +966,6 @@ class PluginManagerEvent_PluginInstallFailed extends PluginManagerEvent {
   final String id;
   final String error;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginInstallFailedCopyWith<
@@ -1145,7 +991,6 @@ class PluginManagerEvent_PluginInstallFailed extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginInstallFailedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginInstallFailedCopyWith(
@@ -1156,7 +1001,6 @@ abstract mixin class $PluginManagerEvent_PluginInstallFailedCopyWith<$Res>
   $Res call({String id, String error});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginInstallFailedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginInstallFailedCopyWith<$Res> {
   _$PluginManagerEvent_PluginInstallFailedCopyWithImpl(this._self, this._then);
@@ -1164,8 +1008,6 @@ class _$PluginManagerEvent_PluginInstallFailedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginInstallFailed _self;
   final $Res Function(PluginManagerEvent_PluginInstallFailed) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1184,15 +1026,11 @@ class _$PluginManagerEvent_PluginInstallFailedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginDeleting extends PluginManagerEvent {
   const PluginManagerEvent_PluginDeleting({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginDeletingCopyWith<PluginManagerEvent_PluginDeleting>
@@ -1216,7 +1054,6 @@ class PluginManagerEvent_PluginDeleting extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginDeletingCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginDeletingCopyWith(
@@ -1227,7 +1064,6 @@ abstract mixin class $PluginManagerEvent_PluginDeletingCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginDeletingCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginDeletingCopyWith<$Res> {
   _$PluginManagerEvent_PluginDeletingCopyWithImpl(this._self, this._then);
@@ -1235,8 +1071,6 @@ class _$PluginManagerEvent_PluginDeletingCopyWithImpl<$Res>
   final PluginManagerEvent_PluginDeleting _self;
   final $Res Function(PluginManagerEvent_PluginDeleting) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1250,15 +1084,11 @@ class _$PluginManagerEvent_PluginDeletingCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginDeleted extends PluginManagerEvent {
   const PluginManagerEvent_PluginDeleted({required this.id}) : super._();
 
   final String id;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginDeletedCopyWith<PluginManagerEvent_PluginDeleted>
@@ -1282,7 +1112,6 @@ class PluginManagerEvent_PluginDeleted extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginDeletedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginDeletedCopyWith(
@@ -1293,7 +1122,6 @@ abstract mixin class $PluginManagerEvent_PluginDeletedCopyWith<$Res>
   $Res call({String id});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginDeletedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginDeletedCopyWith<$Res> {
   _$PluginManagerEvent_PluginDeletedCopyWithImpl(this._self, this._then);
@@ -1301,8 +1129,6 @@ class _$PluginManagerEvent_PluginDeletedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginDeleted _self;
   final $Res Function(PluginManagerEvent_PluginDeleted) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1316,8 +1142,6 @@ class _$PluginManagerEvent_PluginDeletedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginDeleteFailed extends PluginManagerEvent {
   const PluginManagerEvent_PluginDeleteFailed(
       {required this.id, required this.error})
@@ -1326,8 +1150,6 @@ class PluginManagerEvent_PluginDeleteFailed extends PluginManagerEvent {
   final String id;
   final String error;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginDeleteFailedCopyWith<
@@ -1353,7 +1175,6 @@ class PluginManagerEvent_PluginDeleteFailed extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginDeleteFailedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginDeleteFailedCopyWith(
@@ -1364,7 +1185,6 @@ abstract mixin class $PluginManagerEvent_PluginDeleteFailedCopyWith<$Res>
   $Res call({String id, String error});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginDeleteFailedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginDeleteFailedCopyWith<$Res> {
   _$PluginManagerEvent_PluginDeleteFailedCopyWithImpl(this._self, this._then);
@@ -1372,8 +1192,6 @@ class _$PluginManagerEvent_PluginDeleteFailedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginDeleteFailed _self;
   final $Res Function(PluginManagerEvent_PluginDeleteFailed) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
@@ -1392,8 +1210,6 @@ class _$PluginManagerEvent_PluginDeleteFailedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_PluginListRefreshed extends PluginManagerEvent {
   const PluginManagerEvent_PluginListRefreshed(
       {required final List<PluginInfo> plugins})
@@ -1403,12 +1219,9 @@ class PluginManagerEvent_PluginListRefreshed extends PluginManagerEvent {
   final List<PluginInfo> _plugins;
   List<PluginInfo> get plugins {
     if (_plugins is EqualUnmodifiableListView) return _plugins;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_plugins);
   }
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_PluginListRefreshedCopyWith<
@@ -1434,7 +1247,6 @@ class PluginManagerEvent_PluginListRefreshed extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_PluginListRefreshedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_PluginListRefreshedCopyWith(
@@ -1445,7 +1257,6 @@ abstract mixin class $PluginManagerEvent_PluginListRefreshedCopyWith<$Res>
   $Res call({List<PluginInfo> plugins});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_PluginListRefreshedCopyWithImpl<$Res>
     implements $PluginManagerEvent_PluginListRefreshedCopyWith<$Res> {
   _$PluginManagerEvent_PluginListRefreshedCopyWithImpl(this._self, this._then);
@@ -1453,8 +1264,6 @@ class _$PluginManagerEvent_PluginListRefreshedCopyWithImpl<$Res>
   final PluginManagerEvent_PluginListRefreshed _self;
   final $Res Function(PluginManagerEvent_PluginListRefreshed) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? plugins = null,
@@ -1468,8 +1277,6 @@ class _$PluginManagerEvent_PluginListRefreshedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_StorageSet extends PluginManagerEvent {
   const PluginManagerEvent_StorageSet(
       {required this.pluginId, required this.key, required this.value})
@@ -1479,8 +1286,6 @@ class PluginManagerEvent_StorageSet extends PluginManagerEvent {
   final String key;
   final String value;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_StorageSetCopyWith<PluginManagerEvent_StorageSet>
@@ -1507,7 +1312,6 @@ class PluginManagerEvent_StorageSet extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_StorageSetCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_StorageSetCopyWith(
@@ -1518,7 +1322,6 @@ abstract mixin class $PluginManagerEvent_StorageSetCopyWith<$Res>
   $Res call({String pluginId, String key, String value});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_StorageSetCopyWithImpl<$Res>
     implements $PluginManagerEvent_StorageSetCopyWith<$Res> {
   _$PluginManagerEvent_StorageSetCopyWithImpl(this._self, this._then);
@@ -1526,8 +1329,6 @@ class _$PluginManagerEvent_StorageSetCopyWithImpl<$Res>
   final PluginManagerEvent_StorageSet _self;
   final $Res Function(PluginManagerEvent_StorageSet) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? pluginId = null,
@@ -1551,8 +1352,6 @@ class _$PluginManagerEvent_StorageSetCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_StorageDeleted extends PluginManagerEvent {
   const PluginManagerEvent_StorageDeleted(
       {required this.pluginId, required this.key})
@@ -1561,8 +1360,6 @@ class PluginManagerEvent_StorageDeleted extends PluginManagerEvent {
   final String pluginId;
   final String key;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_StorageDeletedCopyWith<PluginManagerEvent_StorageDeleted>
@@ -1588,7 +1385,6 @@ class PluginManagerEvent_StorageDeleted extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_StorageDeletedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_StorageDeletedCopyWith(
@@ -1599,7 +1395,6 @@ abstract mixin class $PluginManagerEvent_StorageDeletedCopyWith<$Res>
   $Res call({String pluginId, String key});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_StorageDeletedCopyWithImpl<$Res>
     implements $PluginManagerEvent_StorageDeletedCopyWith<$Res> {
   _$PluginManagerEvent_StorageDeletedCopyWithImpl(this._self, this._then);
@@ -1607,8 +1402,6 @@ class _$PluginManagerEvent_StorageDeletedCopyWithImpl<$Res>
   final PluginManagerEvent_StorageDeleted _self;
   final $Res Function(PluginManagerEvent_StorageDeleted) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? pluginId = null,
@@ -1627,15 +1420,11 @@ class _$PluginManagerEvent_StorageDeletedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_StorageCleared extends PluginManagerEvent {
   const PluginManagerEvent_StorageCleared({required this.pluginId}) : super._();
 
   final String pluginId;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_StorageClearedCopyWith<PluginManagerEvent_StorageCleared>
@@ -1660,7 +1449,6 @@ class PluginManagerEvent_StorageCleared extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_StorageClearedCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_StorageClearedCopyWith(
@@ -1671,7 +1459,6 @@ abstract mixin class $PluginManagerEvent_StorageClearedCopyWith<$Res>
   $Res call({String pluginId});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_StorageClearedCopyWithImpl<$Res>
     implements $PluginManagerEvent_StorageClearedCopyWith<$Res> {
   _$PluginManagerEvent_StorageClearedCopyWithImpl(this._self, this._then);
@@ -1679,8 +1466,6 @@ class _$PluginManagerEvent_StorageClearedCopyWithImpl<$Res>
   final PluginManagerEvent_StorageCleared _self;
   final $Res Function(PluginManagerEvent_StorageCleared) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? pluginId = null,
@@ -1693,8 +1478,6 @@ class _$PluginManagerEvent_StorageClearedCopyWithImpl<$Res>
     ));
   }
 }
-
-/// @nodoc
 
 class PluginManagerEvent_ManagerInitialized extends PluginManagerEvent {
   const PluginManagerEvent_ManagerInitialized() : super._();
@@ -1715,15 +1498,11 @@ class PluginManagerEvent_ManagerInitialized extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
-
 class PluginManagerEvent_Error extends PluginManagerEvent {
   const PluginManagerEvent_Error({required this.message}) : super._();
 
   final String message;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $PluginManagerEvent_ErrorCopyWith<PluginManagerEvent_Error> get copyWith =>
@@ -1747,7 +1526,6 @@ class PluginManagerEvent_Error extends PluginManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $PluginManagerEvent_ErrorCopyWith<$Res>
     implements $PluginManagerEventCopyWith<$Res> {
   factory $PluginManagerEvent_ErrorCopyWith(PluginManagerEvent_Error value,
@@ -1757,7 +1535,6 @@ abstract mixin class $PluginManagerEvent_ErrorCopyWith<$Res>
   $Res call({String message});
 }
 
-/// @nodoc
 class _$PluginManagerEvent_ErrorCopyWithImpl<$Res>
     implements $PluginManagerEvent_ErrorCopyWith<$Res> {
   _$PluginManagerEvent_ErrorCopyWithImpl(this._self, this._then);
@@ -1765,8 +1542,6 @@ class _$PluginManagerEvent_ErrorCopyWithImpl<$Res>
   final PluginManagerEvent_Error _self;
   final $Res Function(PluginManagerEvent_Error) _then;
 
-  /// Create a copy of PluginManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? message = null,
@@ -1779,5 +1554,3 @@ class _$PluginManagerEvent_ErrorCopyWithImpl<$Res>
     ));
   }
 }
-
-// dart format on

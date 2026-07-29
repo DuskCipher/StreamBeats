@@ -1,18 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'types.dart';
 
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
-
-// dart format off
 T _$identity<T>(T value) => value;
 
-/// @nodoc
 mixin _$DownloadManagerEvent {
   @override
   bool operator ==(Object other) {
@@ -29,25 +18,12 @@ mixin _$DownloadManagerEvent {
   }
 }
 
-/// @nodoc
 class $DownloadManagerEventCopyWith<$Res> {
   $DownloadManagerEventCopyWith(
       DownloadManagerEvent _, $Res Function(DownloadManagerEvent) __);
 }
 
-/// Adds pattern-matching-related methods to [DownloadManagerEvent].
 extension DownloadManagerEventPatterns on DownloadManagerEvent {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -75,19 +51,6 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadManagerEvent_TaskUpdated value)
@@ -112,18 +75,6 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
         return recoverySummary(_that);
     }
   }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -150,18 +101,6 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
     }
   }
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(DownloadTaskSnapshot field0)? taskUpdated,
@@ -186,19 +125,6 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(DownloadTaskSnapshot field0) taskUpdated,
@@ -219,18 +145,6 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
         return recoverySummary(_that.restored, _that.cleaned);
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -256,15 +170,11 @@ extension DownloadManagerEventPatterns on DownloadManagerEvent {
   }
 }
 
-/// @nodoc
-
 class DownloadManagerEvent_TaskUpdated extends DownloadManagerEvent {
   const DownloadManagerEvent_TaskUpdated(this.field0) : super._();
 
   final DownloadTaskSnapshot field0;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $DownloadManagerEvent_TaskUpdatedCopyWith<DownloadManagerEvent_TaskUpdated>
@@ -288,7 +198,6 @@ class DownloadManagerEvent_TaskUpdated extends DownloadManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $DownloadManagerEvent_TaskUpdatedCopyWith<$Res>
     implements $DownloadManagerEventCopyWith<$Res> {
   factory $DownloadManagerEvent_TaskUpdatedCopyWith(
@@ -299,7 +208,6 @@ abstract mixin class $DownloadManagerEvent_TaskUpdatedCopyWith<$Res>
   $Res call({DownloadTaskSnapshot field0});
 }
 
-/// @nodoc
 class _$DownloadManagerEvent_TaskUpdatedCopyWithImpl<$Res>
     implements $DownloadManagerEvent_TaskUpdatedCopyWith<$Res> {
   _$DownloadManagerEvent_TaskUpdatedCopyWithImpl(this._self, this._then);
@@ -307,8 +215,6 @@ class _$DownloadManagerEvent_TaskUpdatedCopyWithImpl<$Res>
   final DownloadManagerEvent_TaskUpdated _self;
   final $Res Function(DownloadManagerEvent_TaskUpdated) _then;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -322,16 +228,12 @@ class _$DownloadManagerEvent_TaskUpdatedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class DownloadManagerEvent_TaskCompletedPendingAck
     extends DownloadManagerEvent {
   const DownloadManagerEvent_TaskCompletedPendingAck(this.field0) : super._();
 
   final DownloadTaskSnapshot field0;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $DownloadManagerEvent_TaskCompletedPendingAckCopyWith<
@@ -357,7 +259,6 @@ class DownloadManagerEvent_TaskCompletedPendingAck
   }
 }
 
-/// @nodoc
 abstract mixin class $DownloadManagerEvent_TaskCompletedPendingAckCopyWith<$Res>
     implements $DownloadManagerEventCopyWith<$Res> {
   factory $DownloadManagerEvent_TaskCompletedPendingAckCopyWith(
@@ -368,7 +269,6 @@ abstract mixin class $DownloadManagerEvent_TaskCompletedPendingAckCopyWith<$Res>
   $Res call({DownloadTaskSnapshot field0});
 }
 
-/// @nodoc
 class _$DownloadManagerEvent_TaskCompletedPendingAckCopyWithImpl<$Res>
     implements $DownloadManagerEvent_TaskCompletedPendingAckCopyWith<$Res> {
   _$DownloadManagerEvent_TaskCompletedPendingAckCopyWithImpl(
@@ -377,8 +277,6 @@ class _$DownloadManagerEvent_TaskCompletedPendingAckCopyWithImpl<$Res>
   final DownloadManagerEvent_TaskCompletedPendingAck _self;
   final $Res Function(DownloadManagerEvent_TaskCompletedPendingAck) _then;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? field0 = null,
@@ -392,15 +290,11 @@ class _$DownloadManagerEvent_TaskCompletedPendingAckCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class DownloadManagerEvent_TaskRemoved extends DownloadManagerEvent {
   const DownloadManagerEvent_TaskRemoved({required this.taskId}) : super._();
 
   final String taskId;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $DownloadManagerEvent_TaskRemovedCopyWith<DownloadManagerEvent_TaskRemoved>
@@ -424,7 +318,6 @@ class DownloadManagerEvent_TaskRemoved extends DownloadManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $DownloadManagerEvent_TaskRemovedCopyWith<$Res>
     implements $DownloadManagerEventCopyWith<$Res> {
   factory $DownloadManagerEvent_TaskRemovedCopyWith(
@@ -435,7 +328,6 @@ abstract mixin class $DownloadManagerEvent_TaskRemovedCopyWith<$Res>
   $Res call({String taskId});
 }
 
-/// @nodoc
 class _$DownloadManagerEvent_TaskRemovedCopyWithImpl<$Res>
     implements $DownloadManagerEvent_TaskRemovedCopyWith<$Res> {
   _$DownloadManagerEvent_TaskRemovedCopyWithImpl(this._self, this._then);
@@ -443,8 +335,6 @@ class _$DownloadManagerEvent_TaskRemovedCopyWithImpl<$Res>
   final DownloadManagerEvent_TaskRemoved _self;
   final $Res Function(DownloadManagerEvent_TaskRemoved) _then;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? taskId = null,
@@ -458,8 +348,6 @@ class _$DownloadManagerEvent_TaskRemovedCopyWithImpl<$Res>
   }
 }
 
-/// @nodoc
-
 class DownloadManagerEvent_RecoverySummary extends DownloadManagerEvent {
   const DownloadManagerEvent_RecoverySummary(
       {required this.restored, required this.cleaned})
@@ -468,8 +356,6 @@ class DownloadManagerEvent_RecoverySummary extends DownloadManagerEvent {
   final int restored;
   final int cleaned;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $DownloadManagerEvent_RecoverySummaryCopyWith<
@@ -496,7 +382,6 @@ class DownloadManagerEvent_RecoverySummary extends DownloadManagerEvent {
   }
 }
 
-/// @nodoc
 abstract mixin class $DownloadManagerEvent_RecoverySummaryCopyWith<$Res>
     implements $DownloadManagerEventCopyWith<$Res> {
   factory $DownloadManagerEvent_RecoverySummaryCopyWith(
@@ -507,7 +392,6 @@ abstract mixin class $DownloadManagerEvent_RecoverySummaryCopyWith<$Res>
   $Res call({int restored, int cleaned});
 }
 
-/// @nodoc
 class _$DownloadManagerEvent_RecoverySummaryCopyWithImpl<$Res>
     implements $DownloadManagerEvent_RecoverySummaryCopyWith<$Res> {
   _$DownloadManagerEvent_RecoverySummaryCopyWithImpl(this._self, this._then);
@@ -515,8 +399,6 @@ class _$DownloadManagerEvent_RecoverySummaryCopyWithImpl<$Res>
   final DownloadManagerEvent_RecoverySummary _self;
   final $Res Function(DownloadManagerEvent_RecoverySummary) _then;
 
-  /// Create a copy of DownloadManagerEvent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
     Object? restored = null,
@@ -534,5 +416,3 @@ class _$DownloadManagerEvent_RecoverySummaryCopyWithImpl<$Res>
     ));
   }
 }
-
-// dart format on

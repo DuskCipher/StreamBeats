@@ -40,8 +40,6 @@ class GradientDialog extends StatefulWidget {
 }
 
 class _GradientDialogState extends State<GradientDialog> {
-  // Presets curated for dark-themed UIs. Slightly darker / more saturated
-  // variants so white text remains readable while keeping the same palettes.
   static const List<GradientPreset> presets = [
     GradientPreset('Pink Sunset', Color(0xFFFF3B5A), Color(0xFFFFB570),
         Color(0xFFE63A63)), // default (darker pink-to-warm)
@@ -77,7 +75,6 @@ class _GradientDialogState extends State<GradientDialog> {
         borderRadius: BorderRadius.circular(14.0),
         child: Container(
           constraints: BoxConstraints(
-            // Keep dialog compact and responsive; never full-screen
             maxWidth: mq.width * 0.9 < 520 ? mq.width * 0.9 : 520,
           ),
           decoration: BoxDecoration(

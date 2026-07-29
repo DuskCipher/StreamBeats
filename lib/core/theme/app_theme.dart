@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Canonical app theme.
-///
-/// Use [AppTheme] in new code. The [Default_Theme] typedef at the bottom of
-/// this file provides backward-compatible access for existing callers while
-/// imports are being migrated.
 class AppTheme {
-  // ── Text Styles ─────────────────────────────────────────────────────────────
   static const primaryTextStyle = TextStyle(fontFamily: "Arial", color: Colors.white);
   static const secondoryTextStyle = TextStyle(fontFamily: "Arial", color: Colors.white);
   static const secondoryTextStyleMedium =
@@ -17,7 +11,6 @@ class AppTheme {
   static const fontAwesomeSolidFont =
       TextStyle(fontFamily: "FontAwesome-Solids");
 
-  // ── Colors ──────────────────────────────────────────────────────────────────
   static const themeColor = Color(0xFF000000);         // Hitam murni
   static const primaryColor1 = Color(0xFFFFFFFF);      // Putih
   static const primaryColor2 = Color(0xFFBBBBBB);      // Abu-abu terang (teks sekunder)
@@ -26,7 +19,6 @@ class AppTheme {
   static const accentColor2 = Color(0xFFFFFFFF);       // Putih (pengganti pink)
   static const successColor = Color(0xFF5EFF43);
 
-  // ── Theme Data ───────────────────────────────────────────────────────────────
   ThemeData get defaultThemeData {
     const darkScheme = ColorScheme.dark(
       primary: accentColor2,
@@ -138,7 +130,4 @@ class AppTheme {
   }
 }
 
-/// Backward-compat alias for [AppTheme].
-/// Prefer importing from [core/theme/app_theme.dart] and using [AppTheme] directly.
-// ignore: camel_case_types
 typedef Default_Theme = AppTheme;

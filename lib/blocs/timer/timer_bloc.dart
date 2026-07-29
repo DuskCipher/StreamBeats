@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/utils/ticker.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/utils/ticker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -12,10 +12,10 @@ part 'timer_state.dart';
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final Ticker _ticker;
   static const int _duration = 0;
-  final BloomeePlayerCubit bloomeePlayer;
+  final StreamBeatsPlayerCubit streambeatsPlayer;
   StreamSubscription<int>? _tickerSubscription;
 
-  TimerBloc({required Ticker ticker, required this.bloomeePlayer})
+  TimerBloc({required Ticker ticker, required this.streambeatsPlayer})
       : _ticker = ticker,
         super(const TimerInitial(_duration)) {
     on<TimerStarted>(_onTimerStarted);
@@ -60,15 +60,12 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onTimerTicked(_TimerTicked event, Emitter<TimerState> emit) {
-    // emit(event.duration > 0
-    //     ? TimerRunInProgress(event.duration)
-    //     : const TimerRunComplete());
     if (event.duration > 0) {
       emit(TimerRunInProgress(event.duration));
     } else {
       emit(const TimerRunComplete());
       try {
-        bloomeePlayer.bloomeePlayer.pause();
+        streambeatsPlayer.streambeatsPlayer.pause();
       } catch (e) {
         log(e.toString(), name: "TimerBloc");
       }

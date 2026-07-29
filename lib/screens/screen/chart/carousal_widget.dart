@@ -1,20 +1,19 @@
 import 'dart:developer';
 import 'dart:async';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_bloc.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_event.dart';
-import 'package:Bloomee/plugins/blocs/chart/chart_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/screen/chart/chart_view.dart';
-import 'package:Bloomee/screens/screen/chart/chart_widget.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_bloc.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_event.dart';
+import 'package:streambeats/plugins/blocs/chart/chart_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/screen/chart/chart_view.dart';
+import 'package:streambeats/screens/screen/chart/chart_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-/// Chart carousel widget that displays charts from loaded chart provider plugins.
 class CaraouselWidget extends StatefulWidget {
   const CaraouselWidget({super.key});
 

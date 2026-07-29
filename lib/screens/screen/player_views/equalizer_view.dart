@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/blocs/settings_cubit/cubit/settings_cubit.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/screens/screen/home_views/setting_views/custom_switch.dart';
-import 'package:Bloomee/services/player/player_engine.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/blocs/settings_cubit/cubit/settings_cubit.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/screens/screen/home_views/setting_views/custom_switch.dart';
+import 'package:streambeats/services/player/player_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +55,6 @@ class _EqualizerViewState extends State<EqualizerView>
   late List<double> _animStartGains;
   String _selectedPreset = 'Flat';
 
-  // FIX H-01: EQ source (builtin vs device) state
   late String _eqSource;
 
   late AnimationController _fadeCtrl;
@@ -70,15 +69,13 @@ class _EqualizerViewState extends State<EqualizerView>
   int? _draggingBandIndex;
   bool _isGraphInteractive = false;
 
-  // FIX L-01: Reactive subscriptions so the view stays in sync with engine state
-  // changes from external code (settings restore, revive, Bloomee settings page).
   StreamSubscription? _eqEnabledSub;
   StreamSubscription? _eqGainsSub;
 
   @override
   void initState() {
     super.initState();
-    _engine = context.read<BloomeePlayerCubit>().bloomeePlayer.engine;
+    _engine = context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.engine;
     _settingsCubit = context.read<SettingsCubit>();
 
     _eqSource = _settingsCubit.state.eqSource;
@@ -92,8 +89,6 @@ class _EqualizerViewState extends State<EqualizerView>
       _selectedPreset = _matchingPreset();
     }
 
-    // FIX L-01: Subscribe to reactive EQ streams so band gains and enabled
-    // state are always in sync even if changed from another code path.
     _eqEnabledSub = _engine.equalizerEnabledStream.listen((enabled) {
       if (mounted) setState(() {});
     });
@@ -136,7 +131,6 @@ class _EqualizerViewState extends State<EqualizerView>
       _animStartGains[index] = value;
       _selectedPreset = _matchingPreset();
     });
-    // Engine update skipped during active drag to prevent audio stutter
   }
 
   void _onBandChangeEnd(int index) {
@@ -181,18 +175,15 @@ class _EqualizerViewState extends State<EqualizerView>
     _settingsCubit.setEqPreset('Flat');
   }
 
-  /// FIX H-01: Toggle EQ source between 'builtin' and 'device'.
   void _setEqSource(String source) {
     HapticFeedback.lightImpact();
     setState(() => _eqSource = source);
     _settingsCubit.setEqSource(source);
 
     if (source == EqSourceValues.device) {
-      // Disable in-app EQ so audio passes through to the device system EQ.
       _engine.setEqualizerEnabled(false);
       _settingsCubit.setEqEnabled(false);
     } else {
-      // Restore in-app EQ to its last saved enabled state.
       final savedEnabled = _settingsCubit.state.eqEnabled;
       _engine.setEqualizerEnabled(savedEnabled);
     }
@@ -318,7 +309,6 @@ class _EqualizerViewState extends State<EqualizerView>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // FIX H-01: EQ Source selection — 'Built-in' or 'Device'
                   _buildSectionHeader('EQ SOURCE'),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -397,7 +387,6 @@ class _EqualizerViewState extends State<EqualizerView>
                   ),
                   const SizedBox(height: 24),
 
-                  // Only show built-in EQ controls when in builtin mode
                   if (isBuiltinMode) ...[
                     _buildSectionHeader('PRESETS'),
                     _buildPresetTabs(accent),
@@ -426,7 +415,7 @@ class _EqualizerViewState extends State<EqualizerView>
                                             .withValues(alpha: 0.95),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600)),
-                                BloomeeSwitch(
+                                StreamBeatsSwitch(
                                   value: isEnabled,
                                   onChanged: () {
                                     _engine.setEqualizerEnabled(!isEnabled);
@@ -565,7 +554,6 @@ class _EqualizerViewState extends State<EqualizerView>
   }
 }
 
-/// A tappable EQ source option card.
 class _EqSourceOption extends StatelessWidget {
   final String label;
   final String subtitle;
@@ -646,7 +634,6 @@ class _EqSourceOption extends StatelessWidget {
   }
 }
 
-// Helper extension used in EqualizerView
 extension _NullableIntExt on int? {
   bool get isNotNull => this != null;
 }

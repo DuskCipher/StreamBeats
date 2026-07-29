@@ -1,4 +1,3 @@
-// lib/utils/color_palette.dart
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
@@ -6,8 +5,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Public API:
-/// await analyzeImageColors(url) -> returns a map { 'overlay': Color, 'text': Color, 'palette': List<Color> }
 Future<Map<String, dynamic>> analyzeImageColors(
   String imageUrl, {
   int numColors = 12,
@@ -20,7 +17,6 @@ Future<Map<String, dynamic>> analyzeImageColors(
       await _getResizedRGBABytes(image, sampleSize, sampleSize);
   final List<List<int>> pixelList = _rgbaToRgbList(pixels);
 
-  // Run KMeans on pixelList
   final paletteWithProportions =
       _kMeansPalette(pixelList, numColors, maxIters: kMeansIters, seed: 42);
   final palette =
@@ -38,7 +34,6 @@ Future<Map<String, dynamic>> analyzeImageColors(
   };
 }
 
-/// -------------------- Helper: download + decode --------------------
 Future<Uint8List> _downloadImageBytes(String url) async {
   final uri = Uri.parse(url);
   final client = HttpClient();
@@ -47,7 +42,6 @@ Future<Uint8List> _downloadImageBytes(String url) async {
   if (response.statusCode != 200) {
     throw HttpException('Failed to download image: ${response.statusCode}');
   }
-  // consolidateHttpClientResponseBytes is provided by flutter/foundation.dart
   final bytes = await consolidateHttpClientResponseBytes(response);
   client.close();
   return bytes;
@@ -59,7 +53,6 @@ Future<ui.Image> _decodeImage(Uint8List data) async {
   return frame.image;
 }
 
-/// Resize to targetWidth x targetHeight and return RGBA8888 bytes
 Future<Uint8List> _getResizedRGBABytes(
     ui.Image src, int targetW, int targetH) async {
   final recorder = ui.PictureRecorder();
@@ -76,7 +69,6 @@ Future<Uint8List> _getResizedRGBABytes(
   return byteData.buffer.asUint8List();
 }
 
-/// Convert raw RGBA bytes to List<[r,g,b]> (drop alpha)
 List<List<int>> _rgbaToRgbList(Uint8List rgba) {
   final out = <List<int>>[];
   for (int i = 0; i + 3 < rgba.length; i += 4) {
@@ -88,8 +80,6 @@ List<List<int>> _rgbaToRgbList(Uint8List rgba) {
   return out;
 }
 
-/// -------------------- Simple KMeans --------------------
-/// Signature now accepts named parameters for clarity (maxIters, seed)
 List<Map<String, dynamic>> _kMeansPalette(
   List<List<int>> pixels,
   int k, {
@@ -99,14 +89,12 @@ List<Map<String, dynamic>> _kMeansPalette(
   final rnd = Random(seed);
   if (pixels.isEmpty) return <Map<String, dynamic>>[];
 
-  // If there are fewer unique colors than k, reduce k
   final unique = <int>{};
   for (var p in pixels) {
     unique.add((p[0] << 16) | (p[1] << 8) | p[2]);
   }
   final effectiveK = min(k, unique.length);
 
-  // initialize centers by random pixels
   final centers = <List<double>>[];
   final usedIdx = <int>{};
   while (centers.length < effectiveK) {
@@ -121,7 +109,6 @@ List<Map<String, dynamic>> _kMeansPalette(
 
   for (int iter = 0; iter < maxIters; iter++) {
     bool changed = false;
-    // assign
     for (int i = 0; i < pixels.length; i++) {
       final p = pixels[i];
       double bestDist = double.infinity;
@@ -142,7 +129,6 @@ List<Map<String, dynamic>> _kMeansPalette(
       }
     }
 
-    // update
     final sums = List.generate(centers.length, (_) => <double>[0.0, 0.0, 0.0]);
     final counts = List<int>.filled(centers.length, 0);
     for (int i = 0; i < pixels.length; i++) {
@@ -154,7 +140,6 @@ List<Map<String, dynamic>> _kMeansPalette(
     }
     for (int c = 0; c < centers.length; c++) {
       if (counts[c] == 0) {
-        // re-seed empty cluster
         final idx = rnd.nextInt(pixels.length);
         centers[c] = [
           pixels[idx][0].toDouble(),
@@ -171,7 +156,6 @@ List<Map<String, dynamic>> _kMeansPalette(
     if (!changed) break;
   }
 
-  // compute proportions and return palette sorted by proportion
   final countsFinal = <int, int>{};
   for (final l in labels) {
     countsFinal[l] = (countsFinal[l] ?? 0) + 1;
@@ -189,7 +173,6 @@ List<Map<String, dynamic>> _kMeansPalette(
   return list;
 }
 
-/// -------------------- Color theory helpers --------------------
 List<double> _rgbToHsv(List<int> rgb) {
   final r = rgb[0] / 255.0;
   final g = rgb[1] / 255.0;
@@ -232,7 +215,6 @@ double _contrastRatio(List<int> rgb1, List<int> rgb2) {
   return top / bottom;
 }
 
-/// -------------------- Overlay & Text Selection Algorithms --------------------
 List<int> _findBestOverlayColor(
     List<Map<String, dynamic>> paletteWithProportions) {
   List<int>? bestColor;
@@ -257,7 +239,6 @@ List<int> _findBestOverlayColor(
     }
   }
 
-  // Fallback: pick the brightest*saturated
   if (bestColor == null) {
     final fallback = paletteWithProportions.reduce((a, b) {
       final av = _rgbToHsv(List<int>.from(a['color']));
@@ -275,12 +256,10 @@ List<int> _findReactiveTextColor(
     List<int> backgroundRgb, List<List<int>> palette) {
   const double minContrast = 4.0;
 
-  // 1. Pure white
   if (_contrastRatio(backgroundRgb, [255, 255, 255]) >= minContrast) {
     return [255, 255, 255];
   }
 
-  // 2. Try bright palette colors
   final lightCandidates = <Map<String, dynamic>>[];
   for (final color in palette) {
     final hsv = _rgbToHsv(color);
@@ -302,7 +281,6 @@ List<int> _findReactiveTextColor(
     return List<int>.from(lightCandidates.first['color'] as List<int>);
   }
 
-  // 3. Try tinted (blend with white)
   final tinted = <Map<String, dynamic>>[];
   for (final color in palette) {
     final tint = [
@@ -324,7 +302,6 @@ List<int> _findReactiveTextColor(
     return List<int>.from(tinted.first['color'] as List<int>);
   }
 
-  // 4. Any readable color from palette
   final anyReadable = <Map<String, dynamic>>[];
   for (final color in palette) {
     final contrast = _contrastRatio(backgroundRgb, color);
@@ -346,6 +323,5 @@ List<int> _findReactiveTextColor(
     return List<int>.from(anyReadable.first['color'] as List<int>);
   }
 
-  // Fallback: off-white
   return [245, 245, 245];
 }

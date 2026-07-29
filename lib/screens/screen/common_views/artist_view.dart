@@ -1,24 +1,23 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/events/global_event_bus.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/core/models/media_playlist_model.dart';
-import 'package:Bloomee/plugins/blocs/content/content_bloc.dart';
-import 'package:Bloomee/plugins/blocs/content/content_event.dart';
-import 'package:Bloomee/plugins/blocs/content/content_state.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/blocs/library/cubit/library_items_cubit.dart';
-import 'package:Bloomee/screens/widgets/album_card.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
-import 'package:Bloomee/screens/widgets/more_bottom_sheet.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/screens/widgets/song_tile.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/utils/load_image.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/events/global_event_bus.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/core/models/media_playlist_model.dart';
+import 'package:streambeats/plugins/blocs/content/content_bloc.dart';
+import 'package:streambeats/plugins/blocs/content/content_event.dart';
+import 'package:streambeats/plugins/blocs/content/content_state.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/blocs/library/cubit/library_items_cubit.dart';
+import 'package:streambeats/screens/widgets/album_card.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/utils/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -129,8 +128,6 @@ class _ArtistViewState extends State<ArtistView> {
       ),
     );
   }
-
-  // ─── ARCHITECTURE METHODS ───
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
@@ -381,8 +378,8 @@ class _ArtistViewState extends State<ArtistView> {
                       ),
                       onTap: () {
                         context
-                            .read<BloomeePlayerCubit>()
-                            .bloomeePlayer
+                            .read<StreamBeatsPlayerCubit>()
+                            .streambeatsPlayer
                             .loadPlaylist(
                               Playlist(tracks: topTracks, title: artistName),
                               doPlay: true,
@@ -459,8 +456,6 @@ class _ArtistViewState extends State<ArtistView> {
     );
   }
 }
-
-// ─── HEADER CONTENT WIDGET ───
 
 class _ArtistHeaderContent extends StatelessWidget {
   final bool isMobile;
@@ -635,8 +630,8 @@ class _ArtistHeaderContent extends StatelessWidget {
               onTap: topTracks.isEmpty
                   ? null
                   : () => context
-                      .read<BloomeePlayerCubit>()
-                      .bloomeePlayer
+                      .read<StreamBeatsPlayerCubit>()
+                      .streambeatsPlayer
                       .loadPlaylist(
                         Playlist(tracks: topTracks, title: title),
                         doPlay: true,

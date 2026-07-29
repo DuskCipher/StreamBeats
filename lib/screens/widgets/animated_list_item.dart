@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Reusable animated list item with fade-in and slide-up effect
 class AnimatedListItem extends StatelessWidget {
   final int index;
   final Widget child;

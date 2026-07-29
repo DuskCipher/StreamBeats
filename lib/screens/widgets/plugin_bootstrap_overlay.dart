@@ -3,13 +3,13 @@ library;
 import 'dart:io' show Platform, exit;
 import 'dart:ui';
 
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
-import 'package:Bloomee/plugins/services/plugin_repository_service.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/services/plugin_bootstrap_service.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
+import 'package:streambeats/plugins/services/plugin_repository_service.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/services/plugin_bootstrap_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -390,7 +390,7 @@ class _NoInternetBody extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Bloomee needs an internet connection once to detect your country and set up the plugin engine.',
+              'StreamBeats needs an internet connection once to detect your country and set up the plugin engine.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.62),

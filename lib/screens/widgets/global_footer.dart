@@ -1,8 +1,8 @@
-import 'package:Bloomee/blocs/player_overlay/player_overlay_cubit.dart';
-import 'package:Bloomee/screens/widgets/player_overlay_wrapper.dart';
-import 'package:Bloomee/screens/widgets/mini_player_widget.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/blocs/player_overlay/player_overlay_cubit.dart';
+import 'package:streambeats/screens/widgets/player_overlay_wrapper.dart';
+import 'package:streambeats/screens/widgets/mini_player_widget.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,38 +22,24 @@ class GlobalFooter extends StatelessWidget {
 
     return PlayerOverlayWrapper(
       child: BackButtonListener(
-        // FIX H-04: Back button priority order:
-        // ① Navigator routes (FullscreenLyricsView, PlayerSettings, TimerView, etc.)
-        // ② UpNext panel collapse
-        // ③ Player overlay hide
-        // ④ GoRouter shell navigation
-        // ⑤ System exit
-        //
-        // Previously the handler short-circuited at step ③ whenever the player
-        // was visible, swallowing Navigator pops and causing sub-screens to
-        // appear orphaned over a hidden/collapsed player.
         onBackButtonPressed: () async {
           final overlayC = context.read<PlayerOverlayCubit>();
           final router = GoRouter.of(context);
 
-          // ① Navigator MUST have first priority — always.
           if (router.canPop()) {
             router.pop();
             return true;
           }
 
-          // ② Collapse UpNext panel if expanded (player must be visible).
           if (overlayC.state && overlayC.collapseUpNextPanel()) {
             return true;
           }
 
-          // ③ Hide the player overlay.
           if (overlayC.state) {
             overlayC.hidePlayer();
             return true;
           }
 
-          // ④ Let PopScope handle tab/exit navigation below.
           return false;
         },
         child: PopScope(
@@ -101,34 +87,27 @@ class GlobalFooter extends StatelessWidget {
     );
   }
 
-  /// Handles PopScope back presses using the same priority order as
-  /// BackButtonListener above.
   Future<void> _handleHardwareBackPress(BuildContext context) async {
     final overlayC = context.read<PlayerOverlayCubit>();
     final router = GoRouter.of(context);
 
-    // ① Navigator routes first
     if (router.canPop()) {
       router.pop();
       return;
     }
 
-    // ② Collapse UpNext panel
     if (overlayC.state && overlayC.collapseUpNextPanel()) return;
 
-    // ③ Hide player
     if (overlayC.state) {
       overlayC.hidePlayer();
       return;
     }
 
-    // ④ Navigate to home tab
     if (navigationShell.currentIndex != 0) {
       navigationShell.goBranch(0);
       return;
     }
 
-    // ⑤ Exit app
     if (context.mounted) {
       await SystemNavigator.pop();
     }

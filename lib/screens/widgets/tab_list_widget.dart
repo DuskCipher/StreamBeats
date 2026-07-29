@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:Bloomee/screens/widgets/paging_scroll.dart';
+import 'package:streambeats/screens/widgets/paging_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 
 class CategoryLabel extends StatelessWidget {
   final String category;

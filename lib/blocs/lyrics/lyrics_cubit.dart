@@ -2,18 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/adapters/track_adapter.dart';
-import 'package:Bloomee/core/constants/setting_keys.dart';
-import 'package:Bloomee/core/models/exported.dart' hide Lyrics;
-import 'package:Bloomee/core/models/lyrics_models.dart';
-import 'package:Bloomee/services/db/dao/lyrics_dao.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/meta_resolver/cross_plugin_resolver.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
-import 'package:Bloomee/src/rust/api/plugin/models.dart' as plugin_models;
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/adapters/track_adapter.dart';
+import 'package:streambeats/core/constants/setting_keys.dart';
+import 'package:streambeats/core/models/exported.dart' hide Lyrics;
+import 'package:streambeats/core/models/lyrics_models.dart';
+import 'package:streambeats/services/db/dao/lyrics_dao.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/meta_resolver/cross_plugin_resolver.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/src/rust/api/plugin/models.dart' as plugin_models;
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -30,7 +30,7 @@ class LyricsCubit extends Cubit<LyricsState> {
   int _requestSerial = 0;
 
   LyricsCubit(
-    BloomeePlayerCubit playerCubit, {
+    StreamBeatsPlayerCubit playerCubit, {
     required LyricsDAO lyricsDao,
     required SettingsDAO settingsDao,
     required PluginService pluginService,
@@ -44,7 +44,7 @@ class LyricsCubit extends Cubit<LyricsState> {
         ),
         super(LyricsInitial()) {
     _mediaItemSubscription =
-        playerCubit.bloomeePlayer.mediaItem.stream.listen((item) {
+        playerCubit.streambeatsPlayer.mediaItem.stream.listen((item) {
       if (item != null) {
         getLyrics(mediaItemToTrack(item));
       }

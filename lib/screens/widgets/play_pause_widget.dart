@@ -1,7 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class PlayPauseButton extends StatefulWidget {
@@ -36,14 +35,12 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 
     _setupAnimations();
 
-    // Set initial state
     if (widget.isPlaying) {
       _colorController.value = 1.0;
     }
   }
 
   void _setupAnimations() {
-    // Solid white — no color transition/gradasi
     _colorAnimation = ColorTween(
       begin: Colors.white,
       end: Colors.white,

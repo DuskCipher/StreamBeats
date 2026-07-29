@@ -2,29 +2,21 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/services/db/dao/settings_dao.dart';
-import 'package:Bloomee/services/db/dao/plugin_storage_dao.dart';
-import 'package:Bloomee/services/db/db_provider.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_event.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/plugins/errors/plugin_exceptions.dart';
-import 'package:Bloomee/plugins/services/plugin_repository_service.dart';
-import 'package:Bloomee/services/plugin/plugin_event_bus.dart';
-import 'package:Bloomee/services/plugin/plugin_load_state_service.dart';
-import 'package:Bloomee/services/plugin/plugin_service.dart';
-import 'package:Bloomee/services/plugin_bootstrap_service.dart';
-import 'package:Bloomee/src/rust/api/plugin/events.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/dao/plugin_storage_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_event.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/plugins/errors/plugin_exceptions.dart';
+import 'package:streambeats/plugins/services/plugin_repository_service.dart';
+import 'package:streambeats/services/plugin/plugin_event_bus.dart';
+import 'package:streambeats/services/plugin/plugin_load_state_service.dart';
+import 'package:streambeats/services/plugin/plugin_service.dart';
+import 'package:streambeats/services/plugin_bootstrap_service.dart';
+import 'package:streambeats/src/rust/api/plugin/events.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 
-/// Manages plugin lifecycle: load, unload, install, refresh.
-///
-/// Reacts to [PluginManagerEvent]s from the Rust plugin system
-/// via [PluginEventBus] and updates [PluginState] accordingly.
-///
-/// This BLoC is the single source of truth for which plugins
-/// are available and loaded. Other BLoCs (ContentBloc, ChartBloc)
-/// read from [PluginState] to know which plugin to target.
 class PluginBloc extends Bloc<PluginEvent, PluginState> {
   final PluginService _pluginService;
   final PluginEventBus _eventBus;
@@ -92,7 +84,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
             PluginRepositoryService(settingsDao: SettingsDAO(DBProvider.db)),
         _settingsDao = settingsDao ?? SettingsDAO(DBProvider.db),
         super(const PluginState.initial()) {
-    // Register event handlers.
     on<InitializePluginSystem>(_onInitialize);
     on<LoadPlugin>(_onLoadPlugin);
     on<LoadPluginFromInfo>(_onLoadPluginFromInfo);
@@ -103,15 +94,12 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
     on<PluginSystemEvent>(_onSystemEvent);
     on<AutoLoadPlugins>(_onAutoLoadPlugins);
 
-    // Subscribe to Rust plugin events.
     _eventSubscription = _eventBus.events.listen((event) {
       if (!isClosed) {
         add(PluginSystemEvent(event));
       }
     });
   }
-
-  // ── Initialization ─────────────────────────────────────────────────────────
 
   Future<void> _onInitialize(
     InitializePluginSystem event,
@@ -136,7 +124,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         return;
       }
 
-      // Fetch available plugins and current loaded state.
       final available = await _pluginService.getAvailablePlugins();
       final loaded = _pluginService.getLoadedPlugins();
 
@@ -176,11 +163,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         SettingsDAO(DBProvider.db),
       ));
 
-      // Trigger background plugin sync AFTER auto-load has had a chance to run.
-      // We delay long enough for AutoLoadPlugins to complete so that
-      // syncRepositoriesAndAutoUpdate sees the correct set of loaded plugins
-      // and can properly unload them before applying any updates.
-      // The 30-minute cooldown inside syncOnAppOpenIfDue prevents spamming.
       unawaited(Future<void>.delayed(const Duration(seconds: 5), () {
         if (!isClosed) {
           unawaited(_syncPluginRepositoriesIfDue());
@@ -198,8 +180,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       ));
     }
   }
-
-  // ── Load Plugin ────────────────────────────────────────────────────────────
 
   Future<void> _onLoadPlugin(
     LoadPlugin event,
@@ -220,7 +200,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         pluginId: event.pluginId,
         pluginType: event.pluginType,
       );
-      // State update happens via PluginSystemEvent (pluginLoaded).
     } on PluginException catch (e) {
       emit(state.copyWith(
         error: e.message,
@@ -243,8 +222,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
     ));
   }
 
-  // ── Unload Plugin ──────────────────────────────────────────────────────────
-
   Future<void> _onUnloadPlugin(
     UnloadPlugin event,
     Emitter<PluginState> emit,
@@ -264,7 +241,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         pluginId: event.pluginId,
         pluginType: event.pluginType,
       );
-      // State update happens via PluginSystemEvent (pluginUnloaded).
     } on PluginException catch (e) {
       emit(state.copyWith(
         error: e.message,
@@ -275,8 +251,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       ));
     }
   }
-
-  // ── Install Plugin ─────────────────────────────────────────────────────────
 
   Future<void> _onInstallPlugin(
     InstallPlugin event,
@@ -289,27 +263,16 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
     ));
 
     try {
-      // If the plugin is currently loaded, we must unload it first.
-      // On Windows (and some Android setups), the native library file is
-      // locked while loaded, so the Rust installer returns `pluginLoaded`
-      // and refuses to overwrite. We mirror what the auto-updater already does:
-      // unload → install → reload.
-      //
-      // We read the pluginId from the packed manifest by attempting a first
-      // install and reacting to `pluginLoaded`, keeping this code path simple
-      // and avoiding duplicating manifest-reading logic.
       PluginInstallResult result = await _pluginService.installPlugin(
         packedFilePath: event.packedFilePath,
         shouldLoad: event.shouldLoad,
       );
 
       if (result.status == PluginInstallStatus.pluginLoaded) {
-        // Plugin is loaded — unload it, reinstall, then reload.
         final pluginId = result.pluginId;
         log('Plugin $pluginId is loaded; unloading before update',
             name: 'PluginBloc');
 
-        // Find plugin type from current available list (needed for unload call).
         final info = state.availablePlugins
             .where((p) => p.manifest.id == pluginId)
             .firstOrNull;
@@ -326,7 +289,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
                 name: 'PluginBloc');
           }
 
-          // Retry the install now that the plugin is unloaded.
           result = await _pluginService.installPlugin(
             packedFilePath: event.packedFilePath,
             shouldLoad: event.shouldLoad,
@@ -335,7 +297,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
           log('Install result after unload: ${result.pluginId} — ${result.status}',
               name: 'PluginBloc');
         } else {
-          // Plugin info not in state — cannot safely unload; surface error.
           emit(state.copyWith(
             isLoading: false,
             error:
@@ -381,7 +342,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
 
       emit(state.copyWith(successMessage: message));
 
-      // Refresh available plugins after install.
       add(const RefreshPlugins());
     } on PluginException catch (e) {
       emit(state.copyWith(
@@ -390,10 +350,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       ));
     }
   }
-
-  // ── Refresh Available Plugins ──────────────────────────────────────────────
-
-  // ── Delete Plugin ──────────────────────────────────────────────────────────
 
   Future<void> _onDeletePlugin(
     DeletePlugin event,
@@ -416,13 +372,9 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       );
       await _persistAutoLoadSafe(
           {..._preferredAutoLoadIds}..remove(event.pluginId));
-      // deletePlugin() fires pluginListRefreshed (not pluginDeleted), so
-      // we perform storage cleanup directly here instead of waiting for an
-      // event that never arrives.
       if (event.cleanStorage) {
         unawaited(_cleanupPluginStorage(event.pluginId));
       }
-      // State update happens via pluginListRefreshed event from Rust.
     } on PluginException catch (e) {
       emit(state.copyWith(
         error: e.message,
@@ -443,8 +395,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
     }
   }
 
-  // ── Refresh Available Plugins ──────────────────────────────────────────────
-
   Future<void> _onRefreshPlugins(
     RefreshPlugins event,
     Emitter<PluginState> emit,
@@ -464,8 +414,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       log('Failed to refresh plugins', error: e, name: 'PluginBloc');
     }
   }
-
-  // ── Auto Load ──────────────────────────────────────────────────────────────
 
   Future<void> _onAutoLoadPlugins(
     AutoLoadPlugins event,
@@ -490,8 +438,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
       }
     }
   }
-
-  // ── System Events (from Rust) ──────────────────────────────────────────────
 
   Future<void> _onSystemEvent(
     PluginSystemEvent event,
@@ -574,7 +520,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         ));
         unawaited(
             _persistAutoLoadSafe({..._preferredAutoLoadIds}..remove(pluginId)));
-        // Refresh to update available list.
         add(const RefreshPlugins());
       },
       pluginDeleteFailed: (pluginId, error) {
@@ -583,9 +528,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         ));
       },
       pluginListRefreshed: (plugins) {
-        // Use the provided list directly — do NOT call RefreshPlugins()
-        // which would trigger refreshAvailablePlugins() → emits
-        // pluginListRefreshed again → infinite loop.
         final loaded = _pluginService.isInitialized
             ? _pluginService.getLoadedPlugins()
             : <String>[];
@@ -627,8 +569,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
     );
   }
 
-  // ── Background Plugin Sync ─────────────────────────────────────────────────
-
   Future<void> _syncPluginRepositoriesIfDue() async {
     try {
       await PluginBootstrapService.syncOnAppOpenIfDue(
@@ -636,7 +576,6 @@ class PluginBloc extends Bloc<PluginEvent, PluginState> {
         repositoryService: _repositoryService,
         settingsDao: _settingsDao,
       );
-      // Refresh UI after sync to reflect any updates.
       if (!isClosed) {
         add(const RefreshPlugins());
       }

@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:Bloomee/blocs/media_player/bloomee_player_cubit.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
+import 'package:streambeats/blocs/media_player/streambeats_player_cubit.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,8 +35,8 @@ class _VolumeDragControllerState extends State<VolumeDragController> {
 
   void volumeStrm() {
     _volumeSubscription = context
-        .read<BloomeePlayerCubit>()
-        .bloomeePlayer
+        .read<StreamBeatsPlayerCubit>()
+        .streambeatsPlayer
         .engine
         .volumeStream
         .listen((event) {
@@ -50,7 +50,7 @@ class _VolumeDragControllerState extends State<VolumeDragController> {
     setState(() {
       _volume = volume;
     });
-    context.read<BloomeePlayerCubit>().bloomeePlayer.engine.setVolume(volume);
+    context.read<StreamBeatsPlayerCubit>().streambeatsPlayer.engine.setVolume(volume);
   }
 
   void _onDragStart(DragStartDetails details) {
@@ -110,7 +110,6 @@ class _VolumeDragControllerState extends State<VolumeDragController> {
                   fit: BoxFit.scaleDown,
                   child: AnimatedOpacity(
                     opacity: _showVolumeController ? 1.0 : 0.0,
-                    // opacity: 1,
                     duration: const Duration(milliseconds: 300),
                     child: Center(
                       child: Container(
@@ -146,13 +145,10 @@ class _VolumeDragControllerState extends State<VolumeDragController> {
                                 child: Slider(
                                   value: _volume,
                                   onChanged: (value) {
-                                    // update local UI, audio player and keep the
-                                    // volume controller visible while interacting
                                     setVolume(value);
                                     _startTimer();
                                   },
                                   onChangeEnd: (value) {
-                                    // ensure hide timer restarts when user lifts finger
                                     _startTimer();
                                   },
                                   min: 0.0,

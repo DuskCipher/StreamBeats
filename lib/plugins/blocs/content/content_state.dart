@@ -1,43 +1,32 @@
 import 'package:equatable/equatable.dart';
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/src/rust/api/plugin/commands.dart';
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/src/rust/api/plugin/commands.dart';
 
-/// State for [ContentBloc].
-///
-/// Uses Rust-generated types directly — no wrapper models.
 class ContentState extends Equatable {
-  /// Active content resolver plugin ID.
   final String? activePluginId;
 
-  // ── Search ──
   final SearchStatus searchStatus;
   final String searchQuery;
   final ContentSearchFilter searchFilter;
   final PagedMediaItems? searchResults;
 
-  // ── Album Details ──
   final DetailStatus albumDetailStatus;
   final AlbumDetails? albumDetails;
 
-  // ── Artist Details ──
   final DetailStatus artistDetailStatus;
   final ArtistDetails? artistDetails;
 
-  // ── Playlist Details ──
   final DetailStatus playlistDetailStatus;
   final PlaylistDetails? playlistDetails;
 
-  // ── Streams ──
   final DetailStatus streamStatus;
   final List<StreamSource>? streamSources;
   final List<Track>? radioTracks;
 
-  // ── Home Sections ──
   final DetailStatus homeSectionsStatus;
   final List<Section>? homeSections;
   final List<String> loadingHomeSectionIds;
 
-  // ── Error ──
   final String? error;
 
   const ContentState({

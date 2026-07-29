@@ -1,8 +1,5 @@
-// lib/blocs/downloader/downloader_state.dart
-
 part of 'downloader_cubit.dart';
 
-/// A wrapper class to link a DownloadTask to its live status.
 class DownloadProgress with EquatableMixin {
   final DownloadTask task;
   final DownloadStatus status;
@@ -28,10 +25,8 @@ abstract class DownloaderState extends Equatable {
   List<Object> get props => [downloads, downloaded, runtimeType];
 }
 
-/// The initial state of the downloader cubit.
 class DownloaderInitial extends DownloaderState {}
 
-/// State when both downloads and downloaded songs are loaded
 class DownloaderLoaded extends DownloaderState {
   const DownloaderLoaded({
     required List<DownloadProgress> downloads,
@@ -39,8 +34,6 @@ class DownloaderLoaded extends DownloaderState {
   }) : super(downloads: downloads, downloaded: downloaded);
 }
 
-/// This state is emitted whenever there is an update to any download's
-/// status, progress, or when a new download is added.
 class DownloaderTasksUpdated extends DownloaderState {
   const DownloaderTasksUpdated(
       List<DownloadProgress> downloads, List<Track> downloaded)

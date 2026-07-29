@@ -1,25 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:Bloomee/core/di/service_locator.dart';
-import 'package:Bloomee/core/theme/app_theme.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_bloc.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_event.dart';
-import 'package:Bloomee/plugins/blocs/plugin/plugin_state.dart';
-import 'package:Bloomee/screens/widgets/animated_list_item.dart';
-import 'package:Bloomee/screens/widgets/bloomee_ui_kit/bloomee_dialog.dart';
-import 'package:Bloomee/screens/widgets/sign_board_widget.dart';
-import 'package:Bloomee/screens/widgets/snackbar.dart';
-import 'package:Bloomee/src/rust/api/plugin/manifest.dart';
-import 'package:Bloomee/src/rust/api/plugin/plugin_info.dart';
-import 'package:Bloomee/src/rust/api/plugin/types.dart';
+import 'package:streambeats/core/di/service_locator.dart';
+import 'package:streambeats/core/theme/app_theme.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_bloc.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_event.dart';
+import 'package:streambeats/plugins/blocs/plugin/plugin_state.dart';
+import 'package:streambeats/screens/widgets/animated_list_item.dart';
+import 'package:streambeats/screens/widgets/streambeats_ui_kit/streambeats_dialog.dart';
+import 'package:streambeats/screens/widgets/sign_board_widget.dart';
+import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:streambeats/src/rust/api/plugin/manifest.dart';
+import 'package:streambeats/src/rust/api/plugin/plugin_info.dart';
+import 'package:streambeats/src/rust/api/plugin/types.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Bloomee/l10n/app_localizations.dart';
+import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
-import 'package:Bloomee/screens/screen/home_views/plugin_repository_view.dart';
-import 'package:Bloomee/plugins/blocs/repository/plugin_repository_cubit.dart';
-import 'package:Bloomee/plugins/utils/plugin_constants.dart';
+import 'package:streambeats/screens/screen/home_views/plugin_repository_view.dart';
+import 'package:streambeats/plugins/blocs/repository/plugin_repository_cubit.dart';
+import 'package:streambeats/plugins/utils/plugin_constants.dart';
 
 class PluginManagerScreen extends StatefulWidget {
   const PluginManagerScreen({super.key});
@@ -126,8 +125,6 @@ class _PluginManagerScreenState extends State<PluginManagerScreen> {
     );
   }
 
-  // ── App Bar with Redesigned Constrained TabBar ─────────────────────────────
-
   PreferredSizeWidget _buildAppBar(
       BuildContext context, AppLocalizations l10n) {
     return AppBar(
@@ -154,7 +151,6 @@ class _PluginManagerScreenState extends State<PluginManagerScreen> {
           letterSpacing: -0.5,
         ),
       ),
-      // Sleek, centered, constrained Segmented Control
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(66),
         child: Center(
@@ -243,8 +239,6 @@ class _PluginManagerScreenState extends State<PluginManagerScreen> {
     );
   }
 
-  // ── Scalable Chips Header ────────────────────────────────────────────────
-
   Widget _buildChipsHeader(AppLocalizations l10n) {
     final filterOptions = _filterOptions(l10n);
     return SizedBox(
@@ -305,8 +299,6 @@ class _PluginManagerScreenState extends State<PluginManagerScreen> {
       ),
     );
   }
-
-  // ── Responsive List/Grid View ─────────────────────────────────────────────
 
   Widget _buildPluginGridOrList(BuildContext context, AppLocalizations l10n,
       PluginState state, List<PluginInfo> plugins) {
@@ -404,8 +396,6 @@ class _PluginManagerScreenState extends State<PluginManagerScreen> {
     }
   }
 }
-
-// ─── Clean, Premium Plugin Card ────────────────────────────────────────────
 
 class _PluginCard extends StatelessWidget {
   final PluginInfo plugin;
@@ -617,7 +607,6 @@ class _PluginCard extends StatelessWidget {
   }
 }
 
-// ─── OPTIMISTIC & SMOOTH Custom Switch Widget ──────────────────────────────
 class _CustomSwitch extends StatefulWidget {
   final bool value;
   final bool isLoading;
@@ -718,8 +707,6 @@ class _CustomSwitchState extends State<_CustomSwitch> {
     );
   }
 }
-
-// ─── Professional, Clean Bottom Sheet ──────────────────────────────────────
 
 class _PluginDetailSheet extends StatelessWidget {
   final PluginInfo plugin;
@@ -1008,14 +995,14 @@ class _PluginDetailSheet extends StatelessWidget {
     final bloc = context.read<PluginBloc>();
     final l10n = AppLocalizations.of(context)!;
 
-    showBloomeeDialog(
+    showStreamBeatsDialog(
       context: context,
       title: l10n.pluginManagerDeleteTitle,
       subtitle: l10n.pluginManagerDeleteMessage(pluginName),
       icon: Icons.delete_outline_rounded,
       actions: [
-        BloomeeDialogAction.text(l10n.pluginManagerCancel),
-        BloomeeDialogAction.filled(
+        StreamBeatsDialogAction.text(l10n.pluginManagerCancel),
+        StreamBeatsDialogAction.filled(
           l10n.pluginManagerDeleteAction,
           isDestructive: true,
           onPressed: () {
@@ -1035,13 +1022,13 @@ class _PluginDetailSheet extends StatelessWidget {
   void _confirmStorageCleanup(BuildContext context, PluginBloc bloc,
       String pluginId, String pluginName) {
     final l10n = AppLocalizations.of(context)!;
-    showBloomeeDialog(
+    showStreamBeatsDialog(
       context: context,
       title: l10n.pluginManagerDeleteStorageTitle,
       subtitle: l10n.pluginManagerDeleteStorageMessage(pluginName),
       icon: Icons.storage_outlined,
       actions: [
-        BloomeeDialogAction.text(
+        StreamBeatsDialogAction.text(
           l10n.pluginManagerDeleteStorageKeep,
           onPressed: () {
             if (context.mounted) Navigator.of(context).pop();
@@ -1051,7 +1038,7 @@ class _PluginDetailSheet extends StatelessWidget {
                 cleanStorage: false));
           },
         ),
-        BloomeeDialogAction.filled(
+        StreamBeatsDialogAction.filled(
           l10n.pluginManagerDeleteStorageRemove,
           isDestructive: true,
           onPressed: () {
@@ -1077,8 +1064,6 @@ class _PluginDetailSheet extends StatelessWidget {
     );
   }
 }
-
-// ─── Self-Contained API Keys Form State ─────────────────────────────────────
 
 class _ApiKeysDialogContent extends StatefulWidget {
   final Manifest manifest;
@@ -1314,8 +1299,6 @@ class _InlineOperationIndicator extends StatelessWidget {
     );
   }
 }
-
-// ─── Shared UI Helpers ─────────────────────────────────────────────────────
 
 class _StatusBadge extends StatelessWidget {
   final bool isLoaded;

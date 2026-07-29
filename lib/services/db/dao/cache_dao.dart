@@ -1,25 +1,13 @@
 import 'dart:developer';
 
-import 'package:Bloomee/services/db/global_db.dart';
+import 'package:streambeats/services/db/global_db.dart';
 import 'package:isar_community/isar.dart';
 
-/// DAO for API response cache (TTL-aware) and API token storage.
-///
-/// API response cache uses [CacheEntryDB] which supports TTL expiry and an
-/// optional binary blob field. API tokens (long-lived) remain in
-/// [AppSettingsStrDB] with their expiry embedded.
 class CacheDAO {
   final Future<Isar> _db;
 
   const CacheDAO(this._db);
 
-  // -- API response cache (CacheEntryDB) -------------------------------------
-
-  /// Upsert a cache entry by [key].
-  ///
-  /// [value] is the primary string payload (e.g. serialised JSON).
-  /// [blob] is an optional raw payload (e.g. binary response).
-  /// [ttl] sets when the entry expires; null means it never expires.
   Future<void> putCache(
     String key,
     String value, {
@@ -39,17 +27,12 @@ class CacheDAO {
     await isar.writeTxn(() => isar.cacheEntryDBs.put(entry));
   }
 
-  /// Retrieve a cache entry by [key].
-  ///
-  /// Returns null if the entry does not exist or has expired (and deletes
-  /// stale entries lazily).
   Future<CacheEntryDB?> getCache(String key) async {
     final isar = await _db;
     final entry = await isar.cacheEntryDBs.filter().keyEqualTo(key).findFirst();
     if (entry == null) return null;
 
     if (entry.isExpired) {
-      // Lazily delete the expired entry.
       await isar.writeTxn(() => isar.cacheEntryDBs.delete(entry.id));
       log('Cache miss (expired): $key', name: 'CacheDAO');
       return null;
@@ -57,22 +40,17 @@ class CacheDAO {
     return entry;
   }
 
-  /// Retrieve only the string [value] for [key], or null if missing/expired.
   Future<String?> getCacheValue(String key) async {
     final entry = await getCache(key);
     return entry?.value;
   }
 
-  /// Delete a single cache entry by [key].
   Future<void> removeCache(String key) async {
     final isar = await _db;
     await isar.writeTxn(
         () => isar.cacheEntryDBs.filter().keyEqualTo(key).deleteAll());
   }
 
-  /// Delete all entries whose TTL has passed.
-  ///
-  /// Returns the number of entries deleted.
   Future<int> purgeExpiredCache() async {
     final isar = await _db;
     final now = DateTime.now();
@@ -87,19 +65,12 @@ class CacheDAO {
     return count;
   }
 
-  /// Delete every cache entry regardless of TTL.
   Future<void> clearAllCache() async {
     final isar = await _db;
     await isar.writeTxn(() => isar.cacheEntryDBs.clear());
     log('Cleared all cache', name: 'CacheDAO');
   }
 
-  /// Write multiple cache entries in a single Isar transaction.
-  ///
-  /// More efficient than calling [putCache] in a loop when caching several
-  /// charts at once (e.g. background prefetch).
-  ///
-  /// If a key already exists it is replaced (Isar unique-replace semantics).
   Future<void> putCacheBatch(
     Map<String, ({String value, Duration? ttl})> entries,
   ) async {
@@ -117,11 +88,6 @@ class CacheDAO {
     await isar.writeTxn(() => isar.cacheEntryDBs.putAll(objects));
   }
 
-  // -- API tokens (AppSettingsStrDB) -----------------------------------------
-
-  /// Store an API token for [apiName] with its expiry in seconds.
-  ///
-  /// [expireInSeconds] = 0 means the token never expires.
   Future<void> putApiToken(
     String apiName,
     String token, {
@@ -138,7 +104,6 @@ class CacheDAO {
         ));
   }
 
-  /// Retrieve the token for [apiName] if still valid, otherwise null.
   Future<String?> getApiToken(String apiName) async {
     final isar = await _db;
     final record = await isar.appSettingsStrDBs
@@ -159,7 +124,6 @@ class CacheDAO {
     return null; // expired
   }
 
-  /// Delete the token entry for [apiName].
   Future<void> removeApiToken(String apiName) async {
     final isar = await _db;
     await isar.writeTxn(() => isar.appSettingsStrDBs

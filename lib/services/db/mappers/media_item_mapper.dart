@@ -1,14 +1,5 @@
-import 'package:Bloomee/core/models/exported.dart';
-import 'package:Bloomee/services/db/global_db.dart';
-
-/// Maps between [TrackDB] (Isar entity) and [Track] (plugin domain model).
-///
-/// This file is the single authority for Track ↔ TrackDB conversion.
-/// Collection mapper helpers (artwork, artist, album) are re-declared here
-/// to avoid cross-mapper imports; collection_mapper.dart provides the full
-/// set for playlist-level objects.
-
-// ── Layout helpers ───────────────────────────────────────────────────────────
+import 'package:streambeats/core/models/exported.dart';
+import 'package:streambeats/services/db/global_db.dart';
 
 ImageLayout imageLayoutDBToImageLayout(ImageLayoutDB imageLayoutDB) {
   switch (imageLayoutDB) {
@@ -40,8 +31,6 @@ ImageLayoutDB imageLayoutToImageLayoutDB(ImageLayout layout) {
   }
 }
 
-// ── Artwork ──────────────────────────────────────────────────────────────────
-
 Artwork artworkDBToArtwork(ArtworkDB artworkDB) {
   return Artwork(
     url: artworkDB.url,
@@ -58,8 +47,6 @@ ArtworkDB artworkToArtworkDB(Artwork artwork) {
     ..urlHigh = artwork.urlHigh
     ..layout = imageLayoutToImageLayoutDB(artwork.layout);
 }
-
-// ── ArtistSummary ─────────────────────────────────────────────────────────────
 
 ArtistSummary artistSummaryDBToArtistSummary(ArtistSummaryDB artistSummaryDB) {
   return ArtistSummary(
@@ -83,8 +70,6 @@ ArtistSummaryDB artistSummaryToArtistSummaryDB(ArtistSummary artistSummary) {
         : null
     ..url = artistSummary.url;
 }
-
-// ── AlbumSummary ──────────────────────────────────────────────────────────────
 
 AlbumSummary albumSummaryDBToAlbumSummary(AlbumSummaryDB albumSummaryDB) {
   return AlbumSummary(
@@ -117,8 +102,6 @@ AlbumSummaryDB albumSummaryToAlbumSummaryDB(AlbumSummary albumSummary) {
     ..year = albumSummary.year.toString();
 }
 
-// ── RemotePlaylistSummary ─────────────────────────────────────────────────────
-
 PlaylistSummary playlistSummaryDBToPlaylistSummary(
     RemotePlaylistSummaryDB playlistSummaryDB) {
   return PlaylistSummary(
@@ -135,11 +118,6 @@ PlaylistSummary playlistSummaryDBToPlaylistSummary(
   );
 }
 
-// ── Track ↔ TrackDB ───────────────────────────────────────────────────────────
-
-/// Plugin [Track] (Rust FFI domain model) → [TrackDB] (Isar entity).
-///
-/// Converts BigInt durationMs to int safely (clamped to max int).
 TrackDB trackToTrackDB(Track track) {
   return TrackDB(
     mediaId: track.id,
@@ -154,7 +132,6 @@ TrackDB trackToTrackDB(Track track) {
   );
 }
 
-/// [TrackDB] (Isar entity) → plugin [Track] (domain model).
 Track trackDBToTrack(TrackDB trackDB) {
   return Track(
     id: trackDB.mediaId,
