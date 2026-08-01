@@ -182,6 +182,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool _migrationPending = false;
   bool _onboardingPending = false;
   bool _pluginBootstrapPending = false;
+  bool _splashPending = true;
 
   @override
   void initState() {
@@ -195,6 +196,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     _onboardingPending = !OnboardingService.onboardingDone;
     _pluginBootstrapPending = !PluginBootstrapService.bootstrapDone;
+
+    Timer(const Duration(milliseconds: 2500), () {
+      if (mounted) {
+        setState(() {
+          _splashPending = false;
+        });
+      }
+    });
 
     if (io.Platform.isAndroid) {
       initPlatformState();
@@ -280,6 +289,69 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    if (_splashPending) {
+      return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Container(
+          color: Colors.black,
+          child: Stack(
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/icons/loading.gif',
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Positioned(
+                bottom: 40,
+                left: 0,
+                right: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Versi 3.2.0',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 12,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Power By Streambeats',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Developer : Valora Official',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.5),
+                        fontSize: 11,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     if (_migrationPending) {
       return Directionality(
         textDirection: TextDirection.ltr,
