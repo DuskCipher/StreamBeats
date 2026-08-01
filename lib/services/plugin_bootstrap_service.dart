@@ -58,7 +58,7 @@ class PluginBootstrapProgress {
 
 class PluginBootstrapService {
   static const String hostedRepositoriesUrl =
-      'https://hemantkarya.github.io/StreamBeatsTunes/repositories.json';
+      'https://raw.githubusercontent.com/DuskCipher/StreamBeats/master/repositories.json';
 
   static const int maxRetries = 3;
 
