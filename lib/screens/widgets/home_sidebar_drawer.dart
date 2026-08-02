@@ -11,6 +11,7 @@ import 'package:streambeats/screens/screen/home_views/timer_view.dart';
 import 'package:streambeats/screens/screen/player_views/equalizer_view.dart';
 
 import 'package:streambeats/screens/widgets/snackbar.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:streambeats/screens/screen/home_views/setting_view.dart';
 import 'package:streambeats/services/supabase_auth_service.dart';
@@ -460,14 +461,21 @@ class HomeSidebarDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  // Version text
-                  Text(
-                    'StreamBeats v3.2.1+2',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.35),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                    ),
+                   // Dynamic Version text
+                  FutureBuilder<PackageInfo>(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      final version = snapshot.data?.version ?? '3.2.2';
+                      final build = snapshot.data?.buildNumber ?? '3';
+                      return Text(
+                        'StreamBeats v$version+$build',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.35),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
