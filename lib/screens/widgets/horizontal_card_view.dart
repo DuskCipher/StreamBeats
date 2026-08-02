@@ -135,7 +135,7 @@ class _HorizontalCardViewState extends State<HorizontalCardView> {
             ),
           ),
           SizedBox(
-            height: 210,
+            height: 190,
             child: Row(
               children: [
                 if (Platform.isWindows || Platform.isLinux)
