@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:streambeats/screens/screen/home_views/setting_views/about.dart';
 import 'package:streambeats/screens/screen/home_views/setting_views/appui_setting.dart';
@@ -176,9 +177,18 @@ class HomeSidebarDrawer extends StatelessWidget {
     );
   }
 
-  void _shareApp() {
-    // ignore: deprecated_member_use
-    Share.share('Download StreamBeats sekarang! Pemutar musik gratis tanpa iklan: https://streambeats.valoraofficial.workers.dev/');
+  void _shareApp(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF0F0F11),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      barrierColor: Colors.black.withValues(alpha: 0.6),
+      builder: (context) {
+        return const ShareBottomSheet();
+      },
+    );
   }
 
   @override
@@ -402,7 +412,7 @@ class HomeSidebarDrawer extends StatelessWidget {
                     icon: Icons.share_rounded,
                     onTap: () {
                       Navigator.pop(context);
-                      _shareApp();
+                      _shareApp(context);
                     },
                   ),
                   _buildDrawerItem(
@@ -545,3 +555,260 @@ class HomeSidebarDrawer extends StatelessWidget {
     );
   }
 }
+
+class ShareBottomSheet extends StatelessWidget {
+  const ShareBottomSheet({super.key});
+
+  static const String shareUrl = 'https://streambeats.valoraofficial.workers.dev/';
+  static const String shareText = 'Download StreamBeats sekarang! Pemutar musik gratis tanpa iklan: $shareUrl';
+
+  Future<void> _launchShareUrl(String platform) async {
+    Uri? uri;
+    switch (platform) {
+      case 'whatsapp':
+        uri = Uri.parse('https://api.whatsapp.com/send?text=${Uri.encodeComponent(shareText)}');
+        break;
+      case 'telegram':
+        uri = Uri.parse('https://t.me/share/url?url=${Uri.encodeComponent(shareUrl)}&text=${Uri.encodeComponent("Download StreamBeats sekarang! Pemutar musik gratis tanpa iklan!")}');
+        break;
+      case 'facebook':
+        uri = Uri.parse('https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(shareUrl)}');
+        break;
+      case 'twitter':
+        uri = Uri.parse('https://twitter.com/intent/tweet?text=${Uri.encodeComponent("Download StreamBeats sekarang! Pemutar musik gratis tanpa iklan!")}&url=${Uri.encodeComponent(shareUrl)}');
+        break;
+    }
+
+    if (uri != null) {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        SnackbarService.showMessage('Tidak dapat membuka aplikasi $platform');
+      }
+    }
+  }
+
+  void _copyToClipboard(BuildContext context) {
+    Clipboard.setData(const ClipboardData(text: shareUrl));
+    SnackbarService.showMessage('Tautan berhasil disalin ke papan klip!');
+  }
+
+  void _shareNative() {
+    // ignore: deprecated_member_use
+    Share.share(shareText);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+      decoration: const BoxDecoration(
+        color: Color(0xFF0F0F11),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Drag Indicator
+          Center(
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          
+          // Header Row
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E1E22),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.share_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Bagikan StreamBeats',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'Bagikan pemutar musik gratis tanpa iklan ini',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          
+          // Options Grid
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildShareOption(
+                icon: MingCute.whatsapp_fill,
+                label: 'WhatsApp',
+                iconColor: const Color(0xFF25D366),
+                onTap: () => _launchShareUrl('whatsapp'),
+              ),
+              _buildShareOption(
+                icon: MingCute.telegram_fill,
+                label: 'Telegram',
+                iconColor: const Color(0xFF26A5E4),
+                onTap: () => _launchShareUrl('telegram'),
+              ),
+              _buildShareOption(
+                icon: MingCute.facebook_fill,
+                label: 'Facebook',
+                iconColor: const Color(0xFF1877F2),
+                onTap: () => _launchShareUrl('facebook'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildShareOption(
+                icon: MingCute.twitter_fill,
+                label: 'Twitter / X',
+                iconColor: Colors.white,
+                onTap: () => _launchShareUrl('twitter'),
+              ),
+              _buildShareOption(
+                icon: MingCute.copy_2_fill,
+                label: 'Salin Tautan',
+                iconColor: const Color(0xFF9E9E9E),
+                onTap: () => _copyToClipboard(context),
+              ),
+              _buildShareOption(
+                icon: MingCute.share_forward_fill,
+                label: 'Lainnya',
+                iconColor: const Color(0xFF9E9E9E),
+                onTap: _shareNative,
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          
+          // Link Preview Box
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A1E),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    shareUrl,
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 13,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                InkWell(
+                  onTap: () => _copyToClipboard(context),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      'Salin',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShareOption({
+    required IconData icon,
+    required String label,
+    required Color iconColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        width: 80,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A1A1E),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.05),
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  icon,
+                  color: iconColor,
+                  size: 24,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 11,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
