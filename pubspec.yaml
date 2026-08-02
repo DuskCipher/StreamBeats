@@ -54,6 +54,7 @@ dependencies:
   fuzzywuzzy: ^1.2.0
   numberpicker: ^2.1.2
   permission_handler: ^12.0.1
+  open_file: ^3.3.2
   share_handler: ^0.0.25
   sliding_up_panel: ^2.0.0+1
   responsive_framework: ^1.5.1

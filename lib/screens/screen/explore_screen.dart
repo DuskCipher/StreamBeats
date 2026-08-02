@@ -33,6 +33,7 @@ import '../widgets/tab_list_widget.dart';
 import 'package:streambeats/screens/widgets/global_footer.dart';
 import 'package:streambeats/services/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:streambeats/services/update_service.dart';
 import 'package:badges/badges.dart' as badges;
 
 class ExploreScreen extends StatefulWidget {
@@ -51,6 +52,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
     super.initState();
     _homeContentBloc = ContentBloc(pluginService: ServiceLocator.pluginService);
     _tryLoadHomeSections();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UpdateService.checkUpdate(context);
+    });
   }
 
   void _tryLoadHomeSections() {
