@@ -11,6 +11,7 @@ import 'package:streambeats/src/rust/api/plugin/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:streambeats/services/update_service.dart';
 
 Future<void> openURL(String url) async {
   launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
@@ -115,19 +116,13 @@ class _GlobalEventListenerState extends State<GlobalEventListener> {
         switch (state.runtimeType) {
           case UpdateAvailable:
             final s = state as UpdateAvailable;
-            final l10n = AppLocalizations.of(dialogContext)!;
             log("Update Available: ${s.newVersion}+${s.newBuild}");
-            showStreamBeatsDialog(
-              context: dialogContext,
-              title: l10n.dialogUpdateAvailable,
-              subtitle: l10n.updateAvailableBody(s.newVersion, s.newBuild),
-              icon: Icons.system_update_rounded,
-              actions: [
-                StreamBeatsDialogAction.text(l10n.buttonLater),
-                StreamBeatsDialogAction.filled(l10n.dialogUpdateNow, onPressed: () {
-                  openURL(s.downloadUrl);
-                }),
-              ],
+            UpdateService.showUpdateDialog(
+              dialogContext,
+              s.newVersion,
+              "https://streambeats.valoraofficial.workers.dev/",
+              s.downloadUrl,
+              "Pembaruan versi terbaru ${s.newVersion}+${s.newBuild} telah dirilis di GitHub. Anda dapat membuka web resmi atau mengunduh dan memperbarui aplikasi secara langsung.",
             );
             break;
           case AlertDialogState:

@@ -39,7 +39,7 @@ class UpdateService {
 
       if (serverBuild > currentBuild) {
         if (context.mounted) {
-          _showUpdateDialog(context, serverVersion, webUrl, apkUrl, changelog);
+          showUpdateDialog(context, serverVersion, webUrl, apkUrl, changelog);
         }
       }
     } catch (e) {
@@ -48,7 +48,7 @@ class UpdateService {
     }
   }
 
-  static void _showUpdateDialog(
+  static void showUpdateDialog(
     BuildContext context,
     String serverVersion,
     String webUrl,
