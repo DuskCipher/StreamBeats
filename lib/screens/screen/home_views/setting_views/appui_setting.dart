@@ -13,6 +13,8 @@ import 'package:streambeats/core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:streambeats/l10n/app_localizations.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
+import 'package:streambeats/services/db/dao/settings_dao.dart';
+import 'package:streambeats/services/db/db_provider.dart';
 
 class AppUISettings extends StatefulWidget {
   const AppUISettings({super.key});
@@ -23,6 +25,7 @@ class AppUISettings extends StatefulWidget {
 
 class _AppUISettingsState extends State<AppUISettings> {
   late final ChartBloc _chartBloc;
+  bool _showSplash = true;
 
   @override
   void initState() {
@@ -31,6 +34,17 @@ class _AppUISettingsState extends State<AppUISettings> {
       pluginService: ServiceLocator.pluginService,
     );
     _loadCharts();
+    _loadSplashSetting();
+  }
+
+  void _loadSplashSetting() async {
+    final show = await SettingsDAO(DBProvider.db)
+        .getSettingBool('show_splash_on_startup', defaultValue: true);
+    if (mounted) {
+      setState(() {
+        _showSplash = show ?? true;
+      });
+    }
   }
 
   void _loadCharts() {
@@ -115,6 +129,20 @@ class _AppUISettingsState extends State<AppUISettings> {
                         });
                         SnackbarService.showMessage(l10n.appuiLoginToLastFm);
                       }
+                    },
+                  ),
+                  const SettingDivider(),
+                  SettingToggleTile(
+                    icon: MingCute.loading_3_line,
+                    title: "Tampilkan Animasi Pembuka",
+                    subtitle: "Tampilkan animasi loading StreamBeats saat aplikasi dibuka",
+                    value: _showSplash,
+                    onChanged: (v) async {
+                      setState(() {
+                        _showSplash = v;
+                      });
+                      await SettingsDAO(DBProvider.db)
+                          .putSettingBool('show_splash_on_startup', v);
                     },
                   ),
                 ],

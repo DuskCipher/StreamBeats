@@ -197,11 +197,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _onboardingPending = !OnboardingService.onboardingDone;
     _pluginBootstrapPending = !PluginBootstrapService.bootstrapDone;
 
-    Timer(const Duration(milliseconds: 2500), () {
+    final settingsDao = SettingsDAO(DBProvider.db);
+    settingsDao.getSettingBool('show_splash_on_startup', defaultValue: true).then((showSplash) {
       if (mounted) {
-        setState(() {
-          _splashPending = false;
-        });
+        if (showSplash == false) {
+          setState(() {
+            _splashPending = false;
+          });
+        } else {
+          Timer(const Duration(seconds: 7), () {
+            if (mounted) {
+              setState(() {
+                _splashPending = false;
+              });
+            }
+          });
+        }
       }
     });
 
