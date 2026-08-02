@@ -469,15 +469,12 @@ class CustomDiscoverBar extends StatelessWidget {
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Hamburger → Settings
+          // Hamburger → Sidebar Drawer
           IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsView()),
-              );
+              Scaffold.of(context).openDrawer();
             },
             icon: const Icon(
               MingCute.menu_line,
