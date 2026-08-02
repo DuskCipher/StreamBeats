@@ -52,7 +52,7 @@ jobs:
           KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
         run: |
           if [ -n "$KEYSTORE_BASE64" ]; then
-            echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+            echo "$KEYSTORE_BASE64" | base64 --decode > android/streambeats.jks
             echo "$KEY_PROPERTIES" > android/key.properties
           fi
 
@@ -113,15 +113,19 @@ jobs:
       - name: 🏗️ Build Windows
         run: flutter build windows --release
 
-      - name: 📦 Zip hasil build Windows
-        run: |
-          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "StreamBeats-windows-x64.zip"
+      - name: 📦 Install Inno Setup (untuk buat installer EXE)
+        run: choco install innosetup -y
 
-      - name: 📤 Upload Windows build
+      - name: 🏗️ Build Windows EXE Installer
+        run: |
+          $version = (Select-String -Path pubspec.yaml -Pattern "^version:\s*(\S+)" | Select-Object -First 1).Matches[0].Groups[1].Value -replace '\+.*',''
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DAppVersion=$version windows\installer.iss
+
+      - name: 📤 Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: StreamBeats-windows-x64.zip
+          path: build\windows\x64\runner\StreamBeats-Setup.exe
 
   # ============================================================
   # JOB 3: BUILD LINUX
@@ -212,7 +216,7 @@ jobs:
             | `StreamBeats-armeabi-v7a.apk` | 🤖 Android | HP lama 32-bit |
             | `StreamBeats-x86_64.apk` | 🤖 Android | Emulator / Chromebook |
             | `StreamBeats-universal.apk` | 🤖 Android | Semua perangkat (ukuran lebih besar) |
-            | `StreamBeats-windows-x64.zip` | 🪟 Windows | Windows 10/11 64-bit |
+            | `StreamBeats-Setup.exe` | 🪟 Windows | Installer Windows 10/11 64-bit |
             | `StreamBeats-linux-x64.tar.gz` | 🐧 Linux | Linux 64-bit |
 
             ---
