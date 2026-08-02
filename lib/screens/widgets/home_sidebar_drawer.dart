@@ -12,6 +12,7 @@ import 'package:streambeats/screens/screen/player_views/equalizer_view.dart';
 
 import 'package:streambeats/screens/widgets/snackbar.dart';
 
+import 'package:streambeats/screens/screen/home_views/setting_view.dart';
 import 'package:streambeats/services/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,50 +24,6 @@ class HomeSidebarDrawer extends StatelessWidget {
     required this.navigationShell,
   });
 
-  void _showPremiumDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF161618),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
-          children: [
-            Icon(Icons.diamond_rounded, color: Colors.amber, size: 28),
-            SizedBox(width: 10),
-            Text(
-              'Premium Aktif',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Selamat! Anda adalah pengguna StreamBeats Premium.',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 12),
-            Text(
-              'Fitur aktif:\n'
-              '• Kualitas audio studio (lossless)\n'
-              '• Putar musik tanpa iklan\n'
-              '• Mode Party Room (Listen Together) tanpa batas\n'
-              '• Lirik realtime & download offline cepat',
-              style: TextStyle(color: Colors.grey, fontSize: 13, height: 1.5),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
-    );
-  }
 
   void _showFeedbackDialog(BuildContext context) {
     final nameController = TextEditingController();
@@ -239,7 +196,7 @@ class HomeSidebarDrawer extends StatelessWidget {
               builder: (context, snapshot) {
                 final user = SupabaseAuthService.currentUser;
                 String displayName = 'Guest';
-                String subtitle = 'Lovers of good music \uD83D\uDC9C';
+                String subtitle = 'StreamBeats Official Music';
                 String? avatarUrl;
 
                 if (user != null) {
@@ -264,7 +221,7 @@ class HomeSidebarDrawer extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 )
                               : const DecorationImage(
-                                  image: AssetImage('assets/icons/loading.gif'),
+                                  image: AssetImage('assets/icons/streambeats_logo.png'),
                                   fit: BoxFit.cover,
                                 ),
                         ),
@@ -293,35 +250,6 @@ class HomeSidebarDrawer extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white.withValues(alpha: 0.5),
                                 fontSize: 11,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            // Premium Badge Pill
-                            GestureDetector(
-                              onTap: () => _showPremiumDialog(context),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFF9C27B0), Color(0xFF673AB7)],
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.diamond_rounded, color: Colors.white, size: 10),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      'Premium >',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
                             ),
                           ],
@@ -476,6 +404,17 @@ class HomeSidebarDrawer extends StatelessWidget {
                       _shareApp();
                     },
                   ),
+                  _buildDrawerItem(
+                    label: 'Pengaturan',
+                    icon: Icons.settings_rounded,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingsView()),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -523,7 +462,7 @@ class HomeSidebarDrawer extends StatelessWidget {
                   const SizedBox(height: 12),
                   // Version text
                   Text(
-                    'DuskCipher v3.2.1+2',
+                    'StreamBeats v3.2.1+2',
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.35),
                       fontSize: 11,
