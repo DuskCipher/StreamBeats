@@ -12,6 +12,9 @@ import 'package:streambeats/screens/screen/player_views/equalizer_view.dart';
 
 import 'package:streambeats/screens/widgets/snackbar.dart';
 
+import 'package:streambeats/services/supabase_auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class HomeSidebarDrawer extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -230,78 +233,104 @@ class HomeSidebarDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            // User profile section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Row(
-                children: [
-                  // Circle Avatar
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/icons/loading.gif'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  // User Details
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'DuskCipher',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Lovers of good music \uD83D\uDC9C',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.5),
-                            fontSize: 11,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        // Premium Badge Pill
-                        GestureDetector(
-                          onTap: () => _showPremiumDialog(context),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF9C27B0), Color(0xFF673AB7)],
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.diamond_rounded, color: Colors.white, size: 10),
-                                SizedBox(width: 4),
-                                Text(
-                                  'Premium >',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+            // User profile section wrapped in StreamBuilder auth listener
+            StreamBuilder<AuthState>(
+              stream: SupabaseAuthService.authStateChanges,
+              builder: (context, snapshot) {
+                final user = SupabaseAuthService.currentUser;
+                String displayName = 'Guest';
+                String subtitle = 'Lovers of good music \uD83D\uDC9C';
+                String? avatarUrl;
+
+                if (user != null) {
+                  final meta = user.userMetadata ?? {};
+                  displayName = meta['full_name'] ?? user.email?.split('@')[0] ?? 'User';
+                  avatarUrl = meta['avatar_url'];
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                  child: Row(
+                    children: [
+                      // Circle Avatar
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: avatarUrl != null
+                              ? DecorationImage(
+                                  image: NetworkImage(avatarUrl),
+                                  fit: BoxFit.cover,
+                                )
+                              : const DecorationImage(
+                                  image: AssetImage('assets/icons/loading.gif'),
+                                  fit: BoxFit.cover,
                                 ),
-                              ],
-                            ),
-                          ),
                         ),
-                      ],
-                    ),
+                        child: avatarUrl == null
+                            ? const Center(
+                                child: Icon(Icons.person, color: Colors.white24, size: 28),
+                              )
+                            : null,
+                      ),
+                      const SizedBox(width: 14),
+                      // User Details
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              displayName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              subtitle,
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.5),
+                                fontSize: 11,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            // Premium Badge Pill
+                            GestureDetector(
+                              onTap: () => _showPremiumDialog(context),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF9C27B0), Color(0xFF673AB7)],
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.diamond_rounded, color: Colors.white, size: 10),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Premium >',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
 
             // Muted divider

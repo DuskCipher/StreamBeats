@@ -29,6 +29,9 @@ import 'package:iconsx_plus/iconsx_plus.dart';
 import 'chart/carousal_widget.dart';
 import '../widgets/horizontal_card_view.dart';
 import '../widgets/tab_list_widget.dart';
+import 'package:streambeats/screens/widgets/global_footer.dart';
+import 'package:streambeats/services/supabase_auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:badges/badges.dart' as badges;
 
 class ExploreScreen extends StatefulWidget {
@@ -474,7 +477,7 @@ class CustomDiscoverBar extends StatelessWidget {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             onPressed: () {
-              Scaffold.of(context).openDrawer();
+              GlobalFooter.scaffoldKey.currentState?.openDrawer();
             },
             icon: const Icon(
               MingCute.menu_line,
@@ -483,32 +486,44 @@ class CustomDiscoverBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          // Greeting + App Name
+          // Greeting + Account Name / App Name
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _getGreeting(),
-                  style: Default_Theme.primaryTextStyle.merge(
-                    const TextStyle(
-                      fontSize: 12,
-                      color: Default_Theme.primaryColor2,
-                      fontWeight: FontWeight.w400,
+            child: StreamBuilder<AuthState>(
+              stream: SupabaseAuthService.authStateChanges,
+              builder: (context, snapshot) {
+                final user = SupabaseAuthService.currentUser;
+                String displayName = 'StreamBeats';
+                if (user != null) {
+                  final meta = user.userMetadata ?? {};
+                  displayName = meta['full_name'] ?? user.email?.split('@')[0] ?? 'User';
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _getGreeting(),
+                      style: Default_Theme.primaryTextStyle.merge(
+                        const TextStyle(
+                          fontSize: 12,
+                          color: Default_Theme.primaryColor2,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const Text(
-                  'StreamBeats',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Default_Theme.primaryColor1,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-              ],
+                    Text(
+                      displayName,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Default_Theme.primaryColor1,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
           // Right icons: Timer + Notification

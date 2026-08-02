@@ -13,6 +13,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:streambeats/screens/widgets/home_sidebar_drawer.dart';
 
 class GlobalFooter extends StatelessWidget {
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   const GlobalFooter({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
 
@@ -50,6 +52,7 @@ class GlobalFooter extends StatelessWidget {
             await _handleHardwareBackPress(context);
           },
           child: Scaffold(
+            key: scaffoldKey,
             backgroundColor: Default_Theme.themeColor,
             drawerScrimColor: Colors.black.withValues(alpha: 0.5),
             drawer: HomeSidebarDrawer(navigationShell: navigationShell),
