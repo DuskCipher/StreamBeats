@@ -2960,7 +2960,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return ChartSummary(
       id: dco_decode_String(arr[0]),
-      title: dco_decode_String(arr[1]),
+      title: dco_decode_String(arr[1]), 
       description: dco_decode_opt_String(arr[2]),
       thumbnail: dco_decode_opt_box_autoadd_artwork(arr[3]),
     );
