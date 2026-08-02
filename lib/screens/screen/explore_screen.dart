@@ -177,7 +177,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      const _HomeSearchBar(),
                       const CaraouselWidget(),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
@@ -463,12 +462,14 @@ class CustomDiscoverBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      floating: true,
-      snap: true,
+      pinned: true,
+      floating: false,
+      snap: false,
       surfaceTintColor: Default_Theme.themeColor,
       backgroundColor: Default_Theme.themeColor,
       automaticallyImplyLeading: false,
       toolbarHeight: 68,
+      bottom: const _HomeSearchBar(),
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -536,8 +537,11 @@ class CustomDiscoverBar extends StatelessWidget {
 }
 
 /// Search bar widget shown below the app bar on the home screen.
-class _HomeSearchBar extends StatelessWidget {
+class _HomeSearchBar extends StatelessWidget implements PreferredSizeWidget {
   const _HomeSearchBar();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
 
   @override
   Widget build(BuildContext context) {
