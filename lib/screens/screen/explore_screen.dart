@@ -18,6 +18,7 @@ import 'package:streambeats/screens/screen/home_views/setting_views/about.dart';
 import 'package:streambeats/screens/widgets/more_bottom_sheet.dart';
 import 'package:streambeats/screens/widgets/sign_board_widget.dart';
 import 'package:streambeats/screens/widgets/song_tile.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:streambeats/screens/screen/home_views/notification_view.dart';
 import 'package:streambeats/screens/screen/home_views/setting_view.dart';
@@ -553,9 +554,7 @@ class _HomeSearchBar extends StatelessWidget implements PreferredSizeWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                // Use go_router to navigate to search tab if available,
-                // otherwise navigate directly.
-                Navigator.of(context).pushNamed('/search').catchError((_) => null);
+                context.go('/Search');
               },
               child: Container(
                 height: 48,
