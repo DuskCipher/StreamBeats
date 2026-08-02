@@ -328,7 +328,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                       builder: (context, snapshot) {
                         final ver = snapshot.hasData
                             ? 'Versi ${snapshot.data!.version}'
-                            : 'Versi 3.2.3';
+                            : 'Versi 3.2.5';
                         return Text(
                           ver,
                           style: TextStyle(

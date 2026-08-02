@@ -2,7 +2,7 @@ name: streambeats
 description: An Open source Free Music Player.
 
 publish_to: 'none'
-version: 3.2.4+6
+version: 3.2.5+8
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

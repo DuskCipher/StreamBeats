@@ -130,108 +130,138 @@ class UpdateService {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
-        double progress = 0.0;
-        String progressText = "Menghubungkan...";
+      builder: (context) => _DownloadProgressDialog(apkUrl: apkUrl, version: version),
+    );
+  }
+}
 
-        return StatefulBuilder(
-          builder: (context, setState) {
-            // Initiate the HTTP download task
-            Future.microtask(() async {
-              try {
-                // Request install packages permission first for Android
-                if (Platform.isAndroid) {
-                  final status = await Permission.requestInstallPackages.status;
-                  if (status.isDenied) {
-                    await Permission.requestInstallPackages.request();
-                  }
-                }
+class _DownloadProgressDialog extends StatefulWidget {
+  final String apkUrl;
+  final String version;
 
-                final client = http.Client();
-                final request = http.Request('GET', Uri.parse(apkUrl));
-                final response = await client.send(request).timeout(const Duration(seconds: 15));
+  const _DownloadProgressDialog({
+    Key? key,
+    required this.apkUrl,
+    required this.version,
+  }) : super(key: key);
 
-                if (response.statusCode != 200) {
-                  throw Exception('Gagal menghubungi server update: ${response.statusCode}');
-                }
+  @override
+  State<_DownloadProgressDialog> createState() => _DownloadProgressDialogState();
+}
 
-                final contentLength = response.contentLength ?? 0;
-                final List<int> bytes = [];
+class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
+  double progress = 0.0;
+  String progressText = "Menghubungkan...";
+  late http.Client client;
+  bool _downloadStarted = false;
 
-                response.stream.listen(
-                  (chunk) {
-                    bytes.addAll(chunk);
-                    if (contentLength > 0) {
-                      setState(() {
-                        progress = bytes.length / contentLength;
-                        progressText = "Mengunduh... ${(progress * 100).toStringAsFixed(0)}%";
-                      });
-                    }
-                  },
-                  onDone: () async {
-                    setState(() {
-                      progressText = "Menyimpan file...";
-                    });
+  @override
+  void initState() {
+    super.initState();
+    client = http.Client();
+    _startDownload();
+  }
 
-                    final tempDir = await getTemporaryDirectory();
-                    final file = File('${tempDir.path}/StreamBeats_v$version.apk');
-                    await file.writeAsBytes(bytes);
+  @override
+  void dispose() {
+    client.close();
+    super.dispose();
+  }
 
-                    setState(() {
-                      progressText = "Memasang aplikasi...";
-                    });
+  Future<void> _startDownload() async {
+    if (_downloadStarted) return;
+    _downloadStarted = true;
 
-                    // Trigger Native APK Installer
-                    if (context.mounted) {
-                      Navigator.pop(context); // Close the download dialog
-                    }
-                    final openResult = await OpenFile.open(file.path);
-                    if (openResult.type != ResultType.done) {
-                      SnackbarService.showMessage('Gagal membuka file APK: ${openResult.message}');
-                    }
-                  },
-                  onError: (e) {
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
-                    SnackbarService.showMessage('Gagal mengunduh: $e');
-                  },
-                  cancelOnError: true,
-                );
-              } catch (e) {
-                if (context.mounted) {
-                  Navigator.pop(context);
-                }
-                SnackbarService.showMessage('Gagal mengunduh update: $e');
-              }
+    try {
+      if (Platform.isAndroid) {
+        final status = await Permission.requestInstallPackages.status;
+        if (status.isDenied) {
+          await Permission.requestInstallPackages.request();
+        }
+      }
+
+      final request = http.Request('GET', Uri.parse(widget.apkUrl));
+      final response = await client.send(request).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode != 200) {
+        throw Exception('Gagal menghubungi server update: ${response.statusCode}');
+      }
+
+      final contentLength = response.contentLength ?? 0;
+      final List<int> bytes = [];
+
+      response.stream.listen(
+        (chunk) {
+          bytes.addAll(chunk);
+          if (contentLength > 0 && mounted) {
+            setState(() {
+              progress = bytes.length / contentLength;
+              progressText = "Mengunduh... ${(progress * 100).toStringAsFixed(0)}%";
             });
+          }
+        },
+        onDone: () async {
+          if (!mounted) return;
+          setState(() {
+            progressText = "Menyimpan file...";
+          });
 
-            return AlertDialog(
-              backgroundColor: const Color(0xFF161618),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              title: const Text(
-                'Mengunduh Pembaruan',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LinearProgressIndicator(
-                    value: progress > 0 ? progress : null,
-                    color: Colors.purpleAccent,
-                    backgroundColor: Colors.white10,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    progressText,
-                    style: const TextStyle(color: Colors.white70, fontSize: 13),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
+          final tempDir = await getTemporaryDirectory();
+          final file = File('${tempDir.path}/StreamBeats_v${widget.version}.apk');
+          await file.writeAsBytes(bytes);
+
+          if (!mounted) return;
+          setState(() {
+            progressText = "Memasang aplikasi...";
+          });
+
+          Navigator.pop(context); // Close the download dialog
+
+          final openResult = await OpenFile.open(file.path);
+          if (openResult.type != ResultType.done) {
+            SnackbarService.showMessage('Gagal membuka file APK: ${openResult.message}');
+          }
+        },
+        onError: (e) {
+          if (mounted) {
+            Navigator.pop(context);
+          }
+          SnackbarService.showMessage('Gagal mengunduh: $e');
+        },
+        cancelOnError: true,
+      );
+    } catch (e) {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+      SnackbarService.showMessage('Gagal mengunduh update: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: const Color(0xFF161618),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: const Text(
+        'Mengunduh Pembaruan',
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LinearProgressIndicator(
+            value: progress > 0 ? progress : null,
+            color: Colors.purpleAccent,
+            backgroundColor: Colors.white10,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            progressText,
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+        ],
+      ),
     );
   }
 }
