@@ -45,8 +45,11 @@ class _SquareImgCardState extends State<SquareImgCard> {
 
   @override
   Widget build(BuildContext context) {
+    final double cardW = widget.isWide ? 240 : 155;
+    const double cardH = 170;
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.onTap,
@@ -60,132 +63,124 @@ class _SquareImgCardState extends State<SquareImgCard> {
           child: AnimatedOpacity(
             opacity: _pressed ? 0.85 : 1.0,
             duration: const Duration(milliseconds: 120),
-            child: SizedBox(
-              width: widget.isWide ? 250 : 150,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Stack(children: [
-                      SizedBox(
-                        height: 150,
-                        width: widget.isWide ? 250 : 150,
-                        child: LoadImageCached(
-                          imageUrl: widget.imgPath,
-                          fallbackUrl: widget.fallbackImgPath,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                width: cardW,
+                height: cardH,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Background image
+                    LoadImageCached(
+                      imageUrl: widget.imgPath,
+                      fallbackUrl: widget.fallbackImgPath,
+                      fit: BoxFit.cover,
+                    ),
+
+                    // Gradient overlay (bottom half dark)
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.20),
+                              Colors.black.withValues(alpha: 0.78),
+                            ],
+                            stops: const [0.35, 0.6, 1.0],
+                          ),
                         ),
                       ),
-                      Visibility(
-                        visible: widget.tag != null,
-                        child: Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Default_Theme.accentColor2
-                                  .withValues(alpha: 0.95),
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
+                    ),
+
+                    // Top-left tag badge (e.g. "MIX")
+                    if (widget.tag != null)
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.20),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.30),
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                widget.isList
+                                    ? MingCute.playlist_2_line
+                                    : MingCute.eye_2_line,
+                                size: 11,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                widget.tag!,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    // Bottom: title + subtitle text overlaid on image
+                    Positioned(
+                      left: 10,
+                      right: 10,
+                      bottom: 10,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Default_Theme.secondoryTextStyle.merge(
+                              const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                height: 1.2,
                               ),
                             ),
-                            child: widget.isList
-                                ? Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Icon(
-                                          MingCute.playlist_2_line,
-                                          size: 18,
-                                          color: Default_Theme.primaryColor2,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${widget.tag}",
-                                        style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color:
-                                                    Default_Theme.primaryColor2)
-                                            .merge(Default_Theme
-                                                .secondoryTextStyle),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Icon(
-                                          MingCute.eye_2_line,
-                                          size: 18,
-                                          color: Default_Theme.primaryColor2,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${widget.tag}",
-                                        style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color:
-                                                    Default_Theme.primaryColor2)
-                                            .merge(Default_Theme
-                                                .secondoryTextStyle),
-                                      ),
-                                    ],
-                                  ),
                           ),
-                        ),
-                      ),
-                    ]),
-                  ),
-                  const SizedBox(height: 6),
-                  SizedBox(
-                    height: 32,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.title,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Default_Theme.secondoryTextStyle.merge(
-                            const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Default_Theme.primaryColor1,
-                              height: 1.1,
+                          if (widget.subtitle.isNotEmpty) ...[
+                            const SizedBox(height: 2),
+                            Text(
+                              widget.subtitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  Default_Theme.secondoryTextStyle.merge(
+                                TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white.withValues(alpha: 0.72),
+                                  height: 1.1,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          widget.subtitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style:
-                              Default_Theme.secondoryTextStyle.merge(TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: Default_Theme.primaryColor1
-                                .withValues(alpha: 0.62),
-                            height: 1.1,
-                          )),
-                        ),
-                      ],
+                          ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

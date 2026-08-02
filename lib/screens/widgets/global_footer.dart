@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -229,25 +228,70 @@ class HorizontalNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return GNav(
-      gap: 7.0,
-      tabBackgroundColor: Default_Theme.accentColor2.withValues(alpha: 0.22),
-      color: Default_Theme.primaryColor2,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      activeColor: Default_Theme.accentColor2,
-      textStyle: Default_Theme.secondoryTextStyleMedium.merge(
-          const TextStyle(color: Default_Theme.accentColor2, fontSize: 18)),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      backgroundColor: Default_Theme.themeColor.withValues(alpha: 0.3),
-      tabs: [
-        GButton(icon: MingCute.home_4_fill, text: l10n.navHome),
-        GButton(icon: MingCute.book_5_fill, text: l10n.navLibrary),
-        GButton(icon: MingCute.search_2_fill, text: l10n.navSearch),
-        GButton(icon: MingCute.music_2_fill, text: l10n.navLocal),
-        GButton(icon: MingCute.folder_download_fill, text: l10n.navOffline),
-      ],
-      selectedIndex: navigationShell.currentIndex,
-      onTabChange: navigationShell.goBranch,
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A0A0A),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.07),
+          width: 0.8,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          onTap: navigationShell.goBranch,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withValues(alpha: 0.40),
+          selectedFontSize: 11,
+          unselectedFontSize: 11,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.2,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w400,
+          ),
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(MingCute.home_4_line, size: 24),
+              activeIcon: const Icon(MingCute.home_4_fill, size: 24),
+              label: l10n.navHome,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(MingCute.book_5_line, size: 24),
+              activeIcon: const Icon(MingCute.book_5_fill, size: 24),
+              label: l10n.navLibrary,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(MingCute.search_2_line, size: 24),
+              activeIcon: const Icon(MingCute.search_2_fill, size: 24),
+              label: l10n.navSearch,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(MingCute.music_2_line, size: 24),
+              activeIcon: const Icon(MingCute.music_2_fill, size: 24),
+              label: l10n.navLocal,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(MingCute.folder_download_line, size: 24),
+              activeIcon: const Icon(MingCute.folder_download_fill, size: 24),
+              label: l10n.navOffline,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

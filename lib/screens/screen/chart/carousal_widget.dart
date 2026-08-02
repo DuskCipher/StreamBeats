@@ -25,6 +25,7 @@ class _CaraouselWidgetState extends State<CaraouselWidget> {
   late final ChartBloc _chartBloc;
   ValueNotifier<bool> autoSlideCharts = ValueNotifier(true);
   StreamSubscription<SettingsState>? _settingsSub;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -102,56 +103,86 @@ class _CaraouselWidgetState extends State<CaraouselWidget> {
               if (visibleCharts.isEmpty) return const SizedBox.shrink();
 
               return Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: autoSlideCharts,
-                  builder: (context, autoPlay, child) {
-                    return CarouselSlider.builder(
-                      itemCount: visibleCharts.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final chart = visibleCharts[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ChartScreen(
+                padding: const EdgeInsets.only(top: 12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Hero carousel
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: autoSlideCharts,
+                        builder: (context, autoPlay, child) {
+                          return CarouselSlider.builder(
+                            itemCount: visibleCharts.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final chart = visibleCharts[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ChartScreen(
+                                        pluginId:
+                                            _chartBloc.state.activePluginId ??
+                                                '',
+                                        chartId: chart.id,
+                                        chartTitle: chart.title,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ChartWidget(
+                                  chart: chart,
                                   pluginId:
                                       _chartBloc.state.activePluginId ?? '',
-                                  chartId: chart.id,
-                                  chartTitle: chart.title,
                                 ),
-                              ),
-                            );
-                          },
-                          child: ChartWidget(
-                            chart: chart,
-                            pluginId: _chartBloc.state.activePluginId ?? '',
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        height: ResponsiveBreakpoints.of(context).isMobile ||
-                                ResponsiveBreakpoints.of(context).isTablet
-                            ? MediaQuery.of(context).size.height * 0.36
-                            : 250,
-                        viewportFraction:
-                            ResponsiveBreakpoints.of(context).isMobile
-                                ? 0.65
-                                : ResponsiveBreakpoints.of(context).isTablet
-                                    ? 0.40
-                                    : 0.30,
-                        autoPlay: autoPlay,
-                        autoPlayInterval: const Duration(milliseconds: 2500),
-                        enlargeFactor: 0.2,
-                        initialPage: 0,
-                        pauseAutoPlayOnTouch: true,
-                        padEnds: true,
-                        enlargeCenterPage:
-                            ResponsiveBreakpoints.of(context).isMobile,
+                              );
+                            },
+                            options: CarouselOptions(
+                              height: ResponsiveBreakpoints.of(context).isMobile
+                                  ? MediaQuery.of(context).size.height * 0.28
+                                  : 220,
+                              viewportFraction: 1.0,
+                              autoPlay: autoPlay,
+                              autoPlayInterval:
+                                  const Duration(milliseconds: 4000),
+                              initialPage: 0,
+                              pauseAutoPlayOnTouch: true,
+                              enableInfiniteScroll: visibleCharts.length > 1,
+                              onPageChanged: (index, reason) {
+                                setState(() => _currentIndex = index);
+                              },
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    // Page indicator dots
+                    if (visibleCharts.length > 1)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            visibleCharts.length,
+                            (index) => AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 3),
+                              width: _currentIndex == index ? 20 : 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: _currentIndex == index
+                                    ? Colors.white
+                                    : Colors.white.withValues(alpha: 0.35),
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               );
             },

@@ -174,6 +174,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
+                      const _HomeSearchBar(),
                       const CaraouselWidget(),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
@@ -448,29 +449,142 @@ class _HomeSectionsList extends StatelessWidget {
 class CustomDiscoverBar extends StatelessWidget {
   const CustomDiscoverBar({super.key});
 
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Selamat Pagi \u2600\uFE0F';
+    if (hour < 15) return 'Selamat Siang \uD83C\uDF24\uFE0F';
+    if (hour < 18) return 'Selamat Sore \uD83C\uDF05';
+    return 'Selamat Malam \uD83C\uDF19';
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       floating: true,
+      snap: true,
       surfaceTintColor: Default_Theme.themeColor,
       backgroundColor: Default_Theme.themeColor,
+      automaticallyImplyLeading: false,
+      toolbarHeight: 68,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            AppLocalizations.of(context)!.exploreDiscover,
-            style: Default_Theme.primaryTextStyle.merge(
-              const TextStyle(
-                fontSize: 34,
-                color: Default_Theme.primaryColor1,
+          // Hamburger → Settings
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsView()),
+              );
+            },
+            icon: const Icon(
+              MingCute.menu_line,
+              color: Default_Theme.primaryColor1,
+              size: 26,
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Greeting + App Name
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _getGreeting(),
+                  style: Default_Theme.primaryTextStyle.merge(
+                    const TextStyle(
+                      fontSize: 12,
+                      color: Default_Theme.primaryColor2,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                const Text(
+                  'StreamBeats',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Default_Theme.primaryColor1,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Right icons: Timer + Notification
+          const TimerIcon(),
+          const NotificationIcon(),
+        ],
+      ),
+    );
+  }
+}
+
+/// Search bar widget shown below the app bar on the home screen.
+class _HomeSearchBar extends StatelessWidget {
+  const _HomeSearchBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                // Use go_router to navigate to search tab if available,
+                // otherwise navigate directly.
+                Navigator.of(context).pushNamed('/search').catchError((_) => null);
+              },
+              child: Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A1A1A),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 14),
+                    const Icon(
+                      MingCute.search_2_line,
+                      color: Default_Theme.primaryColor2,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      l10n.searchHintExplore,
+                      style: Default_Theme.primaryTextStyle.merge(
+                        const TextStyle(
+                          fontSize: 14,
+                          color: Default_Theme.primaryColor2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          const Spacer(),
-          const NotificationIcon(),
-          const SiteIcon(),
-          const TimerIcon(),
-          const SettingsIcon(),
+          const SizedBox(width: 10),
+          // Filter icon
+          Container(
+            height: 48,
+            width: 48,
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Icon(
+              MingCute.filter_line,
+              color: Default_Theme.primaryColor1,
+              size: 20,
+            ),
+          ),
         ],
       ),
     );

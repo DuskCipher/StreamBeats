@@ -20,7 +20,7 @@ class HorizontalCardView extends StatefulWidget {
   final bool canLoadMore;
   final bool isLoadingMore;
 
-  HorizontalCardView({
+  const HorizontalCardView({
     super.key,
     required this.section,
     required this.pluginId,
@@ -96,26 +96,46 @@ class _HorizontalCardViewState extends State<HorizontalCardView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Section header: title + "Lihat semua"
           Padding(
-            padding: const EdgeInsets.only(left: 20, top: 5),
-            child: Text(
-              widget.section.title,
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Default_Theme.accentColor2,
-              ).merge(Default_Theme.secondoryTextStyle),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  widget.section.title,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: -0.2,
+                  ).merge(Default_Theme.secondoryTextStyle),
+                ),
+                if (widget.canLoadMore)
+                  GestureDetector(
+                    onTap: widget.onLoadMore,
+                    child: Text(
+                      'Lihat semua',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withValues(alpha: 0.55),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(
-            height: 220,
+            height: 210,
             child: Row(
               children: [
                 if (Platform.isWindows || Platform.isLinux)
@@ -127,6 +147,7 @@ class _HorizontalCardViewState extends State<HorizontalCardView> {
                   child: ListView.builder(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: 12, right: 12),
                     itemCount: widget.section.items.length +
                         (widget.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, i) {
