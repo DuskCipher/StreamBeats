@@ -536,12 +536,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: BlocBuilder<StreamBeatsPlayerCubit, StreamBeatsPlayerState>(
         builder: (context, state) {
           if (state is StreamBeatsPlayerInitial) {
-            return const Center(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: CircularProgressIndicator(
-                  color: Default_Theme.accentColor2,
+            return const Directionality(
+              textDirection: TextDirection.ltr,
+              child: ColoredBox(
+                color: Colors.black,
+                child: Center(
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(
+                      color: Default_Theme.accentColor2,
+                    ),
+                  ),
                 ),
               ),
             );
