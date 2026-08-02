@@ -67,6 +67,7 @@ import 'package:streambeats/services/onboarding_service.dart';
 import 'package:streambeats/services/plugin_bootstrap_service.dart';
 import 'package:streambeats/plugins/services/plugin_repository_service.dart';
 import 'package:streambeats/services/shared_url_resolver_service.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 void processIncomingIntent(SharedMedia sharedMedia) {
   if (sharedMedia.content != null && isUrl(sharedMedia.content!)) {
@@ -322,15 +323,23 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Versi 3.2.0',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.6),
-                        fontSize: 12,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.normal,
-                      ),
+                    FutureBuilder<PackageInfo>(
+                      future: PackageInfo.fromPlatform(),
+                      builder: (context, snapshot) {
+                        final ver = snapshot.hasData
+                            ? 'Versi ${snapshot.data!.version}'
+                            : 'Versi 3.2.3';
+                        return Text(
+                          ver,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 12,
+                            decoration: TextDecoration.none,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.normal,
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 6),
                     Text(
